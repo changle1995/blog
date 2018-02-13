@@ -1,0 +1,42 @@
+spring:
+  datasource-factory.datasource:
+    bsp:
+      url: jdbc:oracle:thin:@//172.16.207.65:1521/bspdb
+      username: bsp
+      password: bspsvr345$*(
+      driver-class-name: oracle.jdbc.OracleDriver
+    rpt:
+      url: jdbc:oracle:thin:@172.16.207.79:1521:orcl
+      username: rpt
+      password: rpt2013
+      driver-class-name: oracle.jdbc.OracleDriver
+    trans-query:
+      url: jdbc:oracle:thin:@172.16.207.32:1521:orcl
+      username: transQuery
+      password: umsdb2010$32oracle
+      driver-class-name: oracle.jdbc.OracleDriver
+    bsp-test:
+      url: jdbc:oracle:thin:@172.16.207.76:1521:orcl
+      username: bsp_test
+      password: bsp_test
+      driver-class-name: oracle.jdbc.OracleDriver
+    payno:
+      url: jdbc:oracle:thin:@172.16.207.29:1521:orcl
+      username: payno
+      password: payno
+      driver-class-name: oracle.jdbc.OracleDriver
+    txn-sett:
+      url: jdbc:oracle:thin:@172.16.207.76:1521:orcl
+      username: bsp_test
+      password: bsp_test
+      driver-class-name: oracle.jdbc.OracleDriver
+    sptrans:
+      url: jdbc:oracle:thin:@172.16.207.4:1521:orcl
+      username: sptrans
+      password: sptrans
+      driver-class-name: oracle.jdbc.OracleDriver
+    vas:
+      url: jdbc:oracle:thin:@172.16.207.76:1521:orcl
+      username: bsp_test
+      password: bsp_test
+      driver-class-name: oracle.jdbc.OracleDriver
