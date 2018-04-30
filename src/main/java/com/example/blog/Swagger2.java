@@ -30,7 +30,7 @@ public class Swagger2 {
     private ApiInfo apiInfo() {
         String title = "博客";
         String description = "我的博客项目";
-        Contact contact = new Contact("常乐", "http://www.baidu.com/", "634692344@qq.com");
+        Contact contact = new Contact("常乐", "https://github.com/changle1995", "634692344@qq.com");
         String version = "1.0";
         return new ApiInfoBuilder().title(title).description(description).contact(contact).version(version).build();
     }
