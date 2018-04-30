@@ -1,7 +1,7 @@
 package com.example.blog.service;
 
-import com.example.blog.domain.Role;
-import com.example.blog.domain.User;
+import com.example.blog.entity.Role;
+import com.example.blog.entity.User;
 import com.example.blog.repository.RoleRepository;
 import com.example.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,32 +25,30 @@ public class UserRoleService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public User addRolesToUser(String username, List<String> roleNameList) {
-        Assert.hasText(username, "用户名不能为空或全空白字符串");
-        User user = userRepository.findByUsername(username);
-        Assert.notNull(user, "用户名不存在");
-        for (String roleName : roleNameList) {
-            Assert.notNull(roleRepository.findByName(roleName), "角色" + roleName + "不存在,添加失败");
+    public User addRolesToUser(Long userId, List<Long> roleIdList) {
+        User user = userRepository.findOne(userId);
+        Assert.notNull(user, "用户不存在");
+        for (Long roleId : roleIdList) {
+            Assert.notNull(roleRepository.findOne(roleId), "角色ID " + roleId + " 不存在,添加失败");
             for (Role role : user.getRoleList()) {
-                Assert.isTrue(!role.getName().equals(roleName), "该用户已经拥有" + roleName + "角色,添加角色失败");
+                Assert.isTrue(role.getId() != roleId, "该用户已经拥有ID " + roleId + " 角色,添加角色失败");
             }
         }
-        user.getRoleList().addAll(roleRepository.findAllByNameIn(roleNameList));
+        user.getRoleList().addAll(roleRepository.findAllByIdIn(roleIdList));
         return userRepository.save(user);
     }
 
-    public User deleteRolesOfUser(String username, List<String> roleNameList) {
-        Assert.hasText(username, "用户名不能为空或全空白字符串");
-        User user = userRepository.findByUsername(username);
-        Assert.notNull(user, "用户名不存在");
+    public User deleteRolesOfUser(Long userId, List<Long> roleIdList) {
+        User user = userRepository.findOne(userId);
+        Assert.notNull(user, "用户不存在");
         List<Role> needToDeleteRoleList = new ArrayList<>();
-        for (String roleName : roleNameList) {
-            Assert.notNull(roleRepository.findByName(roleName), "角色" + roleName + "不存在,删除失败");
-            for (Role role : user.getRoleList()) {
-                if (role.getName().equals(roleName)) {
+        for (Long roleId : roleIdList) {
+            Assert.notNull(roleRepository.findOne(roleId), "角色ID " + roleId + " 不存在,删除失败");
+            user.getRoleList().forEach(role -> {
+                if (role.getId() == roleId) {
                     needToDeleteRoleList.add(role);
                 }
-            }
+            });
         }
         user.getRoleList().removeAll(needToDeleteRoleList);
         return userRepository.save(user);

@@ -3,6 +3,7 @@ package com.example.blog.config.datasource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
+ * 读取spring.datasource下的数据源配置属性
  * Author: changle
  * Date: 2018/3/13
  * Time: 7:17

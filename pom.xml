@@ -26,9 +26,19 @@
 
 	<dependencies>
 		<!--thymeleaf模板,并包含了spring-boot-starter与spring-boot-starter-web-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-thymeleaf</artifactId>-->
+		<!--</dependency>-->
+		<!--spring-boot-starter为spring boot基础-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<!--spring-boot-starter-web为web相关所依赖的包-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<!--测试使用-->
 		<dependency>

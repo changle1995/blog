@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"/>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"/>
+    <title>添加用户角色</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="container text-center col-md-4">
+        <form class="form-signin" method="post" th:action="@{/userRole/submitAddRoleToUser}">
+            <h2 class="form-signin-heading">请输入用户与角色信息</h2>
+            <label for="username" class="sr-only">用户名</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="用户名" required="required" autofocus="autofocus"/>
+            <br/>
+            <label for="name" class="sr-only">角色名</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="角色名" required="required"/>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
+        </form>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

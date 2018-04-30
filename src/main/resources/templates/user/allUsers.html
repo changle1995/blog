@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"/>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"/>
+    <link rel="stylesheet" th:href="@{/css/my.css}"/>
+    <title>所有用户列表</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="row row-centered text-center">
+    <div class="col-md-10 col-md-offset-1">
+        <table class="table table-hover">
+            <caption>所有用户信息</caption>
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>用户名</th>
+                <th>密码</th>
+                <th>个人描述</th>
+                <th>邮箱</th>
+                <th>手机号</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user,userStat:${userList}">
+                <td scope="row" th:text="${userStat.count}"></td>
+                <td th:text="${user.username}">用户名</td>
+                <td th:text="${user.password}">密码</td>
+                <td th:text="${user.description}">个人描述</td>
+                <td th:text="${user.email}">邮箱</td>
+                <td th:text="${user.phoneNumber}">手机号</td>
+                <td>
+                    <a class="btn btn-default" th:href="@{'/user/edit?id=' + ${user.id}}">编辑</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <a class="btn btn-primary" th:href="@{/user/add}">新增用户</a>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

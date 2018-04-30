@@ -1,6 +1,6 @@
 package com.example.blog.service;
 
-import com.example.blog.domain.Role;
+import com.example.blog.entity.Role;
 import com.example.blog.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,26 +28,29 @@ public class RoleService extends BaseService<Role> {
         return roleRepository.save(role);
     }
 
-    public void deleteRole(String name) {
-        Assert.hasText(name, "角色名不能为空或全空白字符");
-        Role role = roleRepository.findByName(name);
-        Assert.notNull(role, "该角色名不存在");
+    public void deleteRole(long id) {
+        Role role = roleRepository.findOne(id);
+        Assert.notNull(role, "该角色不存在");
         roleRepository.delete(role);
     }
 
-    public void editRole(String name, String description) {
-        Role role = roleRepository.findByName(name);
-        Assert.notNull(role, "该用户名不存在");
+    public Role editRole(long id, String name, String description) {
+        Role role = roleRepository.findOne(id);
+        Assert.notNull(role, "该角色不存在");
         modifyRole(role, name, description);
-        roleRepository.save(role);
+        return roleRepository.save(role);
     }
 
     public Role getRole(Long id) {
-        return roleRepository.findOne(id);
+        Role role = roleRepository.findOne(id);
+        Assert.notNull(role, "该角色不存在");
+        return role;
     }
 
     public Role getRole(String name) {
-        return roleRepository.findByName(name);
+        Role role = roleRepository.findByName(name);
+        Assert.notNull(role, "该角色名不存在");
+        return role;
     }
 
     public List<Role> getAllRoles() {
@@ -61,8 +64,8 @@ public class RoleService extends BaseService<Role> {
     }
 
     public void modifyRole(Role role, String name, String description) {
-        Assert.notNull(role, "待修改的用户不能为空");
-        Assert.hasText(name, "用户名不能为空或全空白字符");
+        Assert.notNull(role, "待修改的角色不能为空");
+        Assert.hasText(name, "角色名不能为空或全空白字符");
         role.setName(name);
         role.setDescription(description);
     }

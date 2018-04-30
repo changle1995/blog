@@ -1,4 +1,4 @@
-package com.example.blog.domain;
+package com.example.blog.entity;
 
 import org.hibernate.annotations.Type;
 

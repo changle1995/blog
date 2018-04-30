@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 
 /**
+ * 自定义验证决策器
  * Author: changle
  * Date: 2018/3/24
  * Time: 17:06
@@ -19,6 +20,10 @@ import java.util.Collection;
 @Service("customizedAccessDecisionManager")
 public class CustomizedAccessDecisionManager implements AccessDecisionManager {
 
+    /**
+     * 每次权限验证将调用此方法
+     * 判断用户是否拥有对应的url权限
+     */
     @Override
     public void decide(Authentication authentication, Object o, Collection<ConfigAttribute> configAttributeCollection) throws AccessDeniedException, InsufficientAuthenticationException {
         for (ConfigAttribute configAttribute : configAttributeCollection) {
@@ -30,7 +35,7 @@ public class CustomizedAccessDecisionManager implements AccessDecisionManager {
                 }
             }
         }
-        throw new AccessDeniedException(" 没有权限访问！");
+        throw new AccessDeniedException("没有权限访问");
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.example.blog.config.security;
 
-import com.example.blog.domain.Permission;
+import com.example.blog.entity.Permission;
 import com.example.blog.repository.PermissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
+ * 自定义获取url与权限对应关系的类
  * Author: changle
  * Date: 2018/3/24
  * Time: 14:38
@@ -21,13 +22,18 @@ import java.util.*;
 @Service("customizedFilterInvocationSecurityMetadataSource")
 public class CustomizedFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
+    /**
+     * 保存所有权限与url关系的Map
+     */
     private HashMap<String, Collection<String>> authorityToUrlsCollectionMap = null;
 
     @Autowired
     private PermissionRepository permissionRepository;
 
-    // 加载所有url与权限的关系
-    // Permission中url数值与Authority一一对应
+    /**
+     * 加载所有权限与url的关系
+     * Permission中url值与Authority一一对应
+     */
     private void loadResourceDefine() {
         authorityToUrlsCollectionMap = new HashMap<>();
         List<Permission> permissionList = permissionRepository.findAll();
@@ -38,7 +44,10 @@ public class CustomizedFilterInvocationSecurityMetadataSource implements FilterI
         });
     }
 
-    // 该方法若返回为空则不会调用AccessDecisionManager的decide方法,将被视为认证通过
+    /**
+     * 该方法若返回为空则不会调用AccessDecisionManager的decide方法,将被视为认证通过
+     * 获取到当前访问的url对应的所有的权限
+     */
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         // 保证所有权限与资源是实时刷新的
@@ -58,6 +67,9 @@ public class CustomizedFilterInvocationSecurityMetadataSource implements FilterI
         return configAttributeCollection;
     }
 
+    /**
+     * 获取所有权限
+     */
     @Override
     public Collection<ConfigAttribute> getAllConfigAttributes() {
         loadResourceDefine();

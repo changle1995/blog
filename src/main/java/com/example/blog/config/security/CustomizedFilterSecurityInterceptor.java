@@ -13,6 +13,7 @@ import javax.servlet.*;
 import java.io.IOException;
 
 /**
+ * 自定义spring security过滤器
  * Author: changle
  * Date: 2018/3/24
  * Time: 14:29
@@ -53,15 +54,21 @@ public class CustomizedFilterSecurityInterceptor extends AbstractSecurityInterce
         return FilterInvocation.class;
     }
 
+    /**
+     * 注入自定义的FilterInvocationSecurityMetadataSource来获取权限关系
+     */
     @Override
     public SecurityMetadataSource obtainSecurityMetadataSource() {
         return securityMetadataSource;
     }
 
+    /**
+     * 注入自定义的决策管理器
+     */
     @Autowired
     @Qualifier("customizedAccessDecisionManager")
     @Override
-    public void setAccessDecisionManager( AccessDecisionManager accessDecisionManager) {
+    public void setAccessDecisionManager(AccessDecisionManager accessDecisionManager) {
         super.setAccessDecisionManager(accessDecisionManager);
     }
 

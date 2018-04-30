@@ -1,50 +1,60 @@
 package com.example.blog.controller;
 
-import com.example.blog.domain.Role;
+import com.example.blog.domain.RestResponse;
+import com.example.blog.entity.Role;
 import com.example.blog.service.RolePermissionService;
+import com.example.blog.util.RestResponseUtil;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 角色与权限关系相关操作controller
  * Author: changle
  * Date: 2018/3/27
  * Time: 0:21
  */
-@Controller
+@Api(tags = "角色与权限关系控制器", description = "角色增删权限接口")
+@RestController
 @RequestMapping("/rolePermission")
 public class RolePermissionController {
 
     @Autowired
     private RolePermissionService rolePermissionService;
 
-    @GetMapping("/addPermissionToRole")
-    public String addPermissionToRole() {
-        return "/addPermissionToRole";
+    @ApiOperation(value = "角色新增权限", notes = "角色新增权限接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "permissionId", value = "权限ID", required = true, dataType = "Long", paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "角色新增权限成功")
+    })
+    @PostMapping("/add")
+    public RestResponse<Role> add(@RequestParam(name = "roleId") Long roleId, @RequestParam(name = "permissionId") Long permissionId) {
+        List<Long> permissionIdList = new ArrayList<>();
+        permissionIdList.add(permissionId);
+        Role role = rolePermissionService.addPermissionsToRole(roleId, permissionIdList);
+        return RestResponseUtil.success(role, "角色添加权限成功");
     }
 
-    @PostMapping("/submitAddPermissionToRole")
-    @ResponseBody
-    public Role submitAddPermissionToRole(@RequestParam(name = "roleName") String roleName, @RequestParam(name = "permissionName") String permissionName) {
-        List<String> permissionNameList = new ArrayList<>();
-        permissionNameList.add(permissionName);
-        return rolePermissionService.addPermissionsToRole(roleName, permissionNameList);
-    }
-
-    @GetMapping("/deletePermissionOfRole")
-    public String deletePermissionOfRole() {
-        return "/deletePermissionOfRole";
-    }
-
-    @PostMapping("/submitDeletePermissionOfRole")
-    @ResponseBody
-    public Role submitDeletePermissionOfRole(@RequestParam(name = "roleName") String roleName, @RequestParam(name = "permissionName") String permissionName) {
-        List<String> permissionNameList = new ArrayList<>();
-        permissionNameList.add(permissionName);
-        return rolePermissionService.deletePermissionsOfRole(roleName, permissionNameList);
+    @ApiOperation(value = "角色删除权限", notes = "角色删除权限接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "permissionId", value = "权限ID", required = true, dataType = "Long", paramType = "query")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "角色删除权限成功")
+    })
+    @PostMapping("/delete")
+    public RestResponse<Role> delete(@RequestParam(name = "roleId") Long roleId, @RequestParam(name = "permissionId") Long permissionId) {
+        List<Long> permissionIdList = new ArrayList<>();
+        permissionIdList.add(permissionId);
+        Role role = rolePermissionService.deletePermissionsOfRole(roleId, permissionIdList);
+        return RestResponseUtil.success(role, "角色删除权限成功");
     }
 
 }

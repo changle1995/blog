@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 /**
+ * 数据源设置类
  * Author: changle
  * Date: 2018/3/13
  * Time: 7:13
@@ -17,6 +18,10 @@ import java.sql.SQLException;
 @EnableConfigurationProperties(DruidDBConfigProperties.class)
 public class DatasourceConfig {
 
+    /**
+     * 使用DruidDataSource类型的数据源,拥有更多功能
+     * 目前暂时没有使用额外功能
+     */
     @Bean
     public DataSource dataSource(DruidDBConfigProperties druidDBConfigProperties) {
         DruidDataSource datasource = new DruidDataSource();

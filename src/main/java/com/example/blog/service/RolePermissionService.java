@@ -1,7 +1,7 @@
 package com.example.blog.service;
 
-import com.example.blog.domain.Permission;
-import com.example.blog.domain.Role;
+import com.example.blog.entity.Permission;
+import com.example.blog.entity.Role;
 import com.example.blog.repository.PermissionRepository;
 import com.example.blog.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,32 +25,30 @@ public class RolePermissionService {
     @Autowired
     private PermissionRepository permissionRepository;
 
-    public Role addPermissionsToRole(String roleName, List<String> permissionNameList) {
-        Assert.hasText(roleName, "角色名不能为空或全空白字符串");
-        Role role = roleRepository.findByName(roleName);
+    public Role addPermissionsToRole(Long roleId, List<Long> permissionIdList) {
+        Role role = roleRepository.findOne(roleId);
         Assert.notNull(role, "角色不存在");
-        for (String permissionName : permissionNameList) {
-            Assert.notNull(permissionRepository.findByName(permissionName), "许可" + roleName + "不存在,添加失败");
+        for (Long permissionId : permissionIdList) {
+            Assert.notNull(permissionRepository.findOne(permissionId), "权限ID " + permissionId + " 不存在,添加失败");
             for (Permission permission : role.getPermissionList()) {
-                Assert.isTrue(!permission.getName().equals(permissionName), "该角色已经拥有" + permissionName + "许可,添加许可失败");
+                Assert.isTrue(permission.getId() != permissionId, "该角色已经拥有ID " + permissionId + " 权限,添加许可失败");
             }
         }
-        role.getPermissionList().addAll(permissionRepository.findAllByNameIn(permissionNameList));
+        role.getPermissionList().addAll(permissionRepository.findAllByIdIn(permissionIdList));
         return roleRepository.save(role);
     }
 
-    public Role deletePermissionsOfRole(String roleName, List<String> permissionNameList) {
-        Assert.hasText(roleName, "角色名不能为空或全空白字符串");
-        Role role = roleRepository.findByName(roleName);
+    public Role deletePermissionsOfRole(Long roleId, List<Long> permissionIdList) {
+        Role role = roleRepository.findOne(roleId);
         Assert.notNull(role, "角色不存在");
         List<Permission> needToDeletePermissionList = new ArrayList<>();
-        for (String permissionName : permissionNameList) {
-            Assert.notNull(permissionRepository.findByName(permissionName), "许可" + roleName + "不存在,删除失败");
-            for (Permission permission : role.getPermissionList()) {
-                if (role.getName().equals(roleName)) {
+        for (Long permissionId : permissionIdList) {
+            Assert.notNull(permissionRepository.findOne(permissionId), "权限ID " + permissionId + " 不存在,删除失败");
+            role.getPermissionList().forEach(permission -> {
+                if (permission.getId() == permissionId) {
                     needToDeletePermissionList.add(permission);
                 }
-            }
+            });
         }
         role.getPermissionList().removeAll(needToDeletePermissionList);
         return roleRepository.save(role);

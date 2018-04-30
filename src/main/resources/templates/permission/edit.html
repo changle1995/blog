@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"/>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"/>
+    <link rel="stylesheet" th:href="@{/css/my.css}"/>
+    <title>编辑许可信息</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="row row-centered">
+    <div class="container text-center col-md-4 col-md-offset-4">
+        <form class="form-signin" method="post" th:action="@{/permission/edit}">
+            <input type="hidden" id="id" name="id" class="form-control" placeholder="id" required="required" th:value="${permission.id}"/>
+            <h2 class="form-signin-heading">请输入许可信息</h2>
+            <label for="name" class="sr-only">许可名</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="许可名" required="required"
+                   autofocus="autofocus" th:value="${permission.name}"/>
+            <br/>
+            <label for="description" class="sr-only">许可描述</label>
+            <input type="text" id="description" name="description" class="form-control" placeholder="许可描述"
+                   th:value="${permission.description}"/>
+            <br/>
+            <label for="url" class="sr-only">资源路径</label>
+            <input type="text" id="url" name="url" class="form-control" placeholder="资源路径" required="required"
+                   th:value="${permission.url}"/>
+            <br/>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
+        </form>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

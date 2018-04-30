@@ -1,6 +1,6 @@
 package com.example.blog.config.security;
 
-import com.example.blog.domain.User;
+import com.example.blog.entity.User;
 import com.example.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 /**
+ * 自定义的获取用户类
  * Author: changle
  * Date: 2018/3/22
  * Time: 1:14

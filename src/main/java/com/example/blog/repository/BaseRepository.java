@@ -1,6 +1,6 @@
 package com.example.blog.repository;
 
-import com.example.blog.domain.BaseEntity;
+import com.example.blog.entity.BaseEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 

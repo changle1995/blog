@@ -1,6 +1,6 @@
 package com.example.blog.controller;
 
-import com.example.blog.domain.Plate;
+import com.example.blog.entity.Plate;
 import com.example.blog.service.PlateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

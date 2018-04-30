@@ -1,6 +1,6 @@
 package com.example.blog.service;
 
-import com.example.blog.domain.Plate;
+import com.example.blog.entity.Plate;
 import com.example.blog.repository.PlatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class PlateService extends BaseService<Plate> {
         Plate plate = new Plate();
         plate.setName(name);
         plate.setDescription(description);
-        return addOrUpdate(plate);
+        return add(plate);
     }
 
     public Plate update(long id, String name, String description) {
@@ -32,7 +32,7 @@ public class PlateService extends BaseService<Plate> {
         plate.setId(id);
         plate.setName(name);
         plate.setDescription(description);
-        return addOrUpdate(plate);
+        return update(plate);
     }
 
     public Plate findOne(Long id) {

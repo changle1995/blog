@@ -1,6 +1,6 @@
 package com.example.blog.service;
 
-import com.example.blog.domain.Article;
+import com.example.blog.entity.Article;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
