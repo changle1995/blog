@@ -1,6 +1,7 @@
 package com.example.blog.controller;
 
 import com.example.blog.domain.RestResponse;
+import com.example.blog.entity.User;
 import com.example.blog.util.RestResponseUtil;
 import io.swagger.annotations.*;
 import org.springframework.security.core.Authentication;
@@ -34,9 +35,9 @@ public class LoginController {
             @ApiResponse(code = 400, message = "参数错误或未知错误")
     })
     @PostMapping("/loginSuccess")
-    public RestResponse loginSuccess() {
+    public RestResponse<User> loginSuccess() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return RestResponseUtil.success(authentication.getPrincipal());
+        return RestResponseUtil.success((User) authentication.getPrincipal());
     }
 
     @ApiOperation(value = "登出", notes = "登出接口")
