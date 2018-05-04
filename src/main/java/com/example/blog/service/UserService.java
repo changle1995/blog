@@ -3,6 +3,7 @@ package com.example.blog.service;
 import com.example.blog.entity.User;
 import com.example.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -66,7 +67,7 @@ public class UserService extends BaseService<User> {
     public void modifyUser(User user, String username, String password, String email, String phoneNumber, String description) {
         Assert.notNull(user, "待修改的用户不能为空");
         Assert.hasText(username, "用户名不能为空或全空白字符");
-        if (user.getPassword() == null || !user.getPassword().equals(password)) {
+        if (user.getPassword() == null || !(new BCryptPasswordEncoder().matches(password, user.getPassword()))) {
             user.setPassword(password);
         }
         user.setUsername(username);

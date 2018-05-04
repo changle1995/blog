@@ -2,12 +2,8 @@ package com.example.blog.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -39,18 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     /**
-     * 使用spring security提供的DaoAuthenticationProvider
-     * 但注入自定义的UserDetailsService,并且在此添加密码加密方式
-     */
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService);
-        authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder());
-        return authenticationProvider;
-    }
-
-    /**
      * 此方法来配置各个属性
      * 此配置仅限制spring security自带的过滤器,对自定义过滤器无效
      * 由于默认的未登陆用户名为ROLE_ANONYMOUS
@@ -70,14 +54,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 在此注入前面的AuthenticationProvider
      * 在此注入自定义的UserDetailsService
-     * AuthenticationProvider中的虽然已经注入过UserDetailsService,但不会自动应用到过滤器的UserDetailsService中
+     * 并且设置加密方式
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
-        auth.authenticationProvider(authenticationProvider());
+        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
 }
