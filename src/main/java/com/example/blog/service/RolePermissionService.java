@@ -1,57 +1,32 @@
 package com.example.blog.service;
 
-import com.example.blog.entity.Permission;
 import com.example.blog.entity.Role;
-import com.example.blog.repository.PermissionRepository;
-import com.example.blog.repository.RoleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Author: changle
- * Date: 2018/3/28
- * Time: 1:49
+ * Date: 2018/5/5
+ * Time: 12:33
  */
-@Service
-public class RolePermissionService {
+public interface RolePermissionService extends BaseService<Role> {
 
-    @Autowired
-    private RoleRepository roleRepository;
+    /**
+     * 给角色新增权限方法
+     *
+     * @param roleId           角色主键ID
+     * @param permissionIdList 待增加的所有权限
+     * @return 返回增加权限后的角色
+     */
+    Role addPermissionsToRole(long roleId, List<Long> permissionIdList);
 
-    @Autowired
-    private PermissionRepository permissionRepository;
-
-    public Role addPermissionsToRole(Long roleId, List<Long> permissionIdList) {
-        Role role = roleRepository.findOne(roleId);
-        Assert.notNull(role, "角色不存在");
-        for (Long permissionId : permissionIdList) {
-            Assert.notNull(permissionRepository.findOne(permissionId), "权限ID " + permissionId + " 不存在,添加失败");
-            for (Permission permission : role.getPermissionList()) {
-                Assert.isTrue(permission.getId() != permissionId, "该角色已经拥有ID " + permissionId + " 权限,添加许可失败");
-            }
-        }
-        role.getPermissionList().addAll(permissionRepository.findAllByIdIn(permissionIdList));
-        return roleRepository.save(role);
-    }
-
-    public Role deletePermissionsOfRole(Long roleId, List<Long> permissionIdList) {
-        Role role = roleRepository.findOne(roleId);
-        Assert.notNull(role, "角色不存在");
-        List<Permission> needToDeletePermissionList = new ArrayList<>();
-        for (Long permissionId : permissionIdList) {
-            Assert.notNull(permissionRepository.findOne(permissionId), "权限ID " + permissionId + " 不存在,删除失败");
-            role.getPermissionList().forEach(permission -> {
-                if (permission.getId() == permissionId) {
-                    needToDeletePermissionList.add(permission);
-                }
-            });
-        }
-        role.getPermissionList().removeAll(needToDeletePermissionList);
-        return roleRepository.save(role);
-    }
+    /**
+     * 给角色删除权限方法
+     *
+     * @param roleId           用户主键ID
+     * @param permissionIdList 待删除的所有权限
+     * @return 返回删除权限后的角色
+     */
+    Role deletePermissionsOfRole(long roleId, List<Long> permissionIdList);
 
 }

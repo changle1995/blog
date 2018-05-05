@@ -47,7 +47,7 @@ public class PermissionController {
             @ApiResponse(code = 200, message = "删除成功")
     })
     @PostMapping("/delete")
-    public RestResponse delete(@RequestParam(name = "id") long id) {
+    public RestResponse<Permission> delete(@RequestParam(name = "id") long id) {
         permissionService.deletePermission(id);
         return RestResponseUtil.success(null, "删除权限成功");
     }

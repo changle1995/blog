@@ -12,9 +12,8 @@ import java.util.List;
  */
 public interface PermissionRepository extends BaseRepository<Permission, Long> {
 
-    public Permission findByName(String name);
+    Permission findByName(String name);
 
-    public List<Permission> findAllByNameIn(Collection<String> nameCollection);
+    List<Permission> findAllByIdIn(Collection<Long> idCollection);
 
-    public List<Permission> findAllByIdIn(Collection<Long> idCollection);
 }

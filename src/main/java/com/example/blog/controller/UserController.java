@@ -49,7 +49,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "删除成功")
     })
     @PostMapping("/delete")
-    public RestResponse delete(@RequestParam(name = "id") long id) {
+    public RestResponse<User> delete(@RequestParam(name = "id") long id) {
         userService.deleteUser(id);
         return RestResponseUtil.success(null, "删除用户成功");
     }

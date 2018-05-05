@@ -9,5 +9,6 @@ import com.example.blog.entity.User;
  */
 public interface UserRepository extends BaseRepository<User, Long> {
 
-    public User findByUsername(String username);
+    User findByUsername(String username);
+
 }

@@ -1,34 +1,36 @@
 package com.example.blog.service;
 
 import com.example.blog.entity.BaseEntity;
-import com.example.blog.repository.BaseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 
 /**
  * Author: changle
- * Date: 2018/3/16
- * Time: 11:37
+ * Date: 2018/5/5
+ * Time: 12:32
  */
-public abstract class BaseService<T extends BaseEntity> {
+public interface BaseService<T extends BaseEntity> {
 
-    @Autowired
-    private BaseRepository<T, Long> baseRepository;
+    /**
+     * 新增实体方法
+     *
+     * @param entity 要新增的实体
+     * @return 返回新增的实体
+     */
+    T add(T entity);
 
-    public T add(T entity) {
-        Assert.notNull(entity, "传入的参数不能为空");
-        return baseRepository.save(entity);
-    }
+    /**
+     * 删除实体方法
+     *
+     * @param id 要删除实体的主键ID
+     * @return 无返回值
+     */
+    void delete(long id);
 
-    public void delete(Long id) {
-        T entity = baseRepository.findOne(id);
-        if (entity != null) {
-            baseRepository.delete(entity);
-        }
-    }
+    /**
+     * 更新实体方法
+     *
+     * @param entity 要更新的实体
+     * @return 返回更新的实体
+     */
+    T update(T entity);
 
-    public T update(T entity) {
-        Assert.notNull(entity, "传入的参数不能为空");
-        return baseRepository.save(entity);
-    }
 }

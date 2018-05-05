@@ -12,9 +12,8 @@ import java.util.List;
  */
 public interface RoleRepository extends BaseRepository<Role, Long> {
 
-    public Role findByName(String name);
+    Role findByName(String name);
 
-    public List<Role> findAllByNameIn(Collection<String> nameCollection);
+    List<Role> findAllByIdIn(Collection<Long> idCollection);
 
-    public List<Role> findAllByIdIn(Collection<Long> idCollection);
 }

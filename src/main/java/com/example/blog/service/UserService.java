@@ -1,79 +1,70 @@
 package com.example.blog.service;
 
 import com.example.blog.entity.User;
-import com.example.blog.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.List;
 
 /**
  * Author: changle
- * Date: 2018/3/16
- * Time: 17:19
+ * Date: 2018/5/5
+ * Time: 12:33
  */
-@Service
-@Transactional
-public class UserService extends BaseService<User> {
+public interface UserService extends BaseService<User> {
 
-    @Autowired
-    private UserRepository userRepository;
+    /**
+     * 新增用户方法
+     *
+     * @param username    用户名
+     * @param password    用户密码
+     * @param email       用户邮箱
+     * @param phoneNumber 用户电话
+     * @param description 用户描述
+     * @return 返回新增的用户
+     */
+    User addUser(String username, String password, String email, String phoneNumber, String description);
 
-    public User addUser(String username, String password, String email, String phoneNumber, String description) {
-        User user = userRepository.findByUsername(username);
-        Assert.isNull(user, "该用户名已存在");
-        user = generateUser(username, password, email, phoneNumber, description);
-        return userRepository.save(user);
-    }
+    /**
+     * 删除用户方法
+     *
+     * @param id 用户主键ID
+     * @return 无返回值
+     */
+    void deleteUser(long id);
 
-    public void deleteUser(long id) {
-        User user = userRepository.findOne(id);
-        Assert.notNull(user, "该用户不存在");
-        userRepository.delete(user);
-    }
+    /**
+     * 修改用户方法
+     *
+     * @param id          用户主键ID
+     * @param username    用户名
+     * @param password    用户密码
+     * @param email       用户邮箱
+     * @param phoneNumber 用户电话
+     * @param description 用户描述
+     * @return 返回修改后的用户
+     */
+    User editUser(long id, String username, String password, String email, String phoneNumber, String description);
 
-    public User editUser(long id, String username, String password, String email, String phoneNumber, String description) {
-        User user = userRepository.findOne(id);
-        Assert.notNull(user, "该用户不存在");
-        modifyUser(user, username, password, email, phoneNumber, description);
-        return userRepository.save(user);
-    }
+    /**
+     * 根据用户主键查找用户方法
+     *
+     * @param id 用户主键ID
+     * @return 返回找到的用户
+     */
+    User getUser(long id);
 
-    public User getUser(Long id) {
-        User user = userRepository.findOne(id);
-        Assert.notNull(user, "该用户不存在");
-        return user;
-    }
+    /**
+     * 根据用户名查找用户方法
+     *
+     * @param username 用户名
+     * @return 返回找到的用户
+     */
+    User getUser(String username);
 
-    public User getUser(String username) {
-        User user = userRepository.findByUsername(username);
-        Assert.notNull(user, "该用户名不存在");
-        return user;
-    }
-
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    public User generateUser(String username, String password, String email, String phoneNumber, String description) {
-        User user = new User();
-        modifyUser(user, username, password, email, phoneNumber, description);
-        return user;
-    }
-
-    public void modifyUser(User user, String username, String password, String email, String phoneNumber, String description) {
-        Assert.notNull(user, "待修改的用户不能为空");
-        Assert.hasText(username, "用户名不能为空或全空白字符");
-        if (user.getPassword() == null || !(new BCryptPasswordEncoder().matches(password, user.getPassword()))) {
-            user.setPassword(password);
-        }
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPhoneNumber(phoneNumber);
-        user.setDescription(description);
-    }
+    /**
+     * 查找所有用户方法
+     *
+     * @return 返回所有的用户
+     */
+    List<User> getAllUsers();
 
 }

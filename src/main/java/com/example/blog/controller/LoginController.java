@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/")
 public class LoginController {
 
-    @ApiOperation(value = "登录", notes = "登录接口")
+    @ApiOperation(value = "登录", notes = "登录接口,实际处理过程交给spring security")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "query")
@@ -41,9 +41,6 @@ public class LoginController {
     }
 
     @ApiOperation(value = "登出", notes = "登出接口")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String", paramType = "query")
-    })
     @ApiResponses({
             @ApiResponse(code = 200, message = "登出成功")
     })

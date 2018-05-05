@@ -46,7 +46,7 @@ public class RoleController {
             @ApiResponse(code = 200, message = "删除成功")
     })
     @PostMapping("/delete")
-    public RestResponse delete(@RequestParam(name = "id") long id) {
+    public RestResponse<Role> delete(@RequestParam(name = "id") long id) {
         roleService.deleteRole(id);
         return RestResponseUtil.success(null, "删除角色成功");
     }
