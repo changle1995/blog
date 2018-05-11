@@ -35,4 +35,5 @@ public class CustomizedAuthenticationSuccessHandler extends SimpleUrlAuthenticat
     public void setDefaultSuccessUrl(String defaultSuccessUrl) {
         this.defaultSuccessUrl = defaultSuccessUrl;
     }
+
 }

@@ -88,4 +88,5 @@ public abstract class BaseEntity {
     public void setUpdatePerson(String updatePerson) {
         this.updatePerson = updatePerson;
     }
+
 }

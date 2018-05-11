@@ -66,4 +66,5 @@ public class Role extends BaseEntity {
     public void setPermissionList(List<Permission> permissionList) {
         this.permissionList = permissionList;
     }
+
 }

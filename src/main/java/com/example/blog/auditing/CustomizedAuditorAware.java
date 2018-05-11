@@ -27,4 +27,5 @@ public class CustomizedAuditorAware implements AuditorAware<String> {
         }
         return ((UserDetails) authentication.getPrincipal()).getUsername();
     }
+
 }

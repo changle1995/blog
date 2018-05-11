@@ -72,4 +72,5 @@ public class Permission extends BaseEntity implements GrantedAuthority {
     public String getAuthority() {
         return name;
     }
+
 }

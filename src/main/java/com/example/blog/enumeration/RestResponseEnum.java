@@ -28,4 +28,5 @@ public enum RestResponseEnum {
     public String getMessage() {
         return message;
     }
+
 }

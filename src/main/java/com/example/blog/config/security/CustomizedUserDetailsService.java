@@ -30,4 +30,5 @@ public class CustomizedUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("用户名:【" + username + "】不存在!");
         }
     }
+
 }

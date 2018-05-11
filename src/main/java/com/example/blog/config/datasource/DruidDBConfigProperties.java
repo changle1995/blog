@@ -56,4 +56,5 @@ public class DruidDBConfigProperties {
     public void setFilters(String filters) {
         this.filters = filters;
     }
+
 }

@@ -37,4 +37,5 @@ public class RestResponseUtil {
         result.setMessage(message);
         return result;
     }
+
 }

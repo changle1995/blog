@@ -141,4 +141,5 @@ public class User extends BaseEntity implements UserDetails {
         roleList.forEach(role -> permissionList.addAll(role.getPermissionList()));
         return permissionList;
     }
+
 }

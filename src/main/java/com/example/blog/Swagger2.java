@@ -34,4 +34,5 @@ public class Swagger2 {
         String version = "1.0";
         return new ApiInfoBuilder().title(title).description(description).contact(contact).version(version).build();
     }
+
 }

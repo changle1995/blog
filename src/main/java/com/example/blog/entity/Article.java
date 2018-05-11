@@ -70,4 +70,5 @@ public class Article extends BaseEntity {
     public void setPlateId(long plateId) {
         this.plateId = plateId;
     }
+
 }
