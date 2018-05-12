@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
+ * 控制器返回对象包装类
  * Author: changle
  * Date: 2018/4/27
  * Time: 14:42
