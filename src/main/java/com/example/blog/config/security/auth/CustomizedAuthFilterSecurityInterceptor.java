@@ -1,4 +1,4 @@
-package com.example.blog.config.security;
+package com.example.blog.config.security.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,16 +13,16 @@ import javax.servlet.*;
 import java.io.IOException;
 
 /**
- * 自定义spring security过滤器
+ * 自定义spring security 权限 验证过滤器
  * Author: changle
  * Date: 2018/3/24
  * Time: 14:29
  */
-@Service("customizedFilterSecurityInterceptor")
-public class CustomizedFilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
+@Service("customizedAuthFilterSecurityInterceptor")
+public class CustomizedAuthFilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 
     @Autowired
-    @Qualifier("customizedFilterInvocationSecurityMetadataSource")
+    @Qualifier("customizedAuthFilterInvocationSecurityMetadataSource")
     private SecurityMetadataSource securityMetadataSource;
 
     @Override
@@ -66,7 +66,7 @@ public class CustomizedFilterSecurityInterceptor extends AbstractSecurityInterce
      * 注入自定义的决策管理器
      */
     @Autowired
-    @Qualifier("customizedAccessDecisionManager")
+    @Qualifier("customizedAuthAccessDecisionManager")
     @Override
     public void setAccessDecisionManager(AccessDecisionManager accessDecisionManager) {
         super.setAccessDecisionManager(accessDecisionManager);

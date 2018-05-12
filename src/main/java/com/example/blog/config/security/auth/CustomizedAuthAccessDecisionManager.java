@@ -1,4 +1,4 @@
-package com.example.blog.config.security;
+package com.example.blog.config.security.auth;
 
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 
 /**
- * 自定义验证决策器
+ * 自定义权限验证决策器
  * Author: changle
  * Date: 2018/3/24
  * Time: 17:06
  */
-@Service("customizedAccessDecisionManager")
-public class CustomizedAccessDecisionManager implements AccessDecisionManager {
+@Service("customizedAuthAccessDecisionManager")
+public class CustomizedAuthAccessDecisionManager implements AccessDecisionManager {
 
     /**
      * 每次权限验证将调用此方法

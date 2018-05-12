@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.servlet.Filter;
 
@@ -27,12 +26,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    @Qualifier("customizedFilterSecurityInterceptor")
-    private Filter filter;
+    @Qualifier("customizedAuthFilterSecurityInterceptor")
+    private Filter customizedAuthFilterSecurityInterceptor;
 
     @Autowired
-    @Qualifier("customizedAuthenticationSuccessHandler")
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
+    @Qualifier("customizedTokenFilterSecurityInterceptor")
+    private Filter customizedTokenFilterSecurityInterceptor;
+
+    @Autowired
+    @Qualifier("customizedTokenFilterHeaderWriter")
+    private Filter customizedTokenFilterHeaderWriter;
 
     /**
      * 此方法来配置各个属性
@@ -44,13 +47,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()//配置安全策略
-                .antMatchers("/login").permitAll()
+//                .antMatchers("/login").permitAll()
                 .antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui", "/swagger-resources", "/swagger-resources/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll()
                 .anyRequest().authenticated()//所有请求都需要验证
                 .and()
-                .formLogin().successHandler(authenticationSuccessHandler);//使用form表单登录
+                .formLogin().successForwardUrl("/loginSuccess");//使用form表单登录
 //                .loginPage("/login"); 定义登录页面的url,不定义则使用spring自带的默认登录界面
-        http.addFilterBefore(filter, FilterSecurityInterceptor.class);
+        http.addFilterBefore(customizedTokenFilterHeaderWriter, FilterSecurityInterceptor.class);
+        http.addFilterBefore(customizedTokenFilterSecurityInterceptor, FilterSecurityInterceptor.class);
+        http.addFilterBefore(customizedAuthFilterSecurityInterceptor, FilterSecurityInterceptor.class);
     }
 
     /**

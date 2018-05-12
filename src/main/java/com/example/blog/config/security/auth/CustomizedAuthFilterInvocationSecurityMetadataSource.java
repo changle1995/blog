@@ -1,4 +1,4 @@
-package com.example.blog.config.security;
+package com.example.blog.config.security.auth;
 
 import com.example.blog.entity.Permission;
 import com.example.blog.repository.PermissionRepository;
@@ -19,8 +19,8 @@ import java.util.*;
  * Date: 2018/3/24
  * Time: 14:38
  */
-@Service("customizedFilterInvocationSecurityMetadataSource")
-public class CustomizedFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
+@Service("customizedAuthFilterInvocationSecurityMetadataSource")
+public class CustomizedAuthFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     /**
      * 保存所有权限与url关系的Map
