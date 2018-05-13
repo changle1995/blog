@@ -25,7 +25,7 @@ public class CustomizedAuthFilterInvocationSecurityMetadataSource implements Fil
     /**
      * 保存所有权限与url关系的Map
      */
-    private HashMap<String, Collection<String>> authorityToUrlsCollectionMap = null;
+    private Map<String, Collection<String>> authorityToUrlsCollectionMap;
 
     @Autowired
     private PermissionRepository permissionRepository;
