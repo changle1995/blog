@@ -14,7 +14,8 @@
 <div class="row row-centered">
     <div class="container text-center col-md-4 col-md-offset-4">
         <form class="form-signin" method="post" th:action="@{/user/edit}">
-            <input type="hidden" id="id" name="id" class="form-control" placeholder="id" required="required" th:value="${user.id}"/>
+            <input type="hidden" id="id" name="id" class="form-control" placeholder="id" required="required"
+                   th:value="${user.id}"/>
             <h2 class="form-signin-heading">请输入用户信息</h2>
             <label for="username" class="sr-only">用户名</label>
             <input type="text" id="username" name="username" class="form-control" placeholder="用户名" required="required"

@@ -1,9 +1,11 @@
 .carousel {
     margin: auto;
 }
+
 img {
     margin: auto;
 }
+
 .col-md-2 img {
     width: 100%;
     height: 100%;

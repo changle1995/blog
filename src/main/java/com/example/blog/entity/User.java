@@ -49,7 +49,7 @@ public class User extends BaseEntity implements UserDetails {
     @ApiModelProperty(value = "用户对应的角色")
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roleList;
 
     @JsonIgnore
@@ -126,12 +126,12 @@ public class User extends BaseEntity implements UserDetails {
         this.photoPath = photoPath;
     }
 
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
-    }
-
     public List<Role> getRoleList() {
         return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 
     @JsonIgnore

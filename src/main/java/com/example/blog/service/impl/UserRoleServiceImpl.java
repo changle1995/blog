@@ -4,7 +4,6 @@ import com.example.blog.entity.Role;
 import com.example.blog.entity.User;
 import com.example.blog.repository.RoleRepository;
 import com.example.blog.repository.UserRepository;
-import com.example.blog.service.BaseService;
 import com.example.blog.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
