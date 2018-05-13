@@ -25,7 +25,7 @@ public class CustomizedAuthFilterInvocationSecurityMetadataSource implements Fil
     /**
      * 保存所有权限与url关系的Map
      */
-    private Map<String, Collection<String>> authorityToUrlsCollectionMap;
+    private Map<String, String> authorityToUrlsMap;
 
     @Autowired
     private PermissionRepository permissionRepository;
@@ -35,13 +35,9 @@ public class CustomizedAuthFilterInvocationSecurityMetadataSource implements Fil
      * Permission中url值与Authority一一对应
      */
     private void loadResourceDefine() {
-        authorityToUrlsCollectionMap = new HashMap<>();
+        authorityToUrlsMap = new HashMap<>();
         List<Permission> permissionList = permissionRepository.findAll();
-        permissionList.forEach(permission -> {
-            Collection<String> urlsCollection = new ArrayList<>();
-            urlsCollection.add(permission.getUrl());
-            authorityToUrlsCollectionMap.put(permission.getAuthority(), urlsCollection);
-        });
+        permissionList.forEach(permission -> authorityToUrlsMap.put(permission.getAuthority(), permission.getUrl()));
     }
 
     /**
@@ -54,13 +50,11 @@ public class CustomizedAuthFilterInvocationSecurityMetadataSource implements Fil
         loadResourceDefine();
         HttpServletRequest request = ((FilterInvocation) o).getHttpRequest();
         Collection<ConfigAttribute> configAttributeCollection = new ArrayList<>();
-        authorityToUrlsCollectionMap.forEach((k, v) -> {
-            for (String urls : v) {
-                for (String url : urls.split(",")) {
-                    if (new AntPathRequestMatcher(url).matches(request)) {
-                        configAttributeCollection.add(new SecurityConfig(k));
-                        break;
-                    }
+        authorityToUrlsMap.forEach((authority, urls) -> {
+            for (String url : urls.split(",")) {
+                if (new AntPathRequestMatcher(url).matches(request)) {
+                    configAttributeCollection.add(new SecurityConfig(authority));
+                    break;
                 }
             }
         });
@@ -74,7 +68,7 @@ public class CustomizedAuthFilterInvocationSecurityMetadataSource implements Fil
     public Collection<ConfigAttribute> getAllConfigAttributes() {
         loadResourceDefine();
         Collection<ConfigAttribute> configAttributeCollection = new ArrayList<>();
-        authorityToUrlsCollectionMap.forEach((k,v) -> configAttributeCollection.add(new SecurityConfig(k)));
+        authorityToUrlsMap.forEach((authority, urls) -> configAttributeCollection.add(new SecurityConfig(authority)));
         return configAttributeCollection;
     }
 
