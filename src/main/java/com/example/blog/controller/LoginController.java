@@ -3,6 +3,7 @@ package com.example.blog.controller;
 import com.example.blog.domain.RestResponse;
 import com.example.blog.domain.UserInfo;
 import com.example.blog.entity.User;
+import com.example.blog.enumeration.HeaderNameEnum;
 import com.example.blog.util.RestResponseUtil;
 import io.swagger.annotations.*;
 import org.springframework.security.core.Authentication;
@@ -39,7 +40,7 @@ public class LoginController {
     public RestResponse<UserInfo> loginSuccess(HttpServletRequest httpServletRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserInfo userInfo = new UserInfo();
-        userInfo.setToken(httpServletRequest.getHeader("user-token"));
+        userInfo.setToken(httpServletRequest.getHeader(HeaderNameEnum.USER_TOKEN.getName()));
         userInfo.setUser((User) authentication.getPrincipal());
         return RestResponseUtil.success(userInfo);
     }

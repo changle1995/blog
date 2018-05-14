@@ -1,5 +1,6 @@
 package com.example.blog.config.security.token;
 
+import com.example.blog.enumeration.HeaderNameEnum;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class CustomizedTokenFilterHeaderWriter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         if (this.requiresWriter(httpServletRequest)) {
             CustomizedTokenHttpServletRequestWrapper customizedTokenHttpServletRequestWrapper = new CustomizedTokenHttpServletRequestWrapper(httpServletRequest);
-            customizedTokenHttpServletRequestWrapper.putHeader("user-token", httpServletRequest.getSession(false).getId());
+            customizedTokenHttpServletRequestWrapper.putHeader(HeaderNameEnum.USER_TOKEN.getName(), httpServletRequest.getSession(false).getId());
             filterChain.doFilter(customizedTokenHttpServletRequestWrapper, servletResponse);
         } else {
             filterChain.doFilter(servletRequest, servletResponse);

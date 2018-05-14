@@ -1,5 +1,6 @@
 package com.example.blog.config.security.token;
 
+import com.example.blog.enumeration.HeaderNameEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -46,7 +47,7 @@ public class CustomizedTokenFilterSecurityInterceptor extends AbstractAuthentica
         if (authentication.getPrincipal().equals("anonymousUser")) {
             return authentication;
         } else {
-            String token = httpServletRequest.getHeader("user-token");
+            String token = httpServletRequest.getHeader(HeaderNameEnum.USER_TOKEN.getName());
             HttpSession httpSession = httpServletRequest.getSession(false);
             if (httpSession.getId().equals(token)) {
                 return authentication;
