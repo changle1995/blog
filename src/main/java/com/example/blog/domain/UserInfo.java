@@ -1,6 +1,7 @@
 package com.example.blog.domain;
 
 import com.example.blog.entity.User;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -13,9 +14,11 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel("登录成功返回对象类")
 public class UserInfo {
 
+    @JsonProperty(value = "user-token")
     @ApiModelProperty(value = "后续请求必须携带的头部token")
     private String token;
 
+    @JsonProperty(value = "user")
     @ApiModelProperty(value = "用户实体信息类")
     private User user;
 
