@@ -8,9 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-
-import javax.servlet.Filter;
 
 /**
  * spring security配置类
@@ -25,18 +22,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("customizedUserDetailsService")
     private UserDetailsService userDetailsService;
 
-    @Autowired
-    @Qualifier("customizedAuthFilterSecurityInterceptor")
-    private Filter customizedAuthFilterSecurityInterceptor;
-
-    @Autowired
-    @Qualifier("customizedTokenFilterSecurityInterceptor")
-    private Filter customizedTokenFilterSecurityInterceptor;
-
-    @Autowired
-    @Qualifier("customizedTokenFilterHeaderWriter")
-    private Filter customizedTokenFilterHeaderWriter;
-
     /**
      * 此方法来配置各个属性
      * 此配置仅限制spring security自带的过滤器,对自定义过滤器无效
@@ -45,17 +30,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //关闭csrf
         http.csrf().disable();
-        http.authorizeRequests()//配置安全策略
-//                .antMatchers("/login").permitAll()
-                .antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui", "/swagger-resources", "/swagger-resources/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll()
-                .anyRequest().authenticated()//所有请求都需要验证
-                .and()
-                .formLogin().successForwardUrl("/loginSuccess");//使用form表单登录
-//                .loginPage("/login"); 定义登录页面的url,不定义则使用spring自带的默认登录界面
-        http.addFilterBefore(customizedTokenFilterHeaderWriter, FilterSecurityInterceptor.class);
-        http.addFilterBefore(customizedTokenFilterSecurityInterceptor, FilterSecurityInterceptor.class);
-        http.addFilterBefore(customizedAuthFilterSecurityInterceptor, FilterSecurityInterceptor.class);
+        //配置默认权限过滤器FilterSecurityInterceptor的安全策略
+        //设置所有url都不需要默认过滤器验证
+        http.authorizeRequests().antMatchers("/**").permitAll();
+        //使用默认的form表单登录,验证成功则跳转到/loginSuccess
+        http.formLogin().successForwardUrl("/loginSuccess");
     }
 
     /**

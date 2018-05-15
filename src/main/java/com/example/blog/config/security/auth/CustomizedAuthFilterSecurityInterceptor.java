@@ -2,6 +2,7 @@ package com.example.blog.config.security.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
@@ -18,6 +19,7 @@ import java.io.IOException;
  * Date: 2018/3/24
  * Time: 14:29
  */
+@Order(3000)
 @Service("customizedAuthFilterSecurityInterceptor")
 public class CustomizedAuthFilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
 

@@ -2,6 +2,7 @@ package com.example.blog.config.security.token;
 
 import com.example.blog.enumeration.HeaderNameEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,7 @@ import java.io.IOException;
  * Date: 2018/5/11
  * Time: 11:51
  */
+@Order(2000)
 @Service("customizedTokenFilterSecurityInterceptor")
 public class CustomizedTokenFilterSecurityInterceptor extends AbstractAuthenticationProcessingFilter {
 

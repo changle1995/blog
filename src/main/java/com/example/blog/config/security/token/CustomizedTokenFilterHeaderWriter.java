@@ -1,6 +1,7 @@
 package com.example.blog.config.security.token;
 
 import com.example.blog.enumeration.HeaderNameEnum;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.io.IOException;
  * Date: 2018/5/12
  * Time: 14:12
  */
+@Order(1000)
 @Service("customizedTokenFilterHeaderWriter")
 public class CustomizedTokenFilterHeaderWriter implements Filter {
 
