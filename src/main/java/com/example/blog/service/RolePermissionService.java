@@ -2,7 +2,7 @@ package com.example.blog.service;
 
 import com.example.blog.entity.Role;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Author: changle
@@ -14,19 +14,19 @@ public interface RolePermissionService extends BaseService<Role> {
     /**
      * 给角色新增权限方法
      *
-     * @param roleId           角色主键ID
-     * @param permissionIdList 待增加的所有权限
+     * @param roleId                 角色主键ID
+     * @param permissionIdCollection 待增加的所有权限
      * @return 返回增加权限后的角色
      */
-    Role addPermissionsToRole(long roleId, List<Long> permissionIdList);
+    Role addPermissionsToRole(long roleId, Collection<Long> permissionIdCollection);
 
     /**
      * 给角色删除权限方法
      *
-     * @param roleId           用户主键ID
-     * @param permissionIdList 待删除的所有权限
+     * @param roleId                 用户主键ID
+     * @param permissionIdCollection 待删除的所有权限
      * @return 返回删除权限后的角色
      */
-    Role deletePermissionsOfRole(long roleId, List<Long> permissionIdList);
+    Role deletePermissionsOfRole(long roleId, Collection<Long> permissionIdCollection);
 
 }

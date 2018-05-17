@@ -2,7 +2,7 @@ package com.example.blog.service;
 
 import com.example.blog.entity.Permission;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Author: changle
@@ -60,6 +60,6 @@ public interface PermissionService extends BaseService<Permission> {
      *
      * @return 返回所有的权限
      */
-    List<Permission> getAllPermissions();
+    Collection<Permission> getAllPermissions();
 
 }

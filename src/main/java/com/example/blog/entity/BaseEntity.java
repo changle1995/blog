@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Author: changle
@@ -87,6 +88,25 @@ public abstract class BaseEntity {
 
     public void setUpdatePerson(String updatePerson) {
         this.updatePerson = updatePerson;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.createTime, this.createPerson, this.updateTime, this.updatePerson);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof BaseEntity)) {
+            return false;
+        }
+        BaseEntity baseEntity = (BaseEntity) obj;
+        return this.id == baseEntity.id &&
+                Objects.equals(this.createTime, baseEntity.createTime) &&
+                Objects.equals(this.createPerson, baseEntity.createPerson) &&
+                Objects.equals(this.updateTime, baseEntity.updateTime) &&
+                Objects.equals(this.updatePerson, baseEntity.updatePerson);
     }
 
 }

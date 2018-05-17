@@ -8,7 +8,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * User用户相关操作controller
@@ -90,8 +90,8 @@ public class UserController {
             @ApiResponse(code = 200, message = "查询成功")
     })
     @GetMapping("/get")
-    public RestResponse<List<User>> getAll() {
-        List<User> userList = userService.getAllUsers();
+    public RestResponse<Collection<User>> getAll() {
+        Collection<User> userList = userService.getAllUsers();
         return RestResponseUtil.success(userList);
     }
 

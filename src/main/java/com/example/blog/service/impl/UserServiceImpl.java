@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Author: changle
@@ -61,7 +61,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public Collection<User> getAllUsers() {
         return userRepository.findAll();
     }
 

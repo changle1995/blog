@@ -8,9 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Author: changle
@@ -50,7 +50,7 @@ public class User extends BaseEntity implements UserDetails {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private List<Role> roleList;
+    private Set<Role> roleSet;
 
     @JsonIgnore
     @Override
@@ -126,20 +126,20 @@ public class User extends BaseEntity implements UserDetails {
         this.photoPath = photoPath;
     }
 
-    public List<Role> getRoleList() {
-        return roleList;
+    public Set<Role> getRoleSet() {
+        return roleSet;
     }
 
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
+    public void setRoleSet(Set<Role> roleSet) {
+        this.roleSet = roleSet;
     }
 
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<Permission> permissionList = new ArrayList<>();
-        roleList.forEach(role -> permissionList.addAll(role.getPermissionList()));
-        return permissionList;
+        Set<Permission> permissionSet = new HashSet<>();
+        this.roleSet.forEach(role -> permissionSet.addAll(role.getPermissionSet()));
+        return permissionSet;
     }
 
 }

@@ -2,7 +2,7 @@ package com.example.blog.service;
 
 import com.example.blog.entity.Role;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Author: changle
@@ -59,6 +59,6 @@ public interface RoleService extends BaseService<Role> {
      *
      * @return 返回所有的角色
      */
-    List<Role> getAllRoles();
+    Collection<Role> getAllRoles();
 
 }

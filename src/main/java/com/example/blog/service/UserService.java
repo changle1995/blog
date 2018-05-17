@@ -2,7 +2,7 @@ package com.example.blog.service;
 
 import com.example.blog.entity.User;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Author: changle
@@ -65,6 +65,6 @@ public interface UserService extends BaseService<User> {
      *
      * @return 返回所有的用户
      */
-    List<User> getAllUsers();
+    Collection<User> getAllUsers();
 
 }

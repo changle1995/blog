@@ -3,7 +3,6 @@ package com.example.blog.repository;
 import com.example.blog.entity.Permission;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Author: changle
@@ -14,6 +13,6 @@ public interface PermissionRepository extends BaseRepository<Permission, Long> {
 
     Permission findByName(String name);
 
-    List<Permission> findAllByIdIn(Collection<Long> idCollection);
+    Collection<Permission> findAllByIdIn(Collection<Long> idCollection);
 
 }

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * 角色与权限关系相关操作controller
@@ -38,9 +38,9 @@ public class RolePermissionController {
     })
     @PostMapping("/add")
     public RestResponse<Role> add(@RequestParam(name = "roleId") Long roleId, @RequestParam(name = "permissionId") Long permissionId) {
-        List<Long> permissionIdList = new ArrayList<>();
-        permissionIdList.add(permissionId);
-        Role role = rolePermissionService.addPermissionsToRole(roleId, permissionIdList);
+        Collection<Long> permissionIdCollection = new HashSet<>();
+        permissionIdCollection.add(permissionId);
+        Role role = rolePermissionService.addPermissionsToRole(roleId, permissionIdCollection);
         return RestResponseUtil.success(role, "角色添加权限成功");
     }
 
@@ -54,9 +54,9 @@ public class RolePermissionController {
     })
     @PostMapping("/delete")
     public RestResponse<Role> delete(@RequestParam(name = "roleId") Long roleId, @RequestParam(name = "permissionId") Long permissionId) {
-        List<Long> permissionIdList = new ArrayList<>();
-        permissionIdList.add(permissionId);
-        Role role = rolePermissionService.deletePermissionsOfRole(roleId, permissionIdList);
+        Collection<Long> permissionIdCollection = new HashSet<>();
+        permissionIdCollection.add(permissionId);
+        Role role = rolePermissionService.deletePermissionsOfRole(roleId, permissionIdCollection);
         return RestResponseUtil.success(role, "角色删除权限成功");
     }
 

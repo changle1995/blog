@@ -1,6 +1,5 @@
 package com.example.blog.service.impl;
 
-import com.example.blog.entity.Role;
 import com.example.blog.entity.User;
 import com.example.blog.repository.RoleRepository;
 import com.example.blog.repository.UserRepository;
@@ -10,8 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Author: changle
@@ -29,33 +27,18 @@ public class UserRoleServiceImpl extends BaseServiceImpl<User> implements UserRo
     private RoleRepository roleRepository;
 
     @Override
-    public User addRolesToUser(long userId, List<Long> roleIdList) {
+    public User addRolesToUser(long userId, Collection<Long> roleIdCollection) {
         User user = userRepository.findOne(userId);
         Assert.notNull(user, "用户不存在");
-        for (long roleId : roleIdList) {
-            Assert.notNull(roleRepository.findOne(roleId), "角色ID " + roleId + " 不存在,添加失败");
-            for (Role role : user.getRoleList()) {
-                Assert.isTrue(role.getId() != roleId, "该用户已经拥有ID " + roleId + " 角色,添加角色失败");
-            }
-        }
-        user.getRoleList().addAll(roleRepository.findAllByIdIn(roleIdList));
+        user.getRoleSet().addAll(roleRepository.findAllByIdIn(roleIdCollection));
         return userRepository.save(user);
     }
 
     @Override
-    public User deleteRolesOfUser(long userId, List<Long> roleIdList) {
+    public User deleteRolesOfUser(long userId, Collection<Long> roleIdCollection) {
         User user = userRepository.findOne(userId);
         Assert.notNull(user, "用户不存在");
-        List<Role> needToDeleteRoleList = new ArrayList<>();
-        for (long roleId : roleIdList) {
-            Assert.notNull(roleRepository.findOne(roleId), "角色ID " + roleId + " 不存在,删除失败");
-            user.getRoleList().forEach(role -> {
-                if (role.getId() == roleId) {
-                    needToDeleteRoleList.add(role);
-                }
-            });
-        }
-        user.getRoleList().removeAll(needToDeleteRoleList);
+        user.getRoleSet().removeAll(roleRepository.findAllByIdIn(roleIdCollection));
         return userRepository.save(user);
     }
 

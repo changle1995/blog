@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * 用户与角色关系相关操作controller
@@ -38,9 +38,9 @@ public class UserRoleController {
     })
     @PostMapping("/add")
     public RestResponse<User> add(@RequestParam(name = "userId") Long userId, @RequestParam(name = "roleId") Long roleId) {
-        List<Long> roleIdList = new ArrayList<>();
-        roleIdList.add(roleId);
-        User user = userRoleService.addRolesToUser(userId, roleIdList);
+        Collection<Long> roleIdCollection = new HashSet<>();
+        roleIdCollection.add(roleId);
+        User user = userRoleService.addRolesToUser(userId, roleIdCollection);
         return RestResponseUtil.success(user, "用户添加角色成功");
     }
 
@@ -54,9 +54,9 @@ public class UserRoleController {
     })
     @PostMapping("/delete")
     public RestResponse<User> delete(@RequestParam(name = "userId") Long userId, @RequestParam(name = "roleId") Long roleId) {
-        List<Long> roleIdList = new ArrayList<>();
-        roleIdList.add(roleId);
-        User user = userRoleService.deleteRolesOfUser(userId, roleIdList);
+        Collection<Long> roleIdCollection = new HashSet<>();
+        roleIdCollection.add(roleId);
+        User user = userRoleService.deleteRolesOfUser(userId, roleIdCollection);
         return RestResponseUtil.success(user, "用户删除角色成功");
     }
 

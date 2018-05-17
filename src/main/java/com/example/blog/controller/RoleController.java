@@ -8,7 +8,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Role角色相关操作controller
@@ -84,8 +84,8 @@ public class RoleController {
             @ApiResponse(code = 200, message = "查询成功")
     })
     @GetMapping("/get")
-    public RestResponse<List<Role>> getAll() {
-        List<Role> roleList = roleService.getAllRoles();
+    public RestResponse<Collection<Role>> getAll() {
+        Collection<Role> roleList = roleService.getAllRoles();
         return RestResponseUtil.success(roleList);
     }
 

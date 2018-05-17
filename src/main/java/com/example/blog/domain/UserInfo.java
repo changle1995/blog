@@ -1,9 +1,12 @@
 package com.example.blog.domain;
 
+import com.example.blog.entity.Route;
 import com.example.blog.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Collection;
 
 /**
  * 登录成功返回信息类
@@ -22,6 +25,10 @@ public class UserInfo {
     @ApiModelProperty(value = "用户实体信息类")
     private User user;
 
+    @JsonProperty(value = "routes")
+    @ApiModelProperty(value = "用户拥有的前端路由信息")
+    private Collection<Route> routeCollection;
+
     public String getToken() {
         return token;
     }
@@ -36,6 +43,14 @@ public class UserInfo {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Collection<Route> getRouteCollection() {
+        return routeCollection;
+    }
+
+    public void setRouteCollection(Collection<Route> routeCollection) {
+        this.routeCollection = routeCollection;
     }
 
 }

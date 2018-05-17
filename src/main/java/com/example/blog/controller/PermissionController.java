@@ -8,7 +8,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Permission权限相关操作controller
@@ -86,9 +86,9 @@ public class PermissionController {
             @ApiResponse(code = 200, message = "查询成功")
     })
     @GetMapping("/get")
-    public RestResponse<List<Permission>> getAll() {
-        List<Permission> permissionList = permissionService.getAllPermissions();
-        return RestResponseUtil.success(permissionList);
+    public RestResponse<Collection<Permission>> getAll() {
+        Collection<Permission> permissionCollection = permissionService.getAllPermissions();
+        return RestResponseUtil.success(permissionCollection);
     }
 
 }

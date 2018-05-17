@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Author: changle
@@ -60,7 +60,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
     }
 
     @Override
-    public List<Permission> getAllPermissions() {
+    public Collection<Permission> getAllPermissions() {
         return permissionRepository.findAll();
     }
 

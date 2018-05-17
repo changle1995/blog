@@ -6,14 +6,14 @@ import io.swagger.annotations.ApiModelProperty;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Author: changle
  * Date: 2018/3/22
  * Time: 0:47
  */
-@ApiModel(value = "权限表实体类")
+@ApiModel(value = "后端权限表实体类")
 @Entity
 @Table(name = "permission")
 public class Permission extends BaseEntity implements GrantedAuthority {
@@ -32,8 +32,8 @@ public class Permission extends BaseEntity implements GrantedAuthority {
 
     @ApiModelProperty(value = "权限对应的用户")
     @JsonIgnore
-    @ManyToMany(mappedBy = "permissionList", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Role> roleList;
+    @ManyToMany(mappedBy = "permissionSet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Role> roleSet;
 
     public String getName() {
         return name;
@@ -59,12 +59,12 @@ public class Permission extends BaseEntity implements GrantedAuthority {
         this.url = url;
     }
 
-    public List<Role> getRoleList() {
-        return roleList;
+    public Set<Role> getRoleSet() {
+        return roleSet;
     }
 
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
+    public void setRoleSet(Set<Role> roleSet) {
+        this.roleSet = roleSet;
     }
 
     @JsonIgnore

@@ -1,5 +1,6 @@
 package com.example.blog.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -12,12 +13,15 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel("包装响应码及提示消息到http请求返回")
 public class RestResponse<T> {
 
+    @JsonProperty(value = "code")
     @ApiModelProperty(value = "响应码")
     private String code;
 
+    @JsonProperty(value = "message")
     @ApiModelProperty(value = "提示消息")
     private String message;
 
+    @JsonProperty(value = "data")
     @ApiModelProperty(value = "具体的内容")
     private T data;
 

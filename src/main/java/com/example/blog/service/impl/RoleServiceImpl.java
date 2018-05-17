@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Author: changle
@@ -60,7 +60,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     }
 
     @Override
-    public List<Role> getAllRoles() {
+    public Collection<Role> getAllRoles() {
         return roleRepository.findAll();
     }
 

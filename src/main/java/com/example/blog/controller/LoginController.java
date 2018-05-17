@@ -2,9 +2,8 @@ package com.example.blog.controller;
 
 import com.example.blog.domain.RestResponse;
 import com.example.blog.domain.UserInfo;
-import com.example.blog.entity.User;
-import com.example.blog.enumeration.HeaderNameEnum;
 import com.example.blog.util.RestResponseUtil;
+import com.example.blog.util.UserInfoUtil;
 import io.swagger.annotations.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,10 +37,7 @@ public class LoginController {
     })
     @PostMapping("/loginSuccess")
     public RestResponse<UserInfo> loginSuccess(HttpServletRequest httpServletRequest) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserInfo userInfo = new UserInfo();
-        userInfo.setToken(httpServletRequest.getHeader(HeaderNameEnum.USER_TOKEN.getName()));
-        userInfo.setUser((User) authentication.getPrincipal());
+        UserInfo userInfo = UserInfoUtil.getUserInfoByRequest(httpServletRequest);
         return RestResponseUtil.success(userInfo);
     }
 
