@@ -21,6 +21,10 @@ public class Route extends BaseEntity {
     @Column(name = "name")
     private String name;
 
+    @ApiModelProperty(value = "路由描述")
+    @Column(name = "description", length = 1000)
+    private String description;
+
     @ApiModelProperty(value = "路由参数名称")
     @Column(name = "property_name")
     private String propertyName;
@@ -40,6 +44,14 @@ public class Route extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getPropertyName() {

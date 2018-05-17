@@ -91,8 +91,8 @@ public class UserController {
     })
     @GetMapping("/get")
     public RestResponse<Collection<User>> getAll() {
-        Collection<User> userList = userService.getAllUsers();
-        return RestResponseUtil.success(userList);
+        Collection<User> userCollection = userService.getAllUsers();
+        return RestResponseUtil.success(userCollection);
     }
 
 }

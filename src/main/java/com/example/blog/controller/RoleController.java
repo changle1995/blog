@@ -85,8 +85,8 @@ public class RoleController {
     })
     @GetMapping("/get")
     public RestResponse<Collection<Role>> getAll() {
-        Collection<Role> roleList = roleService.getAllRoles();
-        return RestResponseUtil.success(roleList);
+        Collection<Role> roleCollection = roleService.getAllRoles();
+        return RestResponseUtil.success(roleCollection);
     }
 
 }
