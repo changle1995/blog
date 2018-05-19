@@ -21,16 +21,12 @@ import javax.servlet.http.HttpServletResponse;
  * Date: 2018/3/21
  * Time: 21:09
  */
-@Api(tags = "登录登出控制器", description = "包含登录与登出两个接口")
+@Api(tags = "登录登出控制器", description = "包含登录成功与登出两个接口")
 @RestController
 @RequestMapping("/")
 public class LoginController {
 
     @ApiOperation(value = "登录", notes = "登录接口,实际处理过程交给spring security")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "query")
-    })
     @ApiResponses({
             @ApiResponse(code = 200, message = "登陆成功"),
             @ApiResponse(code = 400, message = "参数错误或未知错误")
