@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 
@@ -66,20 +67,30 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     }
 
     private User generateUser(String username, String password, String email, String phoneNumber, String description) {
+        Assert.hasText(username, "用户名不能为空或全空白字符");
+        Assert.hasText(password, "密码不能为空或全空白字符");
         User user = new User();
         modifyUser(user, username, password, email, phoneNumber, description);
         return user;
     }
 
     private void modifyUser(User user, String username, String password, String email, String phoneNumber, String description) {
-        Assert.hasText(username, "用户名不能为空或全空白字符");
-        if (user.getPassword() == null || !(new BCryptPasswordEncoder().matches(password, user.getPassword()))) {
+        Assert.notNull(user, "用户不能为空");
+        if (StringUtils.hasText(username) && !username.equals(user.getUsername())) {
+            user.setUsername(username);
+        }
+        if (StringUtils.hasText(password) && !(new BCryptPasswordEncoder().matches(password, user.getPassword()))) {
             user.setPassword(password);
         }
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPhoneNumber(phoneNumber);
-        user.setDescription(description);
+        if (StringUtils.hasText(email) && !email.equals(user.getEmail())) {
+            user.setEmail(email);
+        }
+        if (StringUtils.hasText(phoneNumber) && !phoneNumber.equals(user.getPhoneNumber())) {
+            user.setPhoneNumber(phoneNumber);
+        }
+        if (StringUtils.hasText(description) && !description.equals(user.getDescription())) {
+            user.setDescription(description);
+        }
     }
 
 }

@@ -13,6 +13,8 @@ public interface RouteRepository extends BaseRepository<Route, Long> {
 
     Route findByNameAndPropertyName(String name, String propertyName);
 
-    Collection<Route> findByName(String name);
+    Collection<Route> findAllByName(String name);
+
+    Collection<Route> findAllByIdIn(Collection<Long> idCollection);
 
 }

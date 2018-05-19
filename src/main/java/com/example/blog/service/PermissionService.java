@@ -17,9 +17,10 @@ public interface PermissionService extends BaseService<Permission> {
      * @param name        权限名
      * @param description 权限描述
      * @param url         权限对应的url路径
+     * @param method      权限对应的url路径的方法
      * @return 返回新增的权限
      */
-    Permission addPermission(String name, String description, String url);
+    Permission addPermission(String name, String description, String url, String method);
 
     /**
      * 删除权限方法
@@ -33,11 +34,13 @@ public interface PermissionService extends BaseService<Permission> {
      * 修改权限方法
      *
      * @param id          权限主键ID
+     * @param name        权限名
      * @param description 权限描述
      * @param url         权限对应的url路径
+     * @param method      权限对应的url路径的方法
      * @return 返回修改后的权限
      */
-    Permission editPermission(long id, String name, String description, String url);
+    Permission editPermission(long id, String name, String description, String url, String method);
 
     /**
      * 根据权限主键查找权限方法

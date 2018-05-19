@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 
@@ -55,7 +56,7 @@ public class RouteServiceImpl extends BaseServiceImpl<Route> implements RouteSer
 
     @Override
     public Collection<Route> getRoutes(String name) {
-        Collection<Route> routeCollection = routeRepository.findByName(name);
+        Collection<Route> routeCollection = routeRepository.findAllByName(name);
         Assert.isTrue(!CollectionUtils.isEmpty(routeCollection), "该路由不存在");
         return routeCollection;
     }
@@ -66,17 +67,26 @@ public class RouteServiceImpl extends BaseServiceImpl<Route> implements RouteSer
     }
 
     private Route generateRoute(String name, String description, String propertyName, String propertyValue) {
+        Assert.hasText(name, "路由名不能为空或全空白字符");
         Route route = new Route();
         modifyRole(route, name, description, propertyName, propertyValue);
         return route;
     }
 
     private void modifyRole(Route route, String name, String description, String propertyName, String propertyValue) {
-        Assert.hasText(name, "路由名不能为空或全空白字符");
-        route.setName(name);
-        route.setDescription(description);
-        route.setPropertyName(propertyName);
-        route.setPropertyValue(propertyValue);
+        Assert.notNull(route, "路由不能为空");
+        if (StringUtils.hasText(name) && !name.equals(route.getName())) {
+            route.setName(name);
+        }
+        if (StringUtils.hasText(description) && !description.equals(route.getDescription())) {
+            route.setDescription(description);
+        }
+        if (StringUtils.hasText(propertyName) && !propertyName.equals(route.getPropertyName())) {
+            route.setPropertyName(propertyName);
+        }
+        if (StringUtils.hasText(propertyValue) && !propertyValue.equals(route.getPropertyValue())) {
+            route.setPropertyValue(propertyValue);
+        }
     }
 
 }

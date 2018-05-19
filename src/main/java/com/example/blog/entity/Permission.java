@@ -30,6 +30,10 @@ public class Permission extends BaseEntity implements GrantedAuthority {
     @Column(name = "url")
     private String url;
 
+    @ApiModelProperty(value = "权限对应url路径的方法")
+    @Column(name = "method")
+    private String method;
+
     @ApiModelProperty(value = "权限对应的用户")
     @JsonIgnore
     @ManyToMany(mappedBy = "permissionSet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -57,6 +61,14 @@ public class Permission extends BaseEntity implements GrantedAuthority {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 
     public Set<Role> getRoleSet() {
