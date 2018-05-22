@@ -1,0 +1,15 @@
+spring:
+  security:
+    cors:
+      allowedOrigins:
+        - '*'
+      allowedMethods:
+        - GET
+        - HEAD
+        - POST
+        - DELETE
+        - PUT
+      allowedHeaders:
+        - '*'
+      allowCredentials: true
+      maxAge: 1800

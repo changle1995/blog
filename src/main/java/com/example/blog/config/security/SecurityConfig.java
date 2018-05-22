@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 /**
  * spring security配置类
@@ -22,6 +23,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("customizedUserDetailsService")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    @Qualifier("customizedCorsConfigurationSource")
+    private CorsConfigurationSource corsConfigurationSource;
+
     /**
      * 此方法来配置各个属性
      * 此配置仅限制spring security自带的过滤器,对自定义过滤器无效
@@ -30,6 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //设置cors跨域资源共享的配置
+        http.cors().configurationSource(this.corsConfigurationSource);
         //关闭csrf
         http.csrf().disable();
         //配置默认权限过滤器FilterSecurityInterceptor的安全策略

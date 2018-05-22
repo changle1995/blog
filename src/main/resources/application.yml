@@ -1,6 +1,6 @@
 spring:
   profiles:
     active: @profileActive@
-    include: datasource
+    include: datasource, cors
   application:
     name: @project.artifactId@
