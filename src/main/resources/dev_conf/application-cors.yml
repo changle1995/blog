@@ -4,11 +4,7 @@ spring:
       allowedOrigins:
         - '*'
       allowedMethods:
-        - GET
-        - HEAD
-        - POST
-        - DELETE
-        - PUT
+        - '*'
       allowedHeaders:
         - '*'
       allowCredentials: true
