@@ -19,7 +19,7 @@ public class UserInfoUtil {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserInfo userInfo = new UserInfo();
         userInfo.setToken(httpServletRequest.getHeader(HeaderNameEnum.USER_TOKEN.getName()));
-        userInfo.setUser(user);
+        userInfo.setUsername(user.getUsername());
         userInfo.setRouteCollection(RouteUtil.getRouteCollectionByUser(user));
         return userInfo;
     }

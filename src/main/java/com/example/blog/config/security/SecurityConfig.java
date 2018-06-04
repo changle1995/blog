@@ -44,6 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/**").permitAll();
         //使用默认的form表单登录,验证成功则跳转到/loginSuccess
         http.formLogin().successForwardUrl("/loginSuccess");
+        //使用默认的退出,退出成功则跳转到/logoutSuccess
+        http.logout().logoutSuccessUrl("/logoutSuccess");
     }
 
     /**

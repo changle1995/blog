@@ -21,9 +21,9 @@ public class UserInfo {
     @ApiModelProperty(value = "后续请求必须携带的头部token")
     private String token;
 
-    @JsonProperty(value = "user")
-    @ApiModelProperty(value = "用户实体信息类")
-    private User user;
+    @JsonProperty(value = "username")
+    @ApiModelProperty(value = "用户名称")
+    private String username;
 
     @JsonProperty(value = "routes")
     @ApiModelProperty(value = "用户拥有的前端路由信息")
@@ -37,12 +37,12 @@ public class UserInfo {
         this.token = token;
     }
 
-    public User getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Collection<Route> getRouteCollection() {

@@ -41,7 +41,7 @@ public class LoginController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "登出成功")
     })
-    @PostMapping("/logout")
+    @RequestMapping("/logoutSuccess")
     public RestResponse logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
