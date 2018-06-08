@@ -1,7 +1,6 @@
 package com.example.blog.domain;
 
 import com.example.blog.entity.Route;
-import com.example.blog.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -33,6 +33,14 @@ public class Route extends BaseEntity {
     @Column(name = "property_value")
     private String propertyValue;
 
+    @ApiModelProperty(value = "路由级别")
+    @Column(name = "level")
+    private Integer level;
+
+    @ApiModelProperty(value = "父路由ID")
+    @Column(name = "parentId")
+    private Long parentId;
+
     @ApiModelProperty(value = "路由对应的角色")
     @JsonIgnore
     @ManyToMany(mappedBy = "routeSet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -68,6 +76,22 @@ public class Route extends BaseEntity {
 
     public void setPropertyValue(String propertyValue) {
         this.propertyValue = propertyValue;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
     public Set<Role> getRoleSet() {
