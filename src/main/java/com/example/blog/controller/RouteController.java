@@ -32,7 +32,7 @@ public class RouteController {
             @ApiImplicitParam(name = "propertyName", value = "参数名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "propertyValue", value = "参数值", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "level", value = "路由级别", dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "parentId", value = "父路由ID", dataType = "Long", paramType = "query")
+            @ApiImplicitParam(name = "parentName", value = "父路由名称", dataType = "String", paramType = "query")
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "新增成功")
@@ -44,9 +44,9 @@ public class RouteController {
             @RequestParam(name = "propertyName", required = false) String propertyName,
             @RequestParam(name = "propertyValue", required = false) String propertyValue,
             @RequestParam(name = "level", required = false) Integer level,
-            @RequestParam(name = "parentId", required = false) Long parentId
+            @RequestParam(name = "parentName", required = false) String parentName
     ) {
-        Route route = routeService.addRoute(name, description, propertyName, propertyValue, level, parentId);
+        Route route = routeService.addRoute(name, description, propertyName, propertyValue, level, parentName);
         return RestResponseUtil.success(route, "添加路由成功");
     }
 
@@ -71,7 +71,7 @@ public class RouteController {
             @ApiImplicitParam(name = "propertyName", value = "参数名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "propertyValue", value = "参数值", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "level", value = "路由级别", dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "parentId", value = "父路由ID", dataType = "Long", paramType = "query")
+            @ApiImplicitParam(name = "parentName", value = "父路由名称", dataType = "String", paramType = "query")
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "修改成功")
@@ -84,9 +84,9 @@ public class RouteController {
             @RequestParam(name = "propertyName", required = false) String propertyName,
             @RequestParam(name = "propertyValue", required = false) String propertyValue,
             @RequestParam(name = "level", required = false) Integer level,
-            @RequestParam(name = "parentId", required = false) Long parentId
+            @RequestParam(name = "parentName", required = false) String parentName
     ) {
-        Route route = routeService.editRoute(id, name, description, propertyName, propertyValue, level, parentId);
+        Route route = routeService.editRoute(id, name, description, propertyName, propertyValue, level, parentName);
         return RestResponseUtil.success(route, "修改路由成功");
     }
 

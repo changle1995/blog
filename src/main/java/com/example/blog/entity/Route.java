@@ -37,9 +37,9 @@ public class Route extends BaseEntity {
     @Column(name = "level")
     private Integer level;
 
-    @ApiModelProperty(value = "父路由ID")
-    @Column(name = "parentId")
-    private Long parentId;
+    @ApiModelProperty(value = "父路由名称")
+    @Column(name = "parentName")
+    private String parentName;
 
     @ApiModelProperty(value = "路由对应的角色")
     @JsonIgnore
@@ -86,12 +86,12 @@ public class Route extends BaseEntity {
         this.level = level;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public String getParentName() {
+        return parentName;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 
     public Set<Role> getRoleSet() {

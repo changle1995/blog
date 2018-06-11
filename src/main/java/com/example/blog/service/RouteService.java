@@ -19,10 +19,10 @@ public interface RouteService extends BaseService<Route> {
      * @param propertyName  参数名称
      * @param propertyValue 参数值
      * @param level         路由级别
-     * @param parentId      父路由ID
+     * @param parentName    父路由名称
      * @return 返回新增的路由
      */
-    Route addRoute(String name, String description, String propertyName, String propertyValue, Integer level, Long parentId);
+    Route addRoute(String name, String description, String propertyName, String propertyValue, Integer level, String parentName);
 
     /**
      * 删除路由方法
@@ -41,10 +41,10 @@ public interface RouteService extends BaseService<Route> {
      * @param propertyName  参数名称
      * @param propertyValue 参数值
      * @param level         路由级别
-     * @param parentId      父路由ID
+     * @param parentName    父路由名称
      * @return 返回修改后的路由
      */
-    Route editRoute(long id, String name, String description, String propertyName, String propertyValue, Integer level, Long parentId);
+    Route editRoute(long id, String name, String description, String propertyName, String propertyValue, Integer level, String parentName);
 
     /**
      * 根据路由主键查找路由方法

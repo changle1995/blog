@@ -25,10 +25,10 @@ public class RouteServiceImpl extends BaseServiceImpl<Route> implements RouteSer
     private RouteRepository routeRepository;
 
     @Override
-    public Route addRoute(String name, String description, String propertyName, String propertyValue, Integer level, Long parentId) {
+    public Route addRoute(String name, String description, String propertyName, String propertyValue, Integer level, String parentName) {
         Route route = routeRepository.findByNameAndPropertyName(name, propertyName);
         Assert.isNull(route, "该路由已存在");
-        route = generateRoute(name, description, propertyName, propertyValue, level, parentId);
+        route = generateRoute(name, description, propertyName, propertyValue, level, parentName);
         return routeRepository.save(route);
     }
 
@@ -40,10 +40,10 @@ public class RouteServiceImpl extends BaseServiceImpl<Route> implements RouteSer
     }
 
     @Override
-    public Route editRoute(long id, String name, String description, String propertyName, String propertyValue, Integer level, Long parentId) {
+    public Route editRoute(long id, String name, String description, String propertyName, String propertyValue, Integer level, String parentName) {
         Route route = routeRepository.findOne(id);
         Assert.notNull(route, "该路由不存在");
-        modifyRole(route, name, description, propertyName, propertyValue, level, parentId);
+        modifyRole(route, name, description, propertyName, propertyValue, level, parentName);
         return routeRepository.save(route);
     }
 
@@ -66,14 +66,14 @@ public class RouteServiceImpl extends BaseServiceImpl<Route> implements RouteSer
         return routeRepository.findAll();
     }
 
-    private Route generateRoute(String name, String description, String propertyName, String propertyValue, Integer level, Long parentId) {
+    private Route generateRoute(String name, String description, String propertyName, String propertyValue, Integer level, String parentName) {
         Assert.hasText(name, "路由名不能为空或全空白字符");
         Route route = new Route();
-        modifyRole(route, name, description, propertyName, propertyValue, level, parentId);
+        modifyRole(route, name, description, propertyName, propertyValue, level, parentName);
         return route;
     }
 
-    private void modifyRole(Route route, String name, String description, String propertyName, String propertyValue, Integer level, Long parentId) {
+    private void modifyRole(Route route, String name, String description, String propertyName, String propertyValue, Integer level, String parentName) {
         Assert.notNull(route, "路由不能为空");
         if (StringUtils.hasText(name) && !name.equals(route.getName())) {
             route.setName(name);
@@ -90,8 +90,8 @@ public class RouteServiceImpl extends BaseServiceImpl<Route> implements RouteSer
         if (level != null && !level.equals(route.getLevel())) {
             route.setLevel(level);
         }
-        if (parentId  != null && !parentId.equals(route.getParentId())) {
-            route.setParentId(parentId);
+        if (StringUtils.hasText(parentName) && !parentName.equals(route.getParentName())) {
+            route.setParentName(parentName);
         }
     }
 
