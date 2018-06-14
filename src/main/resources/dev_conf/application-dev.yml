@@ -1,8 +1,4 @@
-debug: true
+debug: false
 server:
   context-path: /blog
   port: 10080
-
-spring:
-  thymeleaf:
-    cache: false

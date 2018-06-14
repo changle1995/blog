@@ -1,5 +1,6 @@
 package com.example.blog.controller;
 
+import com.example.blog.domain.AssignPermissionsRequestBody;
 import com.example.blog.domain.RestResponse;
 import com.example.blog.entity.Role;
 import com.example.blog.service.RolePermissionService;
@@ -27,33 +28,27 @@ public class RolePermissionController {
 
     @ApiOperation(value = "角色新增权限", notes = "角色新增权限")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "permissionId", value = "权限ID", required = true, dataType = "Long", paramType = "query")
+            @ApiImplicitParam(name = "assignPermissionsRequestBody", value = "角色分配权限参数对象", required = true, dataType = "AssignPermissionsRequestBody", paramType = "body")
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "角色新增权限成功")
     })
     @PostMapping("/")
-    public RestResponse<Role> add(@RequestParam(name = "roleId") long roleId, @RequestParam(name = "permissionId") long permissionId) {
-        Collection<Long> permissionIdCollection = new HashSet<>();
-        permissionIdCollection.add(permissionId);
-        Role role = rolePermissionService.addPermissionsToRole(roleId, permissionIdCollection);
+    public RestResponse<Role> add(@RequestBody AssignPermissionsRequestBody assignPermissionsRequestBody) {
+        Role role = rolePermissionService.addPermissionsToRole(assignPermissionsRequestBody.getRoleId(), assignPermissionsRequestBody.getPermissionIdCollection());
         return RestResponseUtil.success(role, "角色添加权限成功");
     }
 
     @ApiOperation(value = "角色删除权限", notes = "角色删除权限")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "permissionId", value = "权限ID", required = true, dataType = "Long", paramType = "path")
+            @ApiImplicitParam(name = "assignPermissionsRequestBody", value = "角色分配权限参数对象", required = true, dataType = "AssignPermissionsRequestBody", paramType = "body")
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "角色删除权限成功")
     })
-    @DeleteMapping("/{roleId}/{permissionId}")
-    public RestResponse<Role> delete(@PathVariable(name = "roleId") long roleId, @PathVariable(name = "permissionId") long permissionId) {
-        Collection<Long> permissionIdCollection = new HashSet<>();
-        permissionIdCollection.add(permissionId);
-        Role role = rolePermissionService.deletePermissionsOfRole(roleId, permissionIdCollection);
+    @PutMapping("/")
+    public RestResponse<Role> delete(@RequestBody AssignPermissionsRequestBody assignPermissionsRequestBody) {
+        Role role = rolePermissionService.deletePermissionsOfRole(assignPermissionsRequestBody.getRoleId(), assignPermissionsRequestBody.getPermissionIdCollection());
         return RestResponseUtil.success(role, "角色删除权限成功");
     }
 

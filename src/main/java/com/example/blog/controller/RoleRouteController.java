@@ -1,5 +1,6 @@
 package com.example.blog.controller;
 
+import com.example.blog.domain.AssignRoutesRequestBody;
 import com.example.blog.domain.RestResponse;
 import com.example.blog.entity.Role;
 import com.example.blog.service.RoleRouteService;
@@ -27,33 +28,27 @@ public class RoleRouteController {
 
     @ApiOperation(value = "角色新增路由", notes = "角色新增路由")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "routeId", value = "路由ID", required = true, dataType = "Long", paramType = "query")
+            @ApiImplicitParam(name = "assignRoutesRequestBody", value = "角色分配路由参数对象", required = true, dataType = "AssignRoutesRequestBody", paramType = "body")
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "角色新增路由成功")
     })
     @PostMapping("/")
-    public RestResponse<Role> add(@RequestParam(name = "roleId") long roleId, @RequestParam(name = "routeId") long routeId) {
-        Collection<Long> routeIdCollection = new HashSet<>();
-        routeIdCollection.add(routeId);
-        Role role = roleRouteService.addRoutesToRole(roleId, routeIdCollection);
+    public RestResponse<Role> add(@RequestBody AssignRoutesRequestBody assignRoutesRequestBody) {
+        Role role = roleRouteService.addRoutesToRole(assignRoutesRequestBody.getRoleId(), assignRoutesRequestBody.getRouteIdCollection());
         return RestResponseUtil.success(role, "角色添加路由成功");
     }
 
     @ApiOperation(value = "角色删除路由", notes = "角色删除路由")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, dataType = "Long", paramType = "path"),
-            @ApiImplicitParam(name = "routeId", value = "路由ID", required = true, dataType = "Long", paramType = "path")
+            @ApiImplicitParam(name = "assignRoutesRequestBody", value = "角色分配路由参数对象", required = true, dataType = "AssignRoutesRequestBody", paramType = "body")
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "角色删除路由成功")
     })
-    @DeleteMapping("/{roleId}/{routeId}")
-    public RestResponse<Role> delete(@PathVariable(name = "roleId") long roleId, @PathVariable(name = "routeId") long routeId) {
-        Collection<Long> routeIdCollection = new HashSet<>();
-        routeIdCollection.add(routeId);
-        Role role = roleRouteService.deleteRoutesOfRole(roleId, routeIdCollection);
+    @PutMapping("/")
+    public RestResponse<Role> delete(@RequestBody AssignRoutesRequestBody assignRoutesRequestBody) {
+        Role role = roleRouteService.deleteRoutesOfRole(assignRoutesRequestBody.getRoleId(), assignRoutesRequestBody.getRouteIdCollection());
         return RestResponseUtil.success(role, "角色删除路由成功");
     }
 
