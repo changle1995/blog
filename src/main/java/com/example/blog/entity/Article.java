@@ -1,43 +1,44 @@
 package com.example.blog.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Author: changle
  * Date: 2018/3/16
  * Time: 16:09
  */
+@ApiModel(value = "文章表实体类")
 @Entity
-@Table(name = "article")
 public class Article extends BaseEntity {
 
-    @Column(name = "author_id")
-    private long authorId;
-
-    @Column(name = "title")
+    @ApiModelProperty(value = "文章标题")
     private String title;
 
-    @Column(name = "description", length = 1000)
+    @ApiModelProperty(value = "文章描述")
+    @Column(length = 1000)
     private String description;
 
+    @ApiModelProperty(value = "文章内容")
     @Type(type = "text")
-    @Column(name = "content")
     private String content;
 
-    @Column(name = "plat_id")
-    private long plateId;
+    @ApiModelProperty(value = "文章标签，以逗号分隔")
+    @Column(length = 1000)
+    private String tags;
 
-    public long getAuthorId() {
-        return authorId;
-    }
+    @ApiModelProperty(value = "文章作者")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_id")
+    private User user;
 
-    public void setAuthorId(long authorId) {
-        this.authorId = authorId;
-    }
+    @ApiModelProperty(value = "文章对应的板块")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="plate_id")
+    private Plate plate;
 
     public String getTitle() {
         return title;
@@ -63,12 +64,28 @@ public class Article extends BaseEntity {
         this.content = content;
     }
 
-    public long getPlateId() {
-        return plateId;
+    public String getTags() {
+        return tags;
     }
 
-    public void setPlateId(long plateId) {
-        this.plateId = plateId;
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Plate getPlate() {
+        return plate;
+    }
+
+    public void setPlate(Plate plate) {
+        this.plate = plate;
     }
 
 }

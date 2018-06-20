@@ -31,23 +31,19 @@ public abstract class BaseEntity {
     @ApiModelProperty(value = "数据记录创建时间", hidden = true)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @CreatedDate
-    @Column(name = "create_time")
     private Date createTime;
 
     @ApiModelProperty(value = "数据记录创建人", hidden = true)
     @CreatedBy
-    @Column(name = "create_person")
     private String createPerson;
 
     @ApiModelProperty(value = "数据记录最后更新时间", hidden = true)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @LastModifiedDate
-    @Column(name = "update_time")
     private Date updateTime;
 
     @ApiModelProperty(value = "数据记录最后更新人", hidden = true)
     @LastModifiedBy
-    @Column(name = "update_person")
     private String updatePerson;
 
     public long getId() {

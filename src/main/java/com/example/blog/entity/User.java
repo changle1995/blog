@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,32 +20,26 @@ import java.util.Set;
  */
 @ApiModel(value = "用户表实体类")
 @Entity
-@Table(name = "user")
 public class User extends BaseEntity implements UserDetails {
 
     @ApiModelProperty(value = "用户名称")
-    @Column(name = "username")
     private String username;
 
     @ApiModelProperty(value = "角色密码")
-    @Column(name = "password")
     private String password;
 
     @ApiModelProperty(value = "用户描述")
-    @Column(name = "description", length = 1000)
+    @Column(length = 1000)
     private String description;
 
     @ApiModelProperty(value = "用户邮箱")
-    @Column(name = "email")
     private String email;
 
     @ApiModelProperty(value = "用户电话")
-    @Column(name = "phone_number")
     private String phoneNumber;
 
-    @ApiModelProperty(value = "用户头像存放路径")
-    @Column(name = "photo_path")
-    private String photoPath;
+    @ApiModelProperty(value = "最近一次登录时间")
+    private Date lastLogin;
 
     @ApiModelProperty(value = "用户对应的角色")
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -118,12 +113,12 @@ public class User extends BaseEntity implements UserDetails {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPhotoPath() {
-        return photoPath;
+    public Date getLastLogin() {
+        return lastLogin;
     }
 
-    public void setPhotoPath(String photoPath) {
-        this.photoPath = photoPath;
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
     }
 
     public Set<Role> getRoleSet() {

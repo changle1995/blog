@@ -14,36 +14,30 @@ import java.util.Set;
  */
 @ApiModel(value = "前端路由表实体类")
 @Entity
-@Table(name = "route")
 public class Route extends BaseEntity {
 
     @ApiModelProperty(value = "路由名称")
-    @Column(name = "name")
     private String name;
 
     @ApiModelProperty(value = "路由描述")
-    @Column(name = "description", length = 1000)
+    @Column(length = 1000)
     private String description;
 
     @ApiModelProperty(value = "路由参数名称")
-    @Column(name = "property_name")
     private String propertyName;
 
     @ApiModelProperty(value = "路由参数值")
-    @Column(name = "property_value")
     private String propertyValue;
 
     @ApiModelProperty(value = "路由级别")
-    @Column(name = "level")
     private Integer level;
 
     @ApiModelProperty(value = "父路由名称")
-    @Column(name = "parentName")
     private String parentName;
 
     @ApiModelProperty(value = "路由对应的角色")
     @JsonIgnore
-    @ManyToMany(mappedBy = "routeSet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "routeSet", cascade = CascadeType.ALL)
     private Set<Role> roleSet;
 
     public String getName() {

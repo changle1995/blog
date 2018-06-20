@@ -15,28 +15,24 @@ import java.util.Set;
  */
 @ApiModel(value = "后端权限表实体类")
 @Entity
-@Table(name = "permission")
 public class Permission extends BaseEntity implements GrantedAuthority {
 
     @ApiModelProperty(value = "权限名称")
-    @Column(name = "name")
     private String name;
 
     @ApiModelProperty(value = "权限描述")
-    @Column(name = "description", length = 1000)
+    @Column(length = 1000)
     private String description;
 
     @ApiModelProperty(value = "权限对应url路径")
-    @Column(name = "url")
     private String url;
 
     @ApiModelProperty(value = "权限对应url路径的方法")
-    @Column(name = "method")
     private String method;
 
     @ApiModelProperty(value = "权限对应的用户")
     @JsonIgnore
-    @ManyToMany(mappedBy = "permissionSet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "permissionSet", cascade = CascadeType.ALL)
     private Set<Role> roleSet;
 
     public String getName() {

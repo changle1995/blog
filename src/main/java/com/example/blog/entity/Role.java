@@ -17,16 +17,15 @@ import java.util.Set;
 public class Role extends BaseEntity {
 
     @ApiModelProperty(value = "角色名称")
-    @Column(name = "name")
     private String name;
 
     @ApiModelProperty(value = "角色描述")
-    @Column(name = "description", length = 1000)
+    @Column(length = 1000)
     private String description;
 
     @ApiModelProperty(value = "角色对应的用户")
     @JsonIgnore
-    @ManyToMany(mappedBy = "roleSet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roleSet", cascade = CascadeType.ALL)
     private Set<User> userSet;
 
     @ApiModelProperty(value = "角色对应的后端权限")
