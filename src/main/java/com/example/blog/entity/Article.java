@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Author: changle
@@ -26,9 +27,11 @@ public class Article extends BaseEntity {
     @Type(type = "text")
     private String content;
 
-    @ApiModelProperty(value = "文章标签，以逗号分隔")
-    @Column(length = 1000)
-    private String tags;
+    @ApiModelProperty(value = "文章标签")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "article_tag", joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
+    private Set<Tag> tagSet;
 
     @ApiModelProperty(value = "文章作者")
     @ManyToOne(cascade = CascadeType.ALL)
@@ -39,6 +42,10 @@ public class Article extends BaseEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="plate_id")
     private Plate plate;
+
+    private int viewNumber;
+
+    private int weight;
 
     public String getTitle() {
         return title;
@@ -64,12 +71,12 @@ public class Article extends BaseEntity {
         this.content = content;
     }
 
-    public String getTags() {
-        return tags;
+    public Set<Tag> getTagSet() {
+        return tagSet;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setTagSet(Set<Tag> tagSet) {
+        this.tagSet = tagSet;
     }
 
     public User getUser() {
@@ -86,6 +93,22 @@ public class Article extends BaseEntity {
 
     public void setPlate(Plate plate) {
         this.plate = plate;
+    }
+
+    public int getViewNumber() {
+        return viewNumber;
+    }
+
+    public void setViewNumber(int viewNumber) {
+        this.viewNumber = viewNumber;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
 }

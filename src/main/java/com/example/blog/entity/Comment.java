@@ -17,7 +17,10 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Comment extends BaseEntity {
 
-    private String content;
+    @ApiModelProperty(value = "所属文章")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="article_id")
+    private Article article;
 
     @ApiModelProperty(value = "父评论")
     @ManyToOne(cascade = CascadeType.ALL)
@@ -29,12 +32,14 @@ public class Comment extends BaseEntity {
     @JoinColumn(name="user_id")
     private User user;
 
-    public String getContent() {
-        return content;
+    private String content;
+
+    public Article getArticle() {
+        return article;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setArticle(Article article) {
+        this.article = article;
     }
 
     public Comment getComment() {
@@ -51,6 +56,14 @@ public class Comment extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
 }
