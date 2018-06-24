@@ -1,6 +1,6 @@
 package com.example.blog.util;
 
-import com.example.blog.domain.UserInfo;
+import com.example.blog.domain.auth.UserInfo;
 import com.example.blog.entity.auth.User;
 import com.example.blog.enumeration.HeaderNameEnum;
 import org.springframework.security.core.context.SecurityContextHolder;

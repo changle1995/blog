@@ -1,6 +1,6 @@
 package com.example.blog.controller.auth;
 
-import com.example.blog.domain.AssignRoutesRequestBody;
+import com.example.blog.domain.auth.AssignRoutesRequestBody;
 import com.example.blog.domain.RestResponse;
 import com.example.blog.entity.auth.Role;
 import com.example.blog.service.auth.RoleRouteService;

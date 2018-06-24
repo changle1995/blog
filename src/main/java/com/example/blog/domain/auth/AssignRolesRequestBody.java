@@ -1,4 +1,4 @@
-package com.example.blog.domain;
+package com.example.blog.domain.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;

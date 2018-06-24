@@ -1,7 +1,7 @@
 package com.example.blog.controller.auth;
 
 import com.example.blog.domain.RestResponse;
-import com.example.blog.domain.UserInfo;
+import com.example.blog.domain.auth.UserInfo;
 import com.example.blog.util.RestResponseUtil;
 import com.example.blog.util.UserInfoUtil;
 import io.swagger.annotations.Api;

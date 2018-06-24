@@ -1,4 +1,4 @@
-package com.example.blog.domain;
+package com.example.blog.domain.auth;
 
 import com.example.blog.entity.auth.Route;
 import com.fasterxml.jackson.annotation.JsonProperty;
