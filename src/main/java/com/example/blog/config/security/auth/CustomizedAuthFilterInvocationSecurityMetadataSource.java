@@ -1,7 +1,7 @@
 package com.example.blog.config.security.auth;
 
-import com.example.blog.entity.Permission;
-import com.example.blog.repository.PermissionRepository;
+import com.example.blog.entity.auth.Permission;
+import com.example.blog.repository.auth.PermissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;

@@ -1,7 +1,7 @@
 package com.example.blog.config.security;
 
-import com.example.blog.entity.User;
-import com.example.blog.service.impl.UserServiceImpl;
+import com.example.blog.entity.auth.User;
+import com.example.blog.service.auth.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class CustomizedUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

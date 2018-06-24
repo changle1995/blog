@@ -1,0 +1,4 @@
+debug: false
+server:
+  context-path: /blog
+  port: 8008

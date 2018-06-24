@@ -1,7 +1,7 @@
 package com.example.blog.util;
 
-import com.example.blog.entity.Route;
-import com.example.blog.entity.User;
+import com.example.blog.entity.auth.Route;
+import com.example.blog.entity.auth.User;
 
 import java.util.Collection;
 import java.util.HashSet;
