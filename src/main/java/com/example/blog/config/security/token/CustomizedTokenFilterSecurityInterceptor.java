@@ -2,6 +2,7 @@ package com.example.blog.config.security.token;
 
 import com.example.blog.enumeration.HeaderNameEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -11,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.FilterChain;
@@ -28,15 +30,19 @@ import java.io.IOException;
  */
 @Order(2000)
 @Service("customizedTokenFilterSecurityInterceptor")
+@EnableConfigurationProperties(TokenConfigProperties.class)
 public class CustomizedTokenFilterSecurityInterceptor extends AbstractAuthenticationProcessingFilter {
+
+    private RequestMatcher ignoreRequestMatcher;
 
     /**
      * 父类无空构造方法,需主动调用父类构造方法,并在此设置需要拦截的url路径
      * 默认经过此过滤器的请求不再调用下一步的过滤器,需手动设置继续过滤器链
      */
-    public CustomizedTokenFilterSecurityInterceptor() {
-        super(new AntPathRequestMatcher("/**"));
+    public CustomizedTokenFilterSecurityInterceptor(TokenConfigProperties tokenConfigProperties) {
+        super(new AntPathRequestMatcher(tokenConfigProperties.getRequiresAuthenticationRequestUrl()));
         super.setContinueChainBeforeSuccessfulAuthentication(true);
+        ignoreRequestMatcher = new AntPathRequestMatcher(tokenConfigProperties.getIgnoreRequestUrl());
     }
 
     /**
@@ -75,4 +81,13 @@ public class CustomizedTokenFilterSecurityInterceptor extends AbstractAuthentica
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         super.setAuthenticationManager(authenticationManager);
     }
+
+    /**
+     * 此方法决定哪些url需要验证
+     */
+    @Override
+    protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
+        return !this.ignoreRequestMatcher.matches(request) && super.requiresAuthentication(request, response);
+    }
+
 }

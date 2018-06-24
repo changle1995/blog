@@ -1,0 +1,5 @@
+file:
+  upload: #文件上传配置
+    localtion:  #配置默认文件保存位置
+      windows: D:/Temp/static/
+      linux: /var/local/meatball/file/
