@@ -45,9 +45,11 @@ public class Article extends BaseEntity {
     @JoinColumn(name="plate_id")
     private Plate plate;
 
-    private int viewNumber;
+    @ApiModelProperty(value = "文章阅读数")
+    private Integer viewNumber;
 
-    private int weight;
+    @ApiModelProperty(value = "文章权重")
+    private Integer weight;
 
     public String getTitle() {
         return title;
@@ -97,19 +99,19 @@ public class Article extends BaseEntity {
         this.plate = plate;
     }
 
-    public int getViewNumber() {
+    public Integer getViewNumber() {
         return viewNumber;
     }
 
-    public void setViewNumber(int viewNumber) {
+    public void setViewNumber(Integer viewNumber) {
         this.viewNumber = viewNumber;
     }
 
-    public int getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 

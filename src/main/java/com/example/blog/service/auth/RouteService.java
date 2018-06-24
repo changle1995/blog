@@ -16,7 +16,7 @@ public interface RouteService extends BaseService<Route> {
      * 新增路由方法
      *
      * @param name          路由名称
-     * @param description   角色描述
+     * @param description   路由描述
      * @param propertyName  参数名称
      * @param propertyValue 参数值
      * @param level         路由级别

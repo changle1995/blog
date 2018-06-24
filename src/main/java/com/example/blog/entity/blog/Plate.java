@@ -23,7 +23,7 @@ public class Plate extends BaseEntity {
     private String description;
 
     @ApiModelProperty(value = "板块状态")
-    private int state;
+    private Integer state;
 
     public String getName() {
         return name;
@@ -41,11 +41,11 @@ public class Plate extends BaseEntity {
         this.description = description;
     }
 
-    public int getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
