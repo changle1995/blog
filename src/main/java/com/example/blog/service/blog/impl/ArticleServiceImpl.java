@@ -56,7 +56,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
         article.setTitle(title);
         article.setDescription(description);
         article.setContent(content);
-        article.setTagSet(tagRepository.findAllByNameIn(tagNameSet));
+//        article.setTagSet(tagRepository.findAllByNameIn(tagNameSet));
 //        article.setTagSet(tagSet);
 //        article.setUser(userId);
 //        article.setPlate(plateId);

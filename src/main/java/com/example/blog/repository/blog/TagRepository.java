@@ -12,5 +12,6 @@ import java.util.Set;
  */
 public interface TagRepository extends BaseRepository<Tag, Long> {
 
-    Set<Tag> findAllByNameIn(Set<String> tagNameSet);
+    Tag findByName(String name);
+
 }
