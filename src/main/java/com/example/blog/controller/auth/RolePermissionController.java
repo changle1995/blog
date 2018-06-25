@@ -1,7 +1,7 @@
 package com.example.blog.controller.auth;
 
-import com.example.blog.domain.auth.AssignPermissionsRequestBody;
 import com.example.blog.domain.RestResponse;
+import com.example.blog.domain.auth.AssignPermissionsRequestBody;
 import com.example.blog.entity.auth.Role;
 import com.example.blog.service.auth.RolePermissionService;
 import com.example.blog.util.RestResponseUtil;

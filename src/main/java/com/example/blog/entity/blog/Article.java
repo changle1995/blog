@@ -37,12 +37,12 @@ public class Article extends BaseEntity {
 
     @ApiModelProperty(value = "文章作者")
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ApiModelProperty(value = "文章对应的板块")
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="plate_id")
+    @JoinColumn(name = "plate_id")
     private Plate plate;
 
     @ApiModelProperty(value = "文章阅读数")

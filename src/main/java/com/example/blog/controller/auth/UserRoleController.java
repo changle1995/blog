@@ -1,7 +1,7 @@
 package com.example.blog.controller.auth;
 
-import com.example.blog.domain.auth.AssignRolesRequestBody;
 import com.example.blog.domain.RestResponse;
+import com.example.blog.domain.auth.AssignRolesRequestBody;
 import com.example.blog.entity.auth.User;
 import com.example.blog.service.auth.UserRoleService;
 import com.example.blog.util.RestResponseUtil;

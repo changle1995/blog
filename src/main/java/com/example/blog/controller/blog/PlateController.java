@@ -96,5 +96,5 @@ public class PlateController {
         }
         return RestResponseUtil.success(plateCollection);
     }
-    
+
 }

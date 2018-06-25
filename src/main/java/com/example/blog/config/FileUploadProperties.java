@@ -27,7 +27,7 @@ public class FileUploadProperties {
     public String getBasePath() {
         String location;
         String os = System.getProperty("os.name");
-        if(os.toLowerCase().startsWith("win")) {
+        if (os.toLowerCase().startsWith("win")) {
             location = this.getLocaltion().get("windows");
         } else {
             location = this.getLocaltion().get("linux");

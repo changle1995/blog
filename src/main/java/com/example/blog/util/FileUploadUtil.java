@@ -22,7 +22,7 @@ public class FileUploadUtil {
     public static String upload(MultipartFile multipartFile, String basePath) throws IOException {
         String location = DateFormatUtils.format(new Date(), "yyyyMMdd") + "/";
         String filename = multipartFile.getOriginalFilename();
-        String targetFilename = filename.substring(0,filename.lastIndexOf(".")) + new Random().nextInt(100000000) + filename.substring(filename.lastIndexOf("."));
+        String targetFilename = filename.substring(0, filename.lastIndexOf(".")) + new Random().nextInt(100000000) + filename.substring(filename.lastIndexOf("."));
         File targetFileDir = new File(basePath + location);
         if (!targetFileDir.exists()) {
             targetFileDir.mkdirs();

@@ -21,17 +21,17 @@ public class Comment extends BaseEntity {
 
     @ApiModelProperty(value = "所属文章")
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="article_id")
+    @JoinColumn(name = "article_id")
     private Article article;
 
     @ApiModelProperty(value = "父评论")
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="comment_id")
+    @JoinColumn(name = "comment_id")
     private Comment comment;
 
     @ApiModelProperty(value = "评论作者")
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ApiModelProperty(value = "评论内容")
