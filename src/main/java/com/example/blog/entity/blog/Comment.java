@@ -34,6 +34,7 @@ public class Comment extends BaseEntity {
     @JoinColumn(name="user_id")
     private User user;
 
+    @ApiModelProperty(value = "评论内容")
     private String content;
 
     public Article getArticle() {

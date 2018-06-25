@@ -19,6 +19,7 @@ import java.util.Set;
 @Entity
 public class Tag extends BaseEntity {
 
+    @ApiModelProperty(value = "标签名称")
     private String name;
 
     @ApiModelProperty(value = "标签对应的用户")
