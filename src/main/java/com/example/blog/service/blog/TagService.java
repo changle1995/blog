@@ -47,6 +47,14 @@ public interface TagService extends BaseService<Tag> {
     Tag editTag(long id, String name);
 
     /**
+     * 根据标签ID查找标签方法
+     *
+     * @param id 标签ID
+     * @return 返回获取的标签
+     */
+    Tag getTag(long id);
+
+    /**
      * 根据标签名称查找标签方法
      *
      * @param name 标签名称

@@ -1,19 +1,18 @@
 package com.example.blog.service.blog.impl;
 
 import com.example.blog.entity.blog.Article;
-import com.example.blog.repository.auth.UserRepository;
 import com.example.blog.repository.blog.ArticleRepository;
-import com.example.blog.repository.blog.PlateRepository;
-import com.example.blog.repository.blog.TagRepository;
+import com.example.blog.service.auth.UserService;
 import com.example.blog.service.blog.ArticleService;
+import com.example.blog.service.blog.PlateService;
+import com.example.blog.service.blog.TagService;
 import com.example.blog.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -29,18 +28,50 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
     private ArticleRepository articleRepository;
 
     @Autowired
-    private TagRepository tagRepository;
+    private TagService tagService;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
-    private PlateRepository plateRepository;
+    private PlateService plateService;
 
     @Override
     public Article addArticle(String title, String description, String content, Set<String> tagNameSet, long userId, long plateId, Integer weight) {
         Article article = generateArticle(title, description, content, tagNameSet, userId, plateId, weight);
         return articleRepository.save(article);
+    }
+
+    @Override
+    public void deleteArticle(long id) {
+        Article article = articleRepository.findOne(id);
+        Assert.notNull(article, "该文章不存在");
+        articleRepository.delete(article);
+    }
+
+    @Override
+    public Article editArticle(long id, String title, String description, String content, Set<String> tagNameSet, long plateId, Integer weight) {
+        Article article = articleRepository.findOne(id);
+        Assert.notNull(article, "该文章不存在");
+        modifyArticle(article, title, description, content, tagNameSet, article.getUser().getId(), plateId, weight);
+        return articleRepository.save(article);
+    }
+
+    @Override
+    public Article getArticle(long id) {
+        Article article = articleRepository.findOne(id);
+        Assert.notNull(article, "该文章不存在");
+        return article;
+    }
+
+    @Override
+    public Collection<Article> getArticles(String title) {
+        return articleRepository.findAllByTitle(title);
+    }
+
+    @Override
+    public Collection<Article> getAllArticles() {
+        return articleRepository.findAll();
     }
 
     private Article generateArticle(String title, String description, String content, Set<String> tagNameSet, long userId, long plateId, Integer weight) {
@@ -56,12 +87,10 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
         article.setTitle(title);
         article.setDescription(description);
         article.setContent(content);
-//        article.setTagSet(tagRepository.findAllByNameIn(tagNameSet));
-//        article.setTagSet(tagSet);
-//        article.setUser(userId);
-//        article.setPlate(plateId);
+        article.setTagSet(tagService.addTagSet(tagNameSet));
+        article.setUser(userService.getUser(userId));
+        article.setPlate(plateService.getPlate(plateId));
         article.setWeight(weight);
-        // todo
     }
 
 }

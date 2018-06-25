@@ -9,4 +9,7 @@ import com.example.blog.repository.BaseRepository;
  * Time: 17:22
  */
 public interface PlateRepository extends BaseRepository<Plate, Long> {
+
+    Plate findByName(String name);
+
 }
