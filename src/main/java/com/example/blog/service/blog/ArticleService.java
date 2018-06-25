@@ -18,11 +18,11 @@ public interface ArticleService extends BaseService<Article> {
      * @param title       文章名称
      * @param description 文章描述
      * @param content     文章内容
-     * @param tagSet      文章标签
+     * @param tagNameSet  文章标签
      * @param userId      文章作者ID
      * @param weight      文章对应的板块ID
      * @return 返回新增的文章
      */
-    Article addArticle(String title, String description, String content, Set<String> tagSet, long userId, long plateId, Integer weight);
+    Article addArticle(String title, String description, String content, Set<String> tagNameSet, long userId, long plateId, Integer weight);
 
 }

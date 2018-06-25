@@ -1,7 +1,10 @@
 package com.example.blog.service.blog.impl;
 
 import com.example.blog.entity.blog.Article;
+import com.example.blog.repository.auth.UserRepository;
 import com.example.blog.repository.blog.ArticleRepository;
+import com.example.blog.repository.blog.PlateRepository;
+import com.example.blog.repository.blog.TagRepository;
 import com.example.blog.service.blog.ArticleService;
 import com.example.blog.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,35 +28,40 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
     @Autowired
     private ArticleRepository articleRepository;
 
+    @Autowired
+    private TagRepository tagRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PlateRepository plateRepository;
+
     @Override
-    public Article addArticle(String title, String description, String content, Set<String> tagSet, long userId, long plateId, Integer weight) {
-        Article article = generateArticle(title, description, content, tagSet, userId, plateId, weight);
+    public Article addArticle(String title, String description, String content, Set<String> tagNameSet, long userId, long plateId, Integer weight) {
+        Article article = generateArticle(title, description, content, tagNameSet, userId, plateId, weight);
         return articleRepository.save(article);
     }
 
-    private Article generateArticle(String title, String description, String content, Set<String> tagSet, long userId, long plateId, Integer weight) {
-        Assert.hasText(title, "文章标题不能为空或全空白字符");
-        Assert.hasText(content, "文章内容不能为空或全空白字符");
+    private Article generateArticle(String title, String description, String content, Set<String> tagNameSet, long userId, long plateId, Integer weight) {
         Article article = new Article();
-        modifyArticle(article, title, description, content, tagSet, userId, plateId, weight);
+        modifyArticle(article, title, description, content, tagNameSet, userId, plateId, weight);
         return article;
     }
 
-    private void modifyArticle(Article article, String title, String description, String content, Set<String> tagSet, long userId, long plateId, Integer weight) {
+    private void modifyArticle(Article article, String title, String description, String content, Set<String> tagNameSet, long userId, long plateId, Integer weight) {
         Assert.notNull(article, "文章不能为空");
-        if (StringUtils.hasText(title) && !title.equals(article.getTitle())) {
-            article.setTitle(title);
-        }
-        if (StringUtils.hasText(description) && !description.equals(article.getDescription())) {
-            article.setDescription(description);
-        }
-        if (StringUtils.hasText(content) && !content.equals(article.getContent())) {
-            article.setContent(content);
-        }
-        if (!CollectionUtils.isEmpty(tagSet) && !content.equals(article.getContent())) {
-            article.setContent(content);
-        }
-        // todo 修改条件
+        Assert.hasText(title, "文章标题不能为空或全空白字符");
+        Assert.hasText(content, "文章内容不能为空或全空白字符");
+        article.setTitle(title);
+        article.setDescription(description);
+        article.setContent(content);
+        article.setTagSet(tagRepository.findAllByNameIn(tagNameSet));
+//        article.setTagSet(tagSet);
+//        article.setUser(userId);
+//        article.setPlate(plateId);
+        article.setWeight(weight);
+        // todo
     }
 
 }
