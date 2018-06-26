@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  * Date: 2018/3/21
  * Time: 21:09
  */
-@Api(tags = "登录登出控制器", description = "包含登录成功,登录失败与登出成功三个接口")
+@Api(tags = "登录登出等权限相关控制器", description = "包含登录成功,登录失败,登出成功与未登录四个接口")
 @RestController
 @RequestMapping("/")
 public class LoginController {
@@ -62,6 +62,15 @@ public class LoginController {
             new SecurityContextLogoutHandler().logout(httpServletRequest, httpServletResponse, authentication);
         }
         return RestResponseUtil.success();
+    }
+
+    @ApiOperation(value = "未登录", notes = "未登录接口")
+    @ApiResponses({
+            @ApiResponse(code = 401, message = "未登录")
+    })
+    @GetMapping("/unauthorized")
+    public RestResponse unauthorized() {
+        return RestResponseUtil.error(RestResponseEnum.CODE_ERROR_UNAUTHORIZED);
     }
 
 }

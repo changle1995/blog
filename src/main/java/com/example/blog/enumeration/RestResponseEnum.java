@@ -9,8 +9,8 @@ package com.example.blog.enumeration;
 public enum RestResponseEnum {
     CODE_SUCCESS("200", "成功"),
     CODE_ERROR_UNKNOWN("400", "服务器不理解请求的语法"),
-    CODE_ERROR_LOGIN_FAILURE("401.1", "登录失败"),
-    CODE_ERROR_NOT_POWER("401.2", "当前无操作权限"),
+    CODE_ERROR_LOGIN_FAILURE("401.1", "登录失败,账号或密码错误"),
+    CODE_ERROR_UNAUTHORIZED("401.2", "未登录,当前无操作权限"),
     CODE_ERROR_HTTP("404", "服务器找不到请求的链接");
 
     private String code;
