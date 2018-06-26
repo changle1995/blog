@@ -30,12 +30,24 @@ import java.util.List;
 public class Swagger2 {
 
     @Bean
-    public Docket createRestApi() {
+    public Docket createAuthRestApi() {
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
+                .groupName("权限")
                 .ignoredParameterTypes(HttpServletRequest.class, HttpServletResponse.class)
                 .globalOperationParameters(buildOperationParameters())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.blog"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.blog.controller.auth"))
+                .paths(PathSelectors.any()).build();
+    }
+
+    @Bean
+    public Docket createBlogRestApi() {
+        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
+                .groupName("博客")
+                .ignoredParameterTypes(HttpServletRequest.class, HttpServletResponse.class)
+                .globalOperationParameters(buildOperationParameters())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.example.blog.controller.blog"))
                 .paths(PathSelectors.any()).build();
     }
 
