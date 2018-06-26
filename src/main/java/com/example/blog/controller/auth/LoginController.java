@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,7 +55,7 @@ public class LoginController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "登出成功")
     })
-    @RequestMapping("/logoutSuccess")
+    @GetMapping("/logoutSuccess")
     public RestResponse logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
