@@ -38,4 +38,11 @@ public class RestResponseUtil {
         return result;
     }
 
+    public static RestResponse error(RestResponseEnum restResponseEnum) {
+        RestResponse result = new RestResponse();
+        result.setCode(restResponseEnum.getCode());
+        result.setMessage(restResponseEnum.getMessage());
+        return result;
+    }
+
 }

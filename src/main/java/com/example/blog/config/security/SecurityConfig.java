@@ -46,8 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //配置默认权限过滤器FilterSecurityInterceptor的安全策略
         //设置匿名权限url不需要拦截其余都需要验证权限
         http.authorizeRequests().antMatchers(permissionService.getPermission("ROLE_ANONYMOUS").getUrl().split(",")).permitAll().anyRequest().authenticated();
-        //使用默认的form表单登录,验证成功则跳转到/loginSuccess
-        http.formLogin().successForwardUrl("/loginSuccess");
+        //使用默认的form表单登录,验证成功则跳转到/loginSuccess,验证失败则跳转到/loginFailure
+        http.formLogin().successForwardUrl("/loginSuccess").failureForwardUrl("/loginFailure");
         //使用默认的退出,退出成功则跳转到/logoutSuccess
         http.logout().logoutSuccessUrl("/logoutSuccess");
     }
