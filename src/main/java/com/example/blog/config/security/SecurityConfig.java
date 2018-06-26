@@ -1,5 +1,6 @@
 package com.example.blog.config.security;
 
+import com.example.blog.service.auth.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -27,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("customizedCorsConfigurationSource")
     private CorsConfigurationSource corsConfigurationSource;
 
+    @Autowired
+    private PermissionService permissionService;
+
     /**
      * 此方法来配置各个属性
      * 此配置仅限制spring security自带的过滤器,对自定义过滤器无效
@@ -40,8 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //关闭csrf
         http.csrf().disable();
         //配置默认权限过滤器FilterSecurityInterceptor的安全策略
-        //设置所有url都不需要默认过滤器验证
-        http.authorizeRequests().antMatchers("/**").permitAll();
+        //设置匿名权限url不需要拦截其余都需要验证权限
+        http.authorizeRequests().antMatchers(permissionService.getPermission("ROLE_ANONYMOUS").getUrl().split(",")).permitAll().anyRequest().authenticated();
         //使用默认的form表单登录,验证成功则跳转到/loginSuccess
         http.formLogin().successForwardUrl("/loginSuccess");
         //使用默认的退出,退出成功则跳转到/logoutSuccess
