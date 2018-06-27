@@ -3,8 +3,7 @@ package com.example.blog.util;
 import com.example.blog.entity.auth.Route;
 import com.example.blog.entity.auth.User;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * User中的Route信息相关工具类
@@ -16,7 +15,9 @@ public class RouteUtil {
 
     public static Collection<Route> getRouteCollectionByUser(User user) {
         Collection<Route> routeCollection = new HashSet<>();
-        user.getRoleSet().forEach(role -> routeCollection.addAll(role.getRouteSet()));
+        Optional.ofNullable(user.getRoleSet())
+                .orElse(new HashSet<>())
+                .forEach(role -> routeCollection.addAll(role.getRouteSet()));
         return routeCollection;
     }
 

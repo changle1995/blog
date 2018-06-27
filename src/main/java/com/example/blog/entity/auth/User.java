@@ -9,10 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Author: changle
@@ -134,7 +131,9 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<Permission> permissionSet = new HashSet<>();
-        this.roleSet.forEach(role -> permissionSet.addAll(role.getPermissionSet()));
+        Optional.ofNullable(this.roleSet)
+                .orElse(new HashSet<>())
+                .forEach(role -> permissionSet.addAll(role.getPermissionSet()));
         return permissionSet;
     }
 

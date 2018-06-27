@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 自定义获取url与权限对应关系的类
@@ -41,7 +38,9 @@ public class CustomizedAuthFilterInvocationSecurityMetadataSource implements Fil
     private void loadResourceDefine() {
         this.permissionsMap = new HashMap<>();
         Collection<Permission> permissionCollection = permissionRepository.findAll();
-        permissionCollection.forEach(permission -> this.permissionsMap.put(permission.getAuthority(), permission));
+        Optional.ofNullable(permissionCollection)
+                .orElse(new HashSet<>())
+                .forEach(permission -> this.permissionsMap.put(permission.getAuthority(), permission));
     }
 
     /**
