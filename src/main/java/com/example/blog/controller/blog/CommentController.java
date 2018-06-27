@@ -36,7 +36,7 @@ public class CommentController {
     @PostMapping("/")
     public RestResponse<Comment> add(
             @RequestParam(name = "articleId") long articleId,
-            @RequestParam(name = "commentId", required = false) long commentId,
+            @RequestParam(name = "commentId", required = false) Long commentId,
             @RequestParam(name = "userId") long userId,
             @RequestParam(name = "content") String content
     ) {

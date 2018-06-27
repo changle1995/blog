@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,14 +36,12 @@ public class TagServiceImpl extends BaseServiceImpl<Tag> implements TagService {
 
     @Override
     public Set<Tag> addTagSet(Set<String> tagNameSet) {
-        return tagNameSet.stream().map(tagName -> {
-            Tag tag = tagRepository.findByName(tagName);
-            if (tag != null) {
-                return tag;
-            } else {
-                return tagRepository.save(generateTag(tagName));
-            }
-        }).collect(Collectors.toSet());
+        return Optional.ofNullable(tagNameSet)
+                .map(set -> set
+                        .stream()
+                        .map(tagName -> Optional.ofNullable(tagRepository.findByName(tagName)).orElseGet(() -> tagRepository.save(generateTag(tagName))))
+                        .collect(Collectors.toSet()))
+                .orElse(null);
     }
 
     @Override
