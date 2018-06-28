@@ -35,8 +35,7 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment> implements Comm
 
     @Override
     public Comment addComment(long articleId, Long commentId, long userId, String content) {
-        Comment comment = generateComment(articleId, commentId, userId, content);
-        return commentRepository.save(comment);
+        return commentRepository.save(generateComment(articleId, commentId, userId, content));
     }
 
     @Override
@@ -46,9 +45,7 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment> implements Comm
 
     @Override
     public Comment editComment(long id, String content) {
-        Comment comment = commentRepository.findOne(id);
-        modifyComment(comment, content);
-        return commentRepository.save(comment);
+        return commentRepository.save(modifyComment(commentRepository.findOne(id), content));
     }
 
     @Override
@@ -76,14 +73,14 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment> implements Comm
         comment.setArticle(article);
         comment.setComment(parentComment);
         comment.setUser(user);
-        modifyComment(comment, content);
-        return comment;
+        return modifyComment(comment, content);
     }
 
-    private void modifyComment(Comment comment, String content) {
-        Assert.notNull(comment, "评论不能为空");
+    private Comment modifyComment(Comment comment, String content) {
+        Assert.notNull(comment, "该评论不存在");
         Assert.hasText(content, "评论内容不能为空或全空白字符串");
         comment.setContent(content);
+        return comment;
     }
 
 }

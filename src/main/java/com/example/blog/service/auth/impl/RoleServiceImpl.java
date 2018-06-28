@@ -26,39 +26,28 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
 
     @Override
     public Role addRole(String name, String description) {
-        Role role = roleRepository.findByName(name);
-        Assert.isNull(role, "该角色已存在");
-        role = generateRole(name, description);
-        return roleRepository.save(role);
+        Assert.isNull(roleRepository.findByName(name), "该角色已存在");
+        return roleRepository.save(generateRole(name, description));
     }
 
     @Override
     public void deleteRole(long id) {
-        Role role = roleRepository.findOne(id);
-        Assert.notNull(role, "该角色不存在");
-        roleRepository.delete(role);
+        roleRepository.delete(id);
     }
 
     @Override
     public Role editRole(long id, String name, String description) {
-        Role role = roleRepository.findOne(id);
-        Assert.notNull(role, "该角色不存在");
-        modifyRole(role, name, description);
-        return roleRepository.save(role);
+        return roleRepository.save(modifyRole(roleRepository.findOne(id), name, description));
     }
 
     @Override
     public Role getRole(long id) {
-        Role role = roleRepository.findOne(id);
-        Assert.notNull(role, "该角色不存在");
-        return role;
+        return roleRepository.findOne(id);
     }
 
     @Override
     public Role getRole(String name) {
-        Role role = roleRepository.findByName(name);
-        Assert.notNull(role, "该角色不存在");
-        return role;
+        return roleRepository.findByName(name);
     }
 
     @Override
@@ -68,19 +57,18 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
 
     private Role generateRole(String name, String description) {
         Assert.hasText(name, "角色名不能为空或全空白字符");
-        Role role = new Role();
-        modifyRole(role, name, description);
-        return role;
+        return modifyRole(new Role(), name, description);
     }
 
-    private void modifyRole(Role role, String name, String description) {
-        Assert.notNull(role, "角色不能为空");
+    private Role modifyRole(Role role, String name, String description) {
+        Assert.notNull(role, "该角色不存在");
         if (StringUtils.hasText(name) && !name.equals(role.getName())) {
             role.setName(name);
         }
         if (StringUtils.hasText(description) && !description.equals(role.getDescription())) {
             role.setDescription(description);
         }
+        return role;
     }
 
 }

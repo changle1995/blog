@@ -25,39 +25,28 @@ public class PlateServiceImpl extends BaseServiceImpl<Plate> implements PlateSer
 
     @Override
     public Plate addPlate(String name, String description, Integer state) {
-        Plate plate = plateRepository.findByName(name);
-        Assert.isNull(plate, "该板块已存在");
-        plate = generatePlate(name, description, state);
-        return plateRepository.save(plate);
+        Assert.isNull(plateRepository.findByName(name), "该板块已存在");
+        return plateRepository.save(generatePlate(name, description, state));
     }
 
     @Override
     public void deletePlate(long id) {
-        Plate plate = plateRepository.findOne(id);
-        Assert.notNull(plate, "该板块不存在");
-        plateRepository.delete(plate);
+        plateRepository.delete(id);
     }
 
     @Override
     public Plate editPlate(long id, String name, String description, Integer state) {
-        Plate plate = plateRepository.findOne(id);
-        Assert.notNull(plate, "该板块不存在");
-        modifyPlate(plate, name, description, state);
-        return plateRepository.save(plate);
+        return plateRepository.save(modifyPlate(plateRepository.findOne(id), name, description, state));
     }
 
     @Override
     public Plate getPlate(long id) {
-        Plate plate = plateRepository.findOne(id);
-        Assert.notNull(plate, "该板块不存在");
-        return plate;
+        return plateRepository.findOne(id);
     }
 
     @Override
     public Plate getPlate(String name) {
-        Plate plate = plateRepository.findByName(name);
-        Assert.notNull(plate, "该板块不存在");
-        return plate;
+        return plateRepository.findByName(name);
     }
 
     @Override
@@ -66,17 +55,16 @@ public class PlateServiceImpl extends BaseServiceImpl<Plate> implements PlateSer
     }
 
     private Plate generatePlate(String name, String description, Integer state) {
-        Plate plate = new Plate();
-        modifyPlate(plate, name, description, state);
-        return plate;
+        return modifyPlate(new Plate(), name, description, state);
     }
 
-    private void modifyPlate(Plate plate, String name, String description, Integer state) {
-        Assert.notNull(plate, "板块不能为空");
+    private Plate modifyPlate(Plate plate, String name, String description, Integer state) {
+        Assert.notNull(plate, "该板块不存在");
         Assert.hasText(name, "板块名不能为空或全空白字符");
         plate.setName(name);
         plate.setDescription(description);
         plate.setState(state);
+        return plate;
     }
 
 }

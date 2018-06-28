@@ -26,39 +26,28 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
 
     @Override
     public Permission addPermission(String name, String description, String url, String method) {
-        Permission permission = permissionRepository.findByName(name);
-        Assert.isNull(permission, "该权限已存在");
-        permission = generatePermission(name, description, url, method);
-        return permissionRepository.save(permission);
+        Assert.isNull(permissionRepository.findByName(name), "该权限已存在");
+        return permissionRepository.save(generatePermission(name, description, url, method));
     }
 
     @Override
     public void deletePermission(long id) {
-        Permission permission = permissionRepository.findOne(id);
-        Assert.notNull(permission, "该权限不存在");
-        permissionRepository.delete(permission);
+        permissionRepository.delete(permissionRepository.findOne(id));
     }
 
     @Override
     public Permission editPermission(long id, String name, String description, String url, String method) {
-        Permission permission = permissionRepository.findOne(id);
-        Assert.notNull(permission, "该权限不存在");
-        modifyPermission(permission, name, description, url, method);
-        return permissionRepository.save(permission);
+        return permissionRepository.save(modifyPermission(permissionRepository.findOne(id), name, description, url, method));
     }
 
     @Override
     public Permission getPermission(long id) {
-        Permission permission = permissionRepository.findOne(id);
-        Assert.notNull(permission, "该权限不存在");
-        return permission;
+        return permissionRepository.findOne(id);
     }
 
     @Override
     public Permission getPermission(String name) {
-        Permission permission = permissionRepository.findByName(name);
-        Assert.notNull(permission, "该权限不存在");
-        return permission;
+        return permissionRepository.findByName(name);
     }
 
     @Override
@@ -70,13 +59,11 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
         Assert.hasText(name, "权限名不能为空或全空白字符");
         Assert.hasText(url, "权限url不能为空或全空白字符");
         Assert.hasText(method, "权限url对应方法不能为空或全空白字符");
-        Permission permission = new Permission();
-        modifyPermission(permission, name, description, url, method);
-        return permission;
+        return modifyPermission(new Permission(), name, description, url, method);
     }
 
-    private void modifyPermission(Permission permission, String name, String description, String url, String method) {
-        Assert.notNull(permission, "权限不能为空");
+    private Permission modifyPermission(Permission permission, String name, String description, String url, String method) {
+        Assert.notNull(permission, "该权限不存在");
         if (StringUtils.hasText(name) && !name.equals(permission.getName())) {
             permission.setName(name);
         }
@@ -89,6 +76,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
         if (StringUtils.hasText(method) && !description.equals(permission.getMethod())) {
             permission.setMethod(method);
         }
+        return permission;
     }
 
 }

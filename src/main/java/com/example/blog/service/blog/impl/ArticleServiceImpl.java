@@ -1,6 +1,8 @@
 package com.example.blog.service.blog.impl;
 
+import com.example.blog.entity.auth.User;
 import com.example.blog.entity.blog.Article;
+import com.example.blog.entity.blog.Plate;
 import com.example.blog.repository.blog.ArticleRepository;
 import com.example.blog.service.auth.UserService;
 import com.example.blog.service.blog.ArticleService;
@@ -38,30 +40,23 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
 
     @Override
     public Article addArticle(String title, String description, String content, Set<String> tagNameSet, long userId, long plateId, Integer weight) {
-        Article article = generateArticle(title, description, content, tagNameSet, userId, plateId, weight);
-        return articleRepository.save(article);
+        return articleRepository.save(generateArticle(title, description, content, tagNameSet, userId, plateId, weight));
     }
 
     @Override
     public void deleteArticle(long id) {
-        Article article = articleRepository.findOne(id);
-        Assert.notNull(article, "该文章不存在");
-        articleRepository.delete(article);
+        articleRepository.delete(id);
     }
 
     @Override
     public Article editArticle(long id, String title, String description, String content, Set<String> tagNameSet, long plateId, Integer weight) {
         Article article = articleRepository.findOne(id);
-        Assert.notNull(article, "该文章不存在");
-        modifyArticle(article, title, description, content, tagNameSet, article.getUser().getId(), plateId, weight);
-        return articleRepository.save(article);
+        return articleRepository.save(modifyArticle(article, title, description, content, tagNameSet, article.getUser().getId(), plateId, weight));
     }
 
     @Override
     public Article getArticle(long id) {
-        Article article = articleRepository.findOne(id);
-        Assert.notNull(article, "该文章不存在");
-        return article;
+        return articleRepository.findOne(id);
     }
 
     @Override
@@ -75,22 +70,25 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
     }
 
     private Article generateArticle(String title, String description, String content, Set<String> tagNameSet, long userId, long plateId, Integer weight) {
-        Article article = new Article();
-        modifyArticle(article, title, description, content, tagNameSet, userId, plateId, weight);
-        return article;
+        return modifyArticle(new Article(), title, description, content, tagNameSet, userId, plateId, weight);
     }
 
-    private void modifyArticle(Article article, String title, String description, String content, Set<String> tagNameSet, long userId, long plateId, Integer weight) {
-        Assert.notNull(article, "文章不能为空");
+    private Article modifyArticle(Article article, String title, String description, String content, Set<String> tagNameSet, long userId, long plateId, Integer weight) {
+        Assert.notNull(article, "该文章不存在");
         Assert.hasText(title, "文章标题不能为空或全空白字符");
         Assert.hasText(content, "文章内容不能为空或全空白字符");
         article.setTitle(title);
         article.setDescription(description);
         article.setContent(content);
         article.setTagSet(tagService.addTagSet(tagNameSet));
-        article.setUser(userService.getUser(userId));
-        article.setPlate(plateService.getPlate(plateId));
+        User user = userService.getUser(userId);
+        Assert.notNull(user, "作者不存在");
+        article.setUser(user);
+        Plate plate = plateService.getPlate(plateId);
+        Assert.notNull(plate, "板块不存在");
+        article.setPlate(plate);
         article.setWeight(weight);
+        return article;
     }
 
 }

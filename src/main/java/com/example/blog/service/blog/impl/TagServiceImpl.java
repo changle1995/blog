@@ -28,10 +28,8 @@ public class TagServiceImpl extends BaseServiceImpl<Tag> implements TagService {
 
     @Override
     public Tag addTag(String name) {
-        Tag tag = tagRepository.findByName(name);
-        Assert.isNull(tag, "该标签已存在");
-        tag = generateTag(name);
-        return tagRepository.save(tag);
+        Assert.isNull(tagRepository.findByName(name), "该标签已存在");
+        return tagRepository.save(generateTag(name));
     }
 
     @Override
@@ -46,31 +44,22 @@ public class TagServiceImpl extends BaseServiceImpl<Tag> implements TagService {
 
     @Override
     public void deleteTag(long id) {
-        Tag tag = tagRepository.findOne(id);
-        Assert.notNull(tag, "该标签不存在");
-        tagRepository.delete(tag);
+        tagRepository.delete(id);
     }
 
     @Override
     public Tag editTag(long id, String name) {
-        Tag tag = tagRepository.findOne(id);
-        Assert.notNull(tag, "该标签不存在");
-        modifyTag(tag, name);
-        return tagRepository.save(tag);
+        return tagRepository.save(modifyTag(tagRepository.findOne(id), name));
     }
 
     @Override
     public Tag getTag(long id) {
-        Tag tag = tagRepository.findOne(id);
-        Assert.notNull(tag, "该标签不存在");
-        return tag;
+        return tagRepository.findOne(id);
     }
 
     @Override
     public Tag getTag(String name) {
-        Tag tag = tagRepository.findByName(name);
-        Assert.notNull(tag, "该标签不存在");
-        return tag;
+        return tagRepository.findByName(name);
     }
 
     @Override
@@ -79,15 +68,14 @@ public class TagServiceImpl extends BaseServiceImpl<Tag> implements TagService {
     }
 
     private Tag generateTag(String name) {
-        Tag tag = new Tag();
-        modifyTag(tag, name);
-        return tag;
+        return modifyTag(new Tag(), name);
     }
 
-    private void modifyTag(Tag tag, String name) {
-        Assert.notNull(tag, "标签不能为空");
+    private Tag modifyTag(Tag tag, String name) {
+        Assert.notNull(tag, "该标签不存在");
         Assert.hasText(name, "标签名不能为空或全空白字符");
         tag.setName(name);
+        return tag;
     }
 
 }

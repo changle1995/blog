@@ -27,39 +27,28 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
     @Override
     public User addUser(String username, String password, String email, String phoneNumber, String description) {
-        User user = userRepository.findByUsername(username);
-        Assert.isNull(user, "该用户已存在");
-        user = generateUser(username, password, email, phoneNumber, description);
-        return userRepository.save(user);
+        Assert.isNull(userRepository.findByUsername(username), "该用户已存在");
+        return userRepository.save(generateUser(username, password, email, phoneNumber, description));
     }
 
     @Override
     public void deleteUser(long id) {
-        User user = userRepository.findOne(id);
-        Assert.notNull(user, "该用户不存在");
-        userRepository.delete(user);
+        userRepository.delete(id);
     }
 
     @Override
     public User editUser(long id, String username, String password, String email, String phoneNumber, String description) {
-        User user = userRepository.findOne(id);
-        Assert.notNull(user, "该用户不存在");
-        modifyUser(user, username, password, email, phoneNumber, description);
-        return userRepository.save(user);
+        return userRepository.save(modifyUser(userRepository.findOne(id), username, password, email, phoneNumber, description));
     }
 
     @Override
     public User getUser(long id) {
-        User user = userRepository.findOne(id);
-        Assert.notNull(user, "该用户不存在");
-        return user;
+        return userRepository.findOne(id);
     }
 
     @Override
     public User getUser(String username) {
-        User user = userRepository.findByUsername(username);
-        Assert.notNull(user, "该用户不存在");
-        return user;
+        return userRepository.findByUsername(username);
     }
 
     @Override
@@ -70,13 +59,11 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     private User generateUser(String username, String password, String email, String phoneNumber, String description) {
         Assert.hasText(username, "用户名不能为空或全空白字符");
         Assert.hasText(password, "密码不能为空或全空白字符");
-        User user = new User();
-        modifyUser(user, username, password, email, phoneNumber, description);
-        return user;
+        return modifyUser(new User(), username, password, email, phoneNumber, description);
     }
 
-    private void modifyUser(User user, String username, String password, String email, String phoneNumber, String description) {
-        Assert.notNull(user, "用户不能为空");
+    private User modifyUser(User user, String username, String password, String email, String phoneNumber, String description) {
+        Assert.notNull(user, "该用户不存在");
         if (StringUtils.hasText(username) && !username.equals(user.getUsername())) {
             user.setUsername(username);
         }
@@ -92,6 +79,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         if (StringUtils.hasText(description) && !description.equals(user.getDescription())) {
             user.setDescription(description);
         }
+        return user;
     }
 
 }
