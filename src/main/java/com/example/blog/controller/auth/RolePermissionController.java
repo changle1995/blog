@@ -5,7 +5,10 @@ import com.example.blog.domain.auth.AssignPermissionsRequestBody;
 import com.example.blog.entity.auth.Role;
 import com.example.blog.service.auth.RolePermissionService;
 import com.example.blog.util.RestResponseUtil;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +30,6 @@ public class RolePermissionController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "assignPermissionsRequestBody", value = "角色分配权限参数对象", required = true, dataType = "AssignPermissionsRequestBody", paramType = "body")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "角色新增权限成功")
-    })
     @PostMapping("/")
     public RestResponse<Role> add(@RequestBody AssignPermissionsRequestBody assignPermissionsRequestBody) {
         Role role = rolePermissionService.addPermissionsToRole(assignPermissionsRequestBody.getRoleId(), assignPermissionsRequestBody.getPermissionIdCollection());
@@ -39,9 +39,6 @@ public class RolePermissionController {
     @ApiOperation(value = "角色删除权限", notes = "角色删除权限")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "assignPermissionsRequestBody", value = "角色分配权限参数对象", required = true, dataType = "AssignPermissionsRequestBody", paramType = "body")
-    })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "角色删除权限成功")
     })
     @PutMapping("/")
     public RestResponse<Role> delete(@RequestBody AssignPermissionsRequestBody assignPermissionsRequestBody) {

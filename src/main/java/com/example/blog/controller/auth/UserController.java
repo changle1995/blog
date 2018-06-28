@@ -4,7 +4,10 @@ import com.example.blog.domain.RestResponse;
 import com.example.blog.entity.auth.User;
 import com.example.blog.service.auth.UserService;
 import com.example.blog.util.RestResponseUtil;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +37,6 @@ public class UserController {
             @ApiImplicitParam(name = "phoneNumber", value = "用户电话", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "description", value = "用户描述", dataType = "String", paramType = "query")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "新增成功")
-    })
     @PostMapping("/")
     public RestResponse<User> add(
             @RequestParam(name = "username") String username,
@@ -53,9 +53,6 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", paramType = "path")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "删除成功")
-    })
     @DeleteMapping("/{id}")
     public RestResponse<User> delete(@PathVariable(name = "id") long id) {
         userService.deleteUser(id);
@@ -70,9 +67,6 @@ public class UserController {
             @ApiImplicitParam(name = "email", value = "用户邮箱", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "phoneNumber", value = "用户电话", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "description", value = "用户描述", dataType = "String", paramType = "query")
-    })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "修改成功")
     })
     @PutMapping("/")
     public RestResponse<User> edit(
@@ -91,16 +85,12 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名称", dataType = "String", paramType = "query")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "查找成功")
-    })
     @GetMapping("/")
     public RestResponse<Collection<User>> get(@RequestParam(name = "username", required = false) String username) {
         Collection<User> userCollection;
         if (StringUtils.hasText(username)) {
             userCollection = new HashSet<>();
-            User user = userService.getUser(username);
-            userCollection.add(user);
+            userCollection.add(userService.getUser(username));
         } else {
             userCollection = userService.getAllUsers();
         }

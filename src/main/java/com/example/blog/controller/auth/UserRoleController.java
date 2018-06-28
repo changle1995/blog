@@ -5,7 +5,10 @@ import com.example.blog.domain.auth.AssignRolesRequestBody;
 import com.example.blog.entity.auth.User;
 import com.example.blog.service.auth.UserRoleService;
 import com.example.blog.util.RestResponseUtil;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +30,6 @@ public class UserRoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "assignRolesRequestBody", value = "用户分配角色参数对象", required = true, dataType = "AssignRolesRequestBody", paramType = "body")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "用户新增角色成功")
-    })
     @PostMapping("/")
     public RestResponse<User> add(@RequestBody AssignRolesRequestBody assignRolesRequestBody) {
         User user = userRoleService.addRolesToUser(assignRolesRequestBody.getUserId(), assignRolesRequestBody.getRoleIdCollection());
@@ -39,9 +39,6 @@ public class UserRoleController {
     @ApiOperation(value = "用户删除角色", notes = "用户删除角色")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "assignRolesRequestBody", value = "用户分配角色参数对象", required = true, dataType = "AssignRolesRequestBody", paramType = "body")
-    })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "用户删除角色成功")
     })
     @PutMapping("/")
     public RestResponse<User> delete(@RequestBody AssignRolesRequestBody assignRolesRequestBody) {

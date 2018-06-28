@@ -4,7 +4,10 @@ import com.example.blog.domain.RestResponse;
 import com.example.blog.entity.auth.Route;
 import com.example.blog.service.auth.RouteService;
 import com.example.blog.util.RestResponseUtil;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +20,7 @@ import java.util.Collection;
  * Date: 2018/5/17
  * Time: 17:03
  */
-@Api(tags = "Route前端路由控制器", description = "Route前端路由增删改查接口")
+@Api(tags = "Route路由控制器", description = "Route路由增删改查接口")
 @RestController
 @RequestMapping("/route")
 public class RouteController {
@@ -33,9 +36,6 @@ public class RouteController {
             @ApiImplicitParam(name = "propertyValue", value = "参数值", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "level", value = "路由级别", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "parentName", value = "父路由名称", dataType = "String", paramType = "query")
-    })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "新增成功")
     })
     @PostMapping("/")
     public RestResponse<Route> add(
@@ -54,9 +54,6 @@ public class RouteController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "路由ID", required = true, dataType = "Long", paramType = "path")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "删除成功")
-    })
     @DeleteMapping("/{id}")
     public RestResponse<Route> delete(@PathVariable(name = "id") long id) {
         routeService.deleteRoute(id);
@@ -72,9 +69,6 @@ public class RouteController {
             @ApiImplicitParam(name = "propertyValue", value = "参数值", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "level", value = "路由级别", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "parentName", value = "父路由名称", dataType = "String", paramType = "query")
-    })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "修改成功")
     })
     @PutMapping("/")
     public RestResponse<Route> edit(
@@ -93,9 +87,6 @@ public class RouteController {
     @ApiOperation(value = "查找路由", notes = "通过路由名称查找路由集合或直接查找所有路由")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "路由名称", dataType = "String", paramType = "query")
-    })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "查找成功")
     })
     @GetMapping("/")
     public RestResponse<Collection<Route>> get(@RequestParam(name = "name", required = false) String name) {

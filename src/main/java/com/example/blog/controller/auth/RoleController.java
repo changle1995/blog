@@ -4,7 +4,10 @@ import com.example.blog.domain.RestResponse;
 import com.example.blog.entity.auth.Role;
 import com.example.blog.service.auth.RoleService;
 import com.example.blog.util.RestResponseUtil;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +34,6 @@ public class RoleController {
             @ApiImplicitParam(name = "name", value = "角色名称", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "description", value = "角色描述", dataType = "String", paramType = "query")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "新增成功")
-    })
     @PostMapping("/")
     public RestResponse<Role> add(
             @RequestParam(name = "name") String name,
@@ -47,9 +47,6 @@ public class RoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "角色ID", required = true, dataType = "Long", paramType = "path")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "删除成功")
-    })
     @DeleteMapping("/{id}")
     public RestResponse<Role> delete(@PathVariable(name = "id") long id) {
         roleService.deleteRole(id);
@@ -61,9 +58,6 @@ public class RoleController {
             @ApiImplicitParam(name = "id", value = "角色ID", required = true, dataType = "Long", paramType = "query"),
             @ApiImplicitParam(name = "name", value = "角色名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "description", value = "角色描述", dataType = "String", paramType = "query")
-    })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "修改成功")
     })
     @PutMapping("/")
     public RestResponse<Role> edit(
@@ -79,16 +73,12 @@ public class RoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "角色名称", dataType = "String", paramType = "query")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "查找成功")
-    })
     @GetMapping("/")
     public RestResponse<Collection<Role>> get(@RequestParam(name = "name", required = false) String name) {
         Collection<Role> roleCollection;
         if (StringUtils.hasText(name)) {
             roleCollection = new HashSet<>();
-            Role role = roleService.getRole(name);
-            roleCollection.add(role);
+            roleCollection.add(roleService.getRole(name));
         } else {
             roleCollection = roleService.getAllRoles();
         }

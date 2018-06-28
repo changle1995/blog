@@ -4,7 +4,10 @@ import com.example.blog.domain.RestResponse;
 import com.example.blog.entity.blog.Article;
 import com.example.blog.service.blog.ArticleService;
 import com.example.blog.util.RestResponseUtil;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -35,9 +38,6 @@ public class ArticleController {
             @ApiImplicitParam(name = "plateId", value = "文章对应的板块ID", required = true, dataType = "Long", paramType = "query"),
             @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "Integer", paramType = "query")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "新增成功")
-    })
     @PostMapping("/")
     public RestResponse<Article> add(
             @RequestParam(name = "title") String title,
@@ -56,9 +56,6 @@ public class ArticleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "文章ID", required = true, dataType = "Long", paramType = "path")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "删除成功")
-    })
     @DeleteMapping("/{id}")
     public RestResponse<Article> delete(@PathVariable(name = "id") long id) {
         articleService.deleteArticle(id);
@@ -74,9 +71,6 @@ public class ArticleController {
             @ApiImplicitParam(name = "tagNameSet", value = "文章标签", dataType = "Set<String>", paramType = "query"),
             @ApiImplicitParam(name = "plateId", value = "文章对应的板块ID", dataType = "Long", paramType = "query"),
             @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "Integer", paramType = "query")
-    })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "修改成功")
     })
     @PutMapping("/")
     public RestResponse<Article> edit(
@@ -95,9 +89,6 @@ public class ArticleController {
     @ApiOperation(value = "查找文章", notes = "通过文章标题查找文章集合或直接查找所有文章")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "title", value = "文章标题", dataType = "String", paramType = "query")
-    })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "查找成功")
     })
     @GetMapping("/")
     public RestResponse<Collection<Article>> get(@RequestParam(name = "title", required = false) String title) {

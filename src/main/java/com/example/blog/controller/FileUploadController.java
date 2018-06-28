@@ -4,7 +4,10 @@ import com.example.blog.config.FileUploadProperties;
 import com.example.blog.domain.RestResponse;
 import com.example.blog.util.FileUploadUtil;
 import com.example.blog.util.RestResponseUtil;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +37,6 @@ public class FileUploadController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "file", value = "上传的文件", required = true, dataType = "MultipartFile", paramType = "query")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "上传成功")
-    })
     @PostMapping("/upload")
     public RestResponse<String> upload(@RequestParam("file") MultipartFile file) throws IOException {
         return RestResponseUtil.success(FileUploadUtil.upload(file, fileUploadProperties.getBasePath()), "文件上传成功");
@@ -46,9 +46,6 @@ public class FileUploadController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "path", value = "文件路径", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "filename", value = "文件名", required = true, dataType = "String", paramType = "path")
-    })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "获取成功")
     })
     @GetMapping("/{path}/{filename:.+}")
     public ResponseEntity getFile(@PathVariable String path, @PathVariable String filename) {

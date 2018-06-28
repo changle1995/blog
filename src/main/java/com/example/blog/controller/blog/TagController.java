@@ -4,7 +4,10 @@ import com.example.blog.domain.RestResponse;
 import com.example.blog.entity.blog.Tag;
 import com.example.blog.service.blog.TagService;
 import com.example.blog.util.RestResponseUtil;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +32,6 @@ public class TagController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "标签名称", required = true, dataType = "String", paramType = "query")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "新增成功")
-    })
     @PostMapping("/")
     public RestResponse<Tag> add(@RequestParam(name = "name") String name) {
         Tag tag = tagService.addTag(name);
@@ -41,9 +41,6 @@ public class TagController {
     @ApiOperation(value = "删除标签", notes = "删除标签")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "标签ID", required = true, dataType = "Long", paramType = "path")
-    })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "删除成功")
     })
     @DeleteMapping("/{id}")
     public RestResponse<Tag> delete(@PathVariable(name = "id") long id) {
@@ -56,9 +53,6 @@ public class TagController {
             @ApiImplicitParam(name = "id", value = "标签ID", required = true, dataType = "Long", paramType = "query"),
             @ApiImplicitParam(name = "name", value = "标签名称", required = true, dataType = "String", paramType = "query")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "修改成功")
-    })
     @PutMapping("/")
     public RestResponse<Tag> edit(@RequestParam(name = "id") long id, @RequestParam(name = "name") String name) {
         Tag tag = tagService.editTag(id, name);
@@ -69,16 +63,12 @@ public class TagController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "标签名称", dataType = "String", paramType = "query")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "查找成功")
-    })
     @GetMapping("/")
     public RestResponse<Collection<Tag>> get(@RequestParam(name = "name", required = false) String name) {
         Collection<Tag> tagCollection;
         if (StringUtils.hasText(name)) {
             tagCollection = new HashSet<>();
-            Tag tag = tagService.getTag(name);
-            tagCollection.add(tag);
+            tagCollection.add(tagService.getTag(name));
         } else {
             tagCollection = tagService.getAllTags();
         }

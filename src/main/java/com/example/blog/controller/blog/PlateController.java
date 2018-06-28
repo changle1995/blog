@@ -4,7 +4,10 @@ import com.example.blog.domain.RestResponse;
 import com.example.blog.entity.blog.Plate;
 import com.example.blog.service.blog.PlateService;
 import com.example.blog.util.RestResponseUtil;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +34,6 @@ public class PlateController {
             @ApiImplicitParam(name = "description", value = "板块描述", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "state", value = "板块状态", dataType = "String", paramType = "query")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "新增成功")
-    })
     @PostMapping("/")
     public RestResponse<Plate> add(
             @RequestParam(name = "name") String name,
@@ -48,9 +48,6 @@ public class PlateController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "板块ID", required = true, dataType = "Long", paramType = "path")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "删除成功")
-    })
     @DeleteMapping("/{id}")
     public RestResponse<Plate> delete(@PathVariable(name = "id") long id) {
         plateService.deletePlate(id);
@@ -63,9 +60,6 @@ public class PlateController {
             @ApiImplicitParam(name = "name", value = "板块名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "description", value = "板块描述", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "state", value = "板块状态", dataType = "String", paramType = "query")
-    })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "修改成功")
     })
     @PutMapping("/")
     public RestResponse<Plate> edit(
@@ -81,16 +75,12 @@ public class PlateController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "板块名称", dataType = "String", paramType = "query")
     })
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "查找成功")
-    })
     @GetMapping("/")
     public RestResponse<Collection<Plate>> get(@RequestParam(name = "name", required = false) String name) {
         Collection<Plate> plateCollection;
         if (StringUtils.hasText(name)) {
             plateCollection = new HashSet<>();
-            Plate plate = plateService.getPlate(name);
-            plateCollection.add(plate);
+            plateCollection.add(plateService.getPlate(name));
         } else {
             plateCollection = plateService.getAllPlates();
         }
