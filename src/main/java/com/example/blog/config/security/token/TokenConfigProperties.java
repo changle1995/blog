@@ -2,6 +2,8 @@ package com.example.blog.config.security.token;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.List;
+
 /**
  * Author: changle
  * Date: 2018/6/24
@@ -10,16 +12,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("spring.security.token")
 public class TokenConfigProperties {
 
-    private String ignoreRequestUrl;
+    private List<String> ignoreAuthenticationRequestUrls;
 
     private String requiresAuthenticationRequestUrl;
 
-    public String getIgnoreRequestUrl() {
-        return ignoreRequestUrl;
+    public List<String> getIgnoreAuthenticationRequestUrls() {
+        return ignoreAuthenticationRequestUrls;
     }
 
-    public void setIgnoreRequestUrl(String ignoreRequestUrl) {
-        this.ignoreRequestUrl = ignoreRequestUrl;
+    public void setIgnoreAuthenticationRequestUrls(List<String> ignoreAuthenticationRequestUrls) {
+        this.ignoreAuthenticationRequestUrls = ignoreAuthenticationRequestUrls;
     }
 
     public String getRequiresAuthenticationRequestUrl() {

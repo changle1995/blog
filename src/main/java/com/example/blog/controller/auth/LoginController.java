@@ -58,4 +58,10 @@ public class LoginController {
         return RestResponseUtil.error(RestResponseEnum.CODE_ERROR_UNAUTHORIZED);
     }
 
+    @ApiOperation(value = "未授权", notes = "未授权接口")
+    @PostMapping("/accessDenied")
+    public RestResponse accessDenied() {
+        return RestResponseUtil.error(RestResponseEnum.CODE_ERROR_ACCESS_DENIED);
+    }
+
 }

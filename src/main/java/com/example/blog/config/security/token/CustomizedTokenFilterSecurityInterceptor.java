@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * 自定义spring security Token 验证过滤器
@@ -33,7 +36,7 @@ import java.io.IOException;
 @EnableConfigurationProperties(TokenConfigProperties.class)
 public class CustomizedTokenFilterSecurityInterceptor extends AbstractAuthenticationProcessingFilter {
 
-    private RequestMatcher ignoreRequestMatcher;
+    private List<? extends RequestMatcher> ignoreAuthenticationRequestMatcherList;
 
     /**
      * 父类无空构造方法,需主动调用父类构造方法,并在此设置需要拦截的url路径
@@ -42,7 +45,14 @@ public class CustomizedTokenFilterSecurityInterceptor extends AbstractAuthentica
     public CustomizedTokenFilterSecurityInterceptor(TokenConfigProperties tokenConfigProperties) {
         super(new AntPathRequestMatcher(tokenConfigProperties.getRequiresAuthenticationRequestUrl()));
         super.setContinueChainBeforeSuccessfulAuthentication(true);
-        ignoreRequestMatcher = new AntPathRequestMatcher(tokenConfigProperties.getIgnoreRequestUrl());
+        setIgnoreRequestMatcherList(tokenConfigProperties.getIgnoreAuthenticationRequestUrls());
+    }
+
+    /**
+     * 设置忽略的路径
+     */
+    public final void setIgnoreRequestMatcherList(List<String> ignoreRequestUrlList) {
+        this.ignoreAuthenticationRequestMatcherList = Optional.ofNullable(ignoreRequestUrlList).map(urlList -> urlList.stream().map(AntPathRequestMatcher::new).collect(Collectors.toList())).orElse(null);
     }
 
     /**
@@ -87,7 +97,19 @@ public class CustomizedTokenFilterSecurityInterceptor extends AbstractAuthentica
      */
     @Override
     protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
-        return !this.ignoreRequestMatcher.matches(request) && super.requiresAuthentication(request, response);
+        return super.requiresAuthentication(request, response) && !this.ignoreAuthentication(request, response);
+    }
+
+    protected boolean ignoreAuthentication(HttpServletRequest request, HttpServletResponse response) {
+        if (this.ignoreAuthenticationRequestMatcherList == null) {
+            return false;
+        }
+        for (RequestMatcher requestMatcher : this.ignoreAuthenticationRequestMatcherList) {
+            if (requestMatcher.matches(request)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

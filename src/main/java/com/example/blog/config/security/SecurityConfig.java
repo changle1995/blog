@@ -51,8 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin().successForwardUrl("/loginSuccess").failureForwardUrl("/loginFailure");
         //使用默认的退出,退出成功则跳转到/logoutSuccess
         http.logout().logoutSuccessUrl("/logoutSuccess");
-        //设置未登录而跳转访问的页面
-        http.exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/unauthorized"));
+        //设置未登录而跳转访问的页面,设置无权限而跳转访问的页面
+        http.exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/unauthorized")).accessDeniedPage("/accessDenied");
     }
 
     /**

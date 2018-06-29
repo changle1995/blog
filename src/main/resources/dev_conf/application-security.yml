@@ -10,5 +10,7 @@ spring:
       allow-credentials: true
       max-age: 1800
     token:
-      ignore-request-url: '/file/**'
+      ignore-authentication-request-urls:
+        - '/file/**'
+        - '/accessDenied'
       requires-authentication-request-url: '/**'
