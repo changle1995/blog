@@ -53,6 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout().logoutSuccessUrl("/logoutSuccess");
         //设置未登录而跳转访问的页面,设置无权限而跳转访问的页面
         http.exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/unauthorized")).accessDeniedPage("/accessDenied");
+        //设置同一用户最大登录数,并设置后登录者踢掉先登录者
+        http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false);
     }
 
     /**
