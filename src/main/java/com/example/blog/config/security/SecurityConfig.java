@@ -32,6 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PermissionService permissionService;
 
+    @Autowired
+    private SecurityConfigProperties securityConfigProperties;
+
     /**
      * 此方法来配置各个属性
      * 此配置仅限制spring security自带的过滤器,对自定义过滤器无效
@@ -48,13 +51,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //设置匿名权限url不需要拦截其余都需要验证权限
         http.authorizeRequests().antMatchers(permissionService.getPermission("ROLE_ANONYMOUS").getUrl().split(",")).permitAll().anyRequest().authenticated();
         //使用默认的form表单登录,验证成功则跳转到/loginSuccess,验证失败则跳转到/loginFailure
-        http.formLogin().successForwardUrl("/loginSuccess").failureForwardUrl("/loginFailure");
+        http.formLogin().successForwardUrl(this.securityConfigProperties.getSuccessForwardUrl()).failureForwardUrl(this.securityConfigProperties.getFailureForwardUrl());
         //使用默认的退出,退出成功则跳转到/logoutSuccess
-        http.logout().logoutSuccessUrl("/logoutSuccess");
+        http.logout().logoutSuccessUrl(this.securityConfigProperties.getLogoutSuccessUrl());
         //设置未登录而跳转访问的页面,设置无权限而跳转访问的页面
-        http.exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/unauthorized")).accessDeniedPage("/accessDenied");
+        http.exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint(this.securityConfigProperties.getAuthenticationEntryPointUrl())).accessDeniedPage(this.securityConfigProperties.getAccessDeniedUrl());
         //设置同一用户最大登录数,并设置后登录者踢掉先登录者
-        http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false);
+        http.sessionManagement().maximumSessions(this.securityConfigProperties.getMaximumSessions()).maxSessionsPreventsLogin(this.securityConfigProperties.isMaxSessionsPreventsLogin());
     }
 
     /**

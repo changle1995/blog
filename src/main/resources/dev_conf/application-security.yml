@@ -1,5 +1,12 @@
 spring:
   security:
+    success-forward-url: '/loginSuccess'
+    failure-forward-url: '/loginFailure'
+    logout-success-url: '/logoutSuccess'
+    authentication-entry-point-url: '/unauthorized'
+    access-denied-url: '/accessDenied'
+    maximum-sessions: 1
+    max-sessions-prevents-login: false
     cors:
       allowed-origins:
         - '*'
