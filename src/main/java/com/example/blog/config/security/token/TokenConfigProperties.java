@@ -16,6 +16,8 @@ public class TokenConfigProperties {
 
     private String requiresAuthenticationRequestUrl;
 
+    private String writerRequestUrl;
+
     public List<String> getIgnoreAuthenticationRequestUrls() {
         return ignoreAuthenticationRequestUrls;
     }
@@ -30,6 +32,14 @@ public class TokenConfigProperties {
 
     public void setRequiresAuthenticationRequestUrl(String requiresAuthenticationRequestUrl) {
         this.requiresAuthenticationRequestUrl = requiresAuthenticationRequestUrl;
+    }
+
+    public String getWriterRequestUrl() {
+        return writerRequestUrl;
+    }
+
+    public void setWriterRequestUrl(String writerRequestUrl) {
+        this.writerRequestUrl = writerRequestUrl;
     }
 
 }

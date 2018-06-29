@@ -1,6 +1,7 @@
 package com.example.blog.config.security.token;
 
 import com.example.blog.enumeration.HeaderNameEnum;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -18,15 +19,13 @@ import java.io.IOException;
  */
 @Order(1000)
 @Service("customizedTokenFilterHeaderWriter")
+@EnableConfigurationProperties(TokenConfigProperties.class)
 public class CustomizedTokenFilterHeaderWriter implements Filter {
-
-    private String urlPattern;
 
     private RequestMatcher requiresWriterRequestMatcher;
 
-    public CustomizedTokenFilterHeaderWriter() {
-        this.urlPattern = "/loginSuccess";
-        this.requiresWriterRequestMatcher = new AntPathRequestMatcher(this.urlPattern);
+    public CustomizedTokenFilterHeaderWriter(TokenConfigProperties tokenConfigProperties) {
+        this.requiresWriterRequestMatcher = new AntPathRequestMatcher(tokenConfigProperties.getWriterRequestUrl());
     }
 
     @Override
@@ -51,14 +50,6 @@ public class CustomizedTokenFilterHeaderWriter implements Filter {
 
     protected boolean requiresWriter(HttpServletRequest request) {
         return this.requiresWriterRequestMatcher.matches(request);
-    }
-
-    public String getUrlPattern() {
-        return urlPattern;
-    }
-
-    public void setUrlPattern(String urlPattern) {
-        this.urlPattern = urlPattern;
     }
 
     public RequestMatcher getRequiresWriterRequestMatcher() {

@@ -16,8 +16,10 @@ spring:
         - '*'
       allow-credentials: true
       max-age: 1800
+      path: '/**'
     token:
       ignore-authentication-request-urls:
         - '/file/**'
         - '/accessDenied'
       requires-authentication-request-url: '/**'
+      writer-request-url: '/loginSuccess'

@@ -26,7 +26,7 @@ public class CorsConfig {
         corsConfiguration.setAllowedMethods(corsConfigProperties.getAllowedMethods());
         corsConfiguration.setMaxAge(corsConfigProperties.getMaxAge());
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
+        source.registerCorsConfiguration(corsConfigProperties.getPath(), corsConfiguration);
         return source;
     }
 

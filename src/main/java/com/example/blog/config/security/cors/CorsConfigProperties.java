@@ -14,10 +14,16 @@ import java.util.List;
 public class CorsConfigProperties {
 
     private List<String> allowedOrigins;    //访问源地址
+
     private List<String> allowedMethods;    //访问源请求方法
+
     private List<String> allowedHeaders;    //访问源请求头
+
     private Boolean allowCredentials;   //是否可携带验证信息,如cookie
+
     private Long maxAge;
+
+    private String path;
 
     public List<String> getAllowedOrigins() {
         return allowedOrigins;
@@ -57,6 +63,14 @@ public class CorsConfigProperties {
 
     public void setMaxAge(Long maxAge) {
         this.maxAge = maxAge;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
 }
