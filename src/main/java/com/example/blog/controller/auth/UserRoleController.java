@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "用户与角色关系控制器", description = "用户增删角色接口")
 @RestController
-@RequestMapping("/userRole")
+@RequestMapping("${controller.auth.userRole.root}")
 public class UserRoleController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class UserRoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "assignRolesRequestBody", value = "用户分配角色参数对象", required = true, dataType = "AssignRolesRequestBody", paramType = "body")
     })
-    @PostMapping("/")
+    @PostMapping("${controller.auth.userRole.add}")
     public RestResponse<User> add(@RequestBody AssignRolesRequestBody assignRolesRequestBody) {
         User user = userRoleService.addRolesToUser(assignRolesRequestBody.getUserId(), assignRolesRequestBody.getRoleIdCollection());
         return RestResponseUtil.success(user, "用户添加角色成功");
@@ -40,7 +40,7 @@ public class UserRoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "assignRolesRequestBody", value = "用户分配角色参数对象", required = true, dataType = "AssignRolesRequestBody", paramType = "body")
     })
-    @PutMapping("/")
+    @PutMapping("${controller.auth.userRole.delete}")
     public RestResponse<User> delete(@RequestBody AssignRolesRequestBody assignRolesRequestBody) {
         User user = userRoleService.deleteRolesOfUser(assignRolesRequestBody.getUserId(), assignRolesRequestBody.getRoleIdCollection());
         return RestResponseUtil.success(user, "用户删除角色成功");

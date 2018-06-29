@@ -12,7 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,24 +25,23 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Api(tags = "登录登出等权限相关控制器", description = "包含登录成功,登录失败,登出成功与未登录四个接口")
 @RestController
-@RequestMapping("/")
 public class LoginController {
 
     @ApiOperation(value = "登录成功", notes = "登录成功接口,实际处理过程交给spring security")
-    @PostMapping("/loginSuccess")
+    @PostMapping("${controller.auth.login.loginSuccess}")
     public RestResponse<UserInfo> loginSuccess(HttpServletRequest httpServletRequest) {
         UserInfo userInfo = UserInfoUtil.getUserInfoByRequest(httpServletRequest);
         return RestResponseUtil.success(userInfo, "登录成功");
     }
 
     @ApiOperation(value = "登录失败", notes = "登录失败接口,实际处理过程交给spring security")
-    @PostMapping("/loginFailure")
+    @PostMapping("${controller.auth.login.loginFailure}")
     public RestResponse loginFailure() {
         return RestResponseUtil.error(RestResponseEnum.CODE_ERROR_LOGIN_FAILURE);
     }
 
     @ApiOperation(value = "登出", notes = "登出接口")
-    @GetMapping("/logoutSuccess")
+    @GetMapping("${controller.auth.login.logout}")
     public RestResponse logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
@@ -53,13 +51,13 @@ public class LoginController {
     }
 
     @ApiOperation(value = "未登录", notes = "未登录接口")
-    @GetMapping("/unauthorized")
+    @GetMapping("${controller.auth.login.unauthorized}")
     public RestResponse unauthorized() {
         return RestResponseUtil.error(RestResponseEnum.CODE_ERROR_UNAUTHORIZED);
     }
 
     @ApiOperation(value = "未授权", notes = "未授权接口")
-    @PostMapping("/accessDenied")
+    @PostMapping("${controller.auth.login.accessDenied}")
     public RestResponse accessDenied() {
         return RestResponseUtil.error(RestResponseEnum.CODE_ERROR_ACCESS_DENIED);
     }

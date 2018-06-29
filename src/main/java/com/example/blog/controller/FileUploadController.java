@@ -24,7 +24,7 @@ import java.nio.file.Paths;
  */
 @Api(tags = "文件控制器", description = "包含文件上传与显示两个接口")
 @RestController
-@RequestMapping("/file")
+@RequestMapping("${controller.fileUpload.root}")
 public class FileUploadController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class FileUploadController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "file", value = "上传的文件", required = true, dataType = "MultipartFile", paramType = "query")
     })
-    @PostMapping("/upload")
+    @PostMapping("${controller.fileUpload.upload}")
     public RestResponse<String> upload(@RequestParam("file") MultipartFile file) throws IOException {
         return RestResponseUtil.success(FileUploadUtil.upload(file, fileUploadProperties.getBasePath()), "文件上传成功");
     }
@@ -47,7 +47,7 @@ public class FileUploadController {
             @ApiImplicitParam(name = "path", value = "文件路径", required = true, dataType = "String", paramType = "path"),
             @ApiImplicitParam(name = "filename", value = "文件名", required = true, dataType = "String", paramType = "path")
     })
-    @GetMapping("/{path}/{filename:.+}")
+    @GetMapping("${controller.fileUpload.getFile}")
     public ResponseEntity getFile(@PathVariable String path, @PathVariable String filename) {
         return ResponseEntity.ok(resourceLoader.getResource("file:" + Paths.get(fileUploadProperties.getBasePath() + path, filename).toString()));
     }

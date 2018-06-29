@@ -22,7 +22,7 @@ import java.util.HashSet;
  */
 @Api(tags = "板块控制器", description = "板块增删改查接口")
 @RestController
-@RequestMapping("/plate")
+@RequestMapping("${controller.blog.plate.root}")
 public class PlateController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class PlateController {
             @ApiImplicitParam(name = "description", value = "板块描述", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "state", value = "板块状态", dataType = "String", paramType = "query")
     })
-    @PostMapping("/")
+    @PostMapping("${controller.blog.plate.add}")
     public RestResponse<Plate> add(
             @RequestParam(name = "name") String name,
             @RequestParam(name = "description", required = false) String description,
@@ -48,7 +48,7 @@ public class PlateController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "板块ID", required = true, dataType = "Long", paramType = "path")
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("${controller.blog.plate.delete}")
     public RestResponse<Plate> delete(@PathVariable(name = "id") long id) {
         plateService.deletePlate(id);
         return RestResponseUtil.success(null, "删除板块成功");
@@ -61,7 +61,7 @@ public class PlateController {
             @ApiImplicitParam(name = "description", value = "板块描述", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "state", value = "板块状态", dataType = "String", paramType = "query")
     })
-    @PutMapping("/")
+    @PutMapping("${controller.blog.plate.edit}")
     public RestResponse<Plate> edit(
             @RequestParam(name = "id") long id,
             @RequestParam(name = "name", required = false) String name,
@@ -75,7 +75,7 @@ public class PlateController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "板块名称", dataType = "String", paramType = "query")
     })
-    @GetMapping("/")
+    @GetMapping("${controller.blog.plate.get}")
     public RestResponse<Collection<Plate>> get(@RequestParam(name = "name", required = false) String name) {
         Collection<Plate> plateCollection;
         if (StringUtils.hasText(name)) {

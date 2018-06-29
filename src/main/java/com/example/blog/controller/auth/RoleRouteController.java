@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "角色与路由关系控制器", description = "角色增删路由接口")
 @RestController
-@RequestMapping("/roleRoute")
+@RequestMapping("${controller.auth.roleRoute.root}")
 public class RoleRouteController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class RoleRouteController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "assignRoutesRequestBody", value = "角色分配路由参数对象", required = true, dataType = "AssignRoutesRequestBody", paramType = "body")
     })
-    @PostMapping("/")
+    @PostMapping("${controller.auth.roleRoute.add}")
     public RestResponse<Role> add(@RequestBody AssignRoutesRequestBody assignRoutesRequestBody) {
         Role role = roleRouteService.addRoutesToRole(assignRoutesRequestBody.getRoleId(), assignRoutesRequestBody.getRouteIdCollection());
         return RestResponseUtil.success(role, "角色添加路由成功");
@@ -40,7 +40,7 @@ public class RoleRouteController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "assignRoutesRequestBody", value = "角色分配路由参数对象", required = true, dataType = "AssignRoutesRequestBody", paramType = "body")
     })
-    @PutMapping("/")
+    @PutMapping("${controller.auth.roleRoute.delete}")
     public RestResponse<Role> delete(@RequestBody AssignRoutesRequestBody assignRoutesRequestBody) {
         Role role = roleRouteService.deleteRoutesOfRole(assignRoutesRequestBody.getRoleId(), assignRoutesRequestBody.getRouteIdCollection());
         return RestResponseUtil.success(role, "角色删除路由成功");

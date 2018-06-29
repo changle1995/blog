@@ -23,7 +23,7 @@ import java.util.HashSet;
  */
 @Api(tags = "User用户控制器", description = "User用户增删改查接口")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("${controller.auth.user.root}")
 public class UserController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class UserController {
             @ApiImplicitParam(name = "phoneNumber", value = "用户电话", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "description", value = "用户描述", dataType = "String", paramType = "query")
     })
-    @PostMapping("/")
+    @PostMapping("${controller.auth.user.add}")
     public RestResponse<User> add(
             @RequestParam(name = "username") String username,
             @RequestParam(name = "password") String password,
@@ -53,7 +53,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", paramType = "path")
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("${controller.auth.user.delete}")
     public RestResponse<User> delete(@PathVariable(name = "id") long id) {
         userService.deleteUser(id);
         return RestResponseUtil.success(null, "删除用户成功");
@@ -68,7 +68,7 @@ public class UserController {
             @ApiImplicitParam(name = "phoneNumber", value = "用户电话", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "description", value = "用户描述", dataType = "String", paramType = "query")
     })
-    @PutMapping("/")
+    @PutMapping("${controller.auth.user.edit}")
     public RestResponse<User> edit(
             @RequestParam(name = "id") long id,
             @RequestParam(name = "username", required = false) String username,
@@ -85,7 +85,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名称", dataType = "String", paramType = "query")
     })
-    @GetMapping("/")
+    @GetMapping("${controller.auth.user.get}")
     public RestResponse<Collection<User>> get(@RequestParam(name = "username", required = false) String username) {
         Collection<User> userCollection;
         if (StringUtils.hasText(username)) {

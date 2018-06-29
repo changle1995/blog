@@ -22,7 +22,7 @@ import java.util.Set;
  */
 @Api(tags = "文章控制器", description = "文章增删改查接口")
 @RestController
-@RequestMapping("/article")
+@RequestMapping("${controller.blog.article.root}")
 public class ArticleController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class ArticleController {
             @ApiImplicitParam(name = "plateId", value = "文章对应的板块ID", required = true, dataType = "Long", paramType = "query"),
             @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "Integer", paramType = "query")
     })
-    @PostMapping("/")
+    @PostMapping("${controller.blog.article.add}")
     public RestResponse<Article> add(
             @RequestParam(name = "title") String title,
             @RequestParam(name = "description", required = false) String description,
@@ -56,7 +56,7 @@ public class ArticleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "文章ID", required = true, dataType = "Long", paramType = "path")
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("${controller.blog.article.delete}")
     public RestResponse<Article> delete(@PathVariable(name = "id") long id) {
         articleService.deleteArticle(id);
         return RestResponseUtil.success(null, "删除文章成功");
@@ -72,7 +72,7 @@ public class ArticleController {
             @ApiImplicitParam(name = "plateId", value = "文章对应的板块ID", dataType = "Long", paramType = "query"),
             @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "Integer", paramType = "query")
     })
-    @PutMapping("/")
+    @PutMapping("${controller.blog.article.edit}")
     public RestResponse<Article> edit(
             @RequestParam(name = "id") long id,
             @RequestParam(name = "title", required = false) String title,
@@ -90,7 +90,7 @@ public class ArticleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "title", value = "文章标题", dataType = "String", paramType = "query")
     })
-    @GetMapping("/")
+    @GetMapping("${controller.blog.article.get}")
     public RestResponse<Collection<Article>> get(@RequestParam(name = "title", required = false) String title) {
         Collection<Article> articleCollection;
         if (StringUtils.hasText(title)) {

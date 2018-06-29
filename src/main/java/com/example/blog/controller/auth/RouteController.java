@@ -22,7 +22,7 @@ import java.util.Collection;
  */
 @Api(tags = "Route路由控制器", description = "Route路由增删改查接口")
 @RestController
-@RequestMapping("/route")
+@RequestMapping("${controller.auth.route.root}")
 public class RouteController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class RouteController {
             @ApiImplicitParam(name = "level", value = "路由级别", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "parentName", value = "父路由名称", dataType = "String", paramType = "query")
     })
-    @PostMapping("/")
+    @PostMapping("${controller.auth.route.add}")
     public RestResponse<Route> add(
             @RequestParam(name = "name") String name,
             @RequestParam(name = "description", required = false) String description,
@@ -54,7 +54,7 @@ public class RouteController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "路由ID", required = true, dataType = "Long", paramType = "path")
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("${controller.auth.route.delete}")
     public RestResponse<Route> delete(@PathVariable(name = "id") long id) {
         routeService.deleteRoute(id);
         return RestResponseUtil.success(null, "删除路由成功");
@@ -70,7 +70,7 @@ public class RouteController {
             @ApiImplicitParam(name = "level", value = "路由级别", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "parentName", value = "父路由名称", dataType = "String", paramType = "query")
     })
-    @PutMapping("/")
+    @PutMapping("${controller.auth.route.edit}")
     public RestResponse<Route> edit(
             @RequestParam(name = "id") long id,
             @RequestParam(name = "name", required = false) String name,
@@ -88,7 +88,7 @@ public class RouteController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "路由名称", dataType = "String", paramType = "query")
     })
-    @GetMapping("/")
+    @GetMapping("${controller.auth.route.get}")
     public RestResponse<Collection<Route>> get(@RequestParam(name = "name", required = false) String name) {
         Collection<Route> routeCollection;
         if (StringUtils.hasText(name)) {

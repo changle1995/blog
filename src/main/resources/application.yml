@@ -1,6 +1,6 @@
 spring:
   profiles:
     active: @profileActive@
-    include: datasource, security, props
+    include: datasource, security, props, controller
   application:
     name: @project.artifactId@

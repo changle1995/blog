@@ -23,7 +23,7 @@ import java.util.HashSet;
  */
 @Api(tags = "Role角色控制器", description = "Role角色增删改查接口")
 @RestController
-@RequestMapping("/role")
+@RequestMapping("${controller.auth.role.root}")
 public class RoleController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class RoleController {
             @ApiImplicitParam(name = "name", value = "角色名称", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "description", value = "角色描述", dataType = "String", paramType = "query")
     })
-    @PostMapping("/")
+    @PostMapping("${controller.auth.role.add}")
     public RestResponse<Role> add(
             @RequestParam(name = "name") String name,
             @RequestParam(name = "description", required = false) String description
@@ -47,7 +47,7 @@ public class RoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "角色ID", required = true, dataType = "Long", paramType = "path")
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("${controller.auth.role.delete}")
     public RestResponse<Role> delete(@PathVariable(name = "id") long id) {
         roleService.deleteRole(id);
         return RestResponseUtil.success(null, "删除角色成功");
@@ -59,7 +59,7 @@ public class RoleController {
             @ApiImplicitParam(name = "name", value = "角色名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "description", value = "角色描述", dataType = "String", paramType = "query")
     })
-    @PutMapping("/")
+    @PutMapping("${controller.auth.role.edit}")
     public RestResponse<Role> edit(
             @RequestParam(name = "id") long id,
             @RequestParam(name = "name", required = false) String name,
@@ -73,7 +73,7 @@ public class RoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "角色名称", dataType = "String", paramType = "query")
     })
-    @GetMapping("/")
+    @GetMapping("${controller.auth.role.get}")
     public RestResponse<Collection<Role>> get(@RequestParam(name = "name", required = false) String name) {
         Collection<Role> roleCollection;
         if (StringUtils.hasText(name)) {
