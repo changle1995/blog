@@ -2,11 +2,14 @@ package com.example.blog.controller.auth;
 
 import com.example.blog.domain.RestResponse;
 import com.example.blog.domain.auth.UserInfo;
+import com.example.blog.entity.auth.User;
 import com.example.blog.enumeration.RestResponseEnum;
+import com.example.blog.service.auth.UserService;
 import com.example.blog.util.RestResponseUtil;
 import com.example.blog.util.UserInfoUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 /**
  * 登录登出controller
@@ -27,9 +31,15 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class LoginController {
 
+    @Autowired
+    private UserService userService;
+
     @ApiOperation(value = "登录成功", notes = "登录成功接口,实际处理过程交给spring security")
     @PostMapping("${controller.auth.login.loginSuccess}")
     public RestResponse<UserInfo> loginSuccess(HttpServletRequest httpServletRequest) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        user.setLastLogin(new Date());
+        userService.update(user);
         UserInfo userInfo = UserInfoUtil.getUserInfoByRequest(httpServletRequest);
         return RestResponseUtil.success(userInfo, "登录成功");
     }

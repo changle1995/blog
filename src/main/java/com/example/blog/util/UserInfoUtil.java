@@ -3,6 +3,7 @@ package com.example.blog.util;
 import com.example.blog.domain.auth.UserInfo;
 import com.example.blog.entity.auth.User;
 import com.example.blog.enumeration.HeaderNameEnum;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ public class UserInfoUtil {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserInfo userInfo = new UserInfo();
         userInfo.setToken(httpServletRequest.getHeader(HeaderNameEnum.USER_TOKEN.getName()));
-        userInfo.setUsername(user.getUsername());
+        BeanUtils.copyProperties(user, userInfo);
         userInfo.setRouteCollection(RouteUtil.getRouteCollectionByUser(user));
         return userInfo;
     }

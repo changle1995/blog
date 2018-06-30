@@ -29,7 +29,7 @@ public abstract class BaseEntity {
     private long id;
 
     @ApiModelProperty(value = "数据记录创建时间", hidden = true)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @CreatedDate
     private Date createTime;
 
@@ -38,7 +38,7 @@ public abstract class BaseEntity {
     private String createPerson;
 
     @ApiModelProperty(value = "数据记录最后更新时间", hidden = true)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @LastModifiedDate
     private Date updateTime;
 
