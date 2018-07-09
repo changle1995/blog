@@ -32,7 +32,7 @@ public class PlateController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "板块名称", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "description", value = "板块描述", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "state", value = "板块状态", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "state", value = "板块状态", dataType = "Integer", paramType = "query")
     })
     @PostMapping("${controller.blog.plate.add}")
     public RestResponse<Plate> add(
@@ -59,7 +59,7 @@ public class PlateController {
             @ApiImplicitParam(name = "id", value = "板块ID", required = true, dataType = "Long", paramType = "query"),
             @ApiImplicitParam(name = "name", value = "板块名称", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "description", value = "板块描述", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "state", value = "板块状态", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "state", value = "板块状态", dataType = "Integer", paramType = "query")
     })
     @PutMapping("${controller.blog.plate.edit}")
     public RestResponse<Plate> edit(
