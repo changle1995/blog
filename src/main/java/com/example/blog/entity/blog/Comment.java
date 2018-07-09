@@ -4,6 +4,7 @@ import com.example.blog.entity.BaseEntity;
 import com.example.blog.entity.auth.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -35,6 +36,7 @@ public class Comment extends BaseEntity {
     private User user;
 
     @ApiModelProperty(value = "评论内容")
+    @Type(type = "text")
     private String content;
 
     public Article getArticle() {

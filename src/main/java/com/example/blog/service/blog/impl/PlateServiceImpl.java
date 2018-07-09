@@ -5,6 +5,7 @@ import com.example.blog.repository.blog.PlateRepository;
 import com.example.blog.service.blog.PlateService;
 import com.example.blog.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -51,7 +52,7 @@ public class PlateServiceImpl extends BaseServiceImpl<Plate> implements PlateSer
 
     @Override
     public Collection<Plate> getAllPlates() {
-        return plateRepository.findAll();
+        return plateRepository.findAll(new Sort("id"));
     }
 
     private Plate generatePlate(String name, String description, Integer state) {

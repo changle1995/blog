@@ -9,6 +9,7 @@ import com.example.blog.service.blog.ArticleService;
 import com.example.blog.service.blog.CommentService;
 import com.example.blog.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -55,12 +56,12 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment> implements Comm
 
     @Override
     public Collection<Comment> getComments(long articleId) {
-        return commentRepository.findAllByArticleId(articleId);
+        return commentRepository.findAllByArticleId(articleId, new Sort(Sort.Direction.DESC, "id"));
     }
 
     @Override
     public Collection<Comment> getAllComments() {
-        return commentRepository.findAll();
+        return commentRepository.findAll(new Sort(Sort.Direction.DESC, "id"));
     }
 
     private Comment generateComment(long articleId, Long commentId, long userId, String content) {

@@ -23,8 +23,11 @@ public class User extends BaseEntity implements UserDetails {
     @ApiModelProperty(value = "用户名称")
     private String username;
 
-    @ApiModelProperty(value = "角色密码")
+    @ApiModelProperty(value = "用户密码")
     private String password;
+
+    @ApiModelProperty(value = "用户头像")
+    private String avatar;
 
     @ApiModelProperty(value = "用户描述")
     @Column(length = 1000)
@@ -85,6 +88,14 @@ public class User extends BaseEntity implements UserDetails {
 
     public void setPassword(String password) {
         this.password = new BCryptPasswordEncoder().encode(password);
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getDescription() {

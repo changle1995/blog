@@ -51,6 +51,9 @@ public class Article extends BaseEntity {
     @ApiModelProperty(value = "文章权重")
     private Integer weight;
 
+    @ApiModelProperty(value = "预览图")
+    private String thumbnail;
+
     public String getTitle() {
         return title;
     }
@@ -113,6 +116,14 @@ public class Article extends BaseEntity {
 
     public void setWeight(Integer weight) {
         this.weight = weight;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
 }

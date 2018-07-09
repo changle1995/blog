@@ -23,9 +23,10 @@ public interface ArticleService extends BaseService<Article> {
      * @param userId      文章作者ID
      * @param plateId     文章对应的板块ID
      * @param weight      文章权重
+     * @param thumbnail   预览图
      * @return 返回新增的文章
      */
-    Article addArticle(String title, String description, String content, Set<String> tagNameSet, long userId, long plateId, Integer weight);
+    Article addArticle(String title, String description, String content, Set<String> tagNameSet, long userId, long plateId, Integer weight, String thumbnail);
 
     /**
      * 删除文章方法
@@ -44,9 +45,10 @@ public interface ArticleService extends BaseService<Article> {
      * @param tagNameSet  文章标签
      * @param plateId     文章对应的板块ID
      * @param weight      文章权重
+     * @param thumbnail   预览图
      * @return 返回修改后的文章
      */
-    Article editArticle(long id, String title, String description, String content, Set<String> tagNameSet, long plateId, Integer weight);
+    Article editArticle(long id, String title, String description, String content, Set<String> tagNameSet, Long plateId, Integer weight, String thumbnail);
 
     /**
      * 根据文章ID查找文章方法
@@ -59,10 +61,12 @@ public interface ArticleService extends BaseService<Article> {
     /**
      * 根据文章名称查找文章方法
      *
-     * @param title 文章标题
+     * @param title   文章标题
+     * @param plateId 文章对应的板块ID
+     * @param weight  文章最小权重
      * @return 返回获取的文章
      */
-    Collection<Article> getArticles(String title);
+    Collection<Article> getArticles(String title, Long plateId, Integer weight);
 
     /**
      * 查找所有文章

@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -36,7 +37,8 @@ public class ArticleController {
             @ApiImplicitParam(name = "tagNameSet", value = "文章标签", dataType = "Set<String>", paramType = "query"),
             @ApiImplicitParam(name = "userId", value = "文章作者ID", required = true, dataType = "Long", paramType = "query"),
             @ApiImplicitParam(name = "plateId", value = "文章对应的板块ID", required = true, dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "Integer", paramType = "query")
+            @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "thumbnail", value = "预览图", dataType = "String", paramType = "query")
     })
     @PostMapping("${controller.blog.article.add}")
     public RestResponse<Article> add(
@@ -46,9 +48,10 @@ public class ArticleController {
             @RequestParam(name = "tag", required = false) Set<String> tagNameSet,
             @RequestParam(name = "userId") long userId,
             @RequestParam(name = "plateId") long plateId,
-            @RequestParam(name = "weight", required = false) Integer weight
+            @RequestParam(name = "weight", required = false) Integer weight,
+            @RequestParam(name = "thumbnail", required = false) String thumbnail
     ) {
-        Article article = articleService.addArticle(title, description, content, tagNameSet, userId, plateId, weight);
+        Article article = articleService.addArticle(title, description, content, tagNameSet, userId, plateId, weight, thumbnail);
         return RestResponseUtil.success(article, "添加文章成功");
     }
 
@@ -70,7 +73,8 @@ public class ArticleController {
             @ApiImplicitParam(name = "content", value = "文章内容", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "tagNameSet", value = "文章标签", dataType = "Set<String>", paramType = "query"),
             @ApiImplicitParam(name = "plateId", value = "文章对应的板块ID", dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "Integer", paramType = "query")
+            @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "thumbnail", value = "预览图", dataType = "String", paramType = "query")
     })
     @PutMapping("${controller.blog.article.edit}")
     public RestResponse<Article> edit(
@@ -80,21 +84,33 @@ public class ArticleController {
             @RequestParam(name = "content", required = false) String content,
             @RequestParam(name = "tag", required = false) Set<String> tagNameSet,
             @RequestParam(name = "plateId", required = false) long plateId,
-            @RequestParam(name = "weight", required = false) Integer weight
+            @RequestParam(name = "weight", required = false) Integer weight,
+            @RequestParam(name = "thumbnail", required = false) String thumbnail
     ) {
-        Article article = articleService.editArticle(id, title, description, content, tagNameSet, plateId, weight);
+        Article article = articleService.editArticle(id, title, description, content, tagNameSet, plateId, weight, thumbnail);
         return RestResponseUtil.success(article, "修改文章成功");
     }
 
     @ApiOperation(value = "查找文章", notes = "通过文章标题查找文章集合或直接查找所有文章")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "title", value = "文章标题", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "id", value = "文章ID", dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "title", value = "文章标题", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "plateId", value = "板块ID", dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "weight", value = "文章最小权重", dataType = "Integer", paramType = "query")
     })
     @GetMapping("${controller.blog.article.get}")
-    public RestResponse<Collection<Article>> get(@RequestParam(name = "title", required = false) String title) {
+    public RestResponse<Collection<Article>> get(
+            @RequestParam(name = "id", required = false) Long id,
+            @RequestParam(name = "title", required = false) String title,
+            @RequestParam(name = "plateId", required = false) Long plateId,
+            @RequestParam(name = "weight", required = false) Integer weight
+    ) {
         Collection<Article> articleCollection;
-        if (StringUtils.hasText(title)) {
-            articleCollection = articleService.getArticles(title);
+        if (id != null) {
+            articleCollection = new HashSet<>();
+            articleCollection.add(articleService.getArticle(id));
+        } else if (StringUtils.hasText(title) || plateId != null || weight != null) {
+            articleCollection = articleService.getArticles(title, plateId, weight);
         } else {
             articleCollection = articleService.getAllArticles();
         }

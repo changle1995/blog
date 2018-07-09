@@ -2,6 +2,7 @@ package com.example.blog.repository.blog;
 
 import com.example.blog.entity.blog.Comment;
 import com.example.blog.repository.BaseRepository;
+import org.springframework.data.domain.Sort;
 
 import java.util.Collection;
 
@@ -12,6 +13,6 @@ import java.util.Collection;
  */
 public interface CommentRepository extends BaseRepository<Comment, Long> {
 
-    Collection<Comment> findAllByArticleId(long articleId);
+    Collection<Comment> findAllByArticleId(long articleId, Sort sort);
 
 }
