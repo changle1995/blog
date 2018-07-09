@@ -91,7 +91,7 @@ public class ArticleController {
         return RestResponseUtil.success(article, "修改文章成功");
     }
 
-    @ApiOperation(value = "查找文章", notes = "通过文章标题查找文章集合或直接查找所有文章")
+    @ApiOperation(value = "查找文章", notes = "通过各种参数查找文章集合或直接查找所有文章")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "文章ID", dataType = "Long", paramType = "query"),
             @ApiImplicitParam(name = "title", value = "文章标题", dataType = "String", paramType = "query"),
