@@ -2,3 +2,5 @@ debug: false
 server:
   context-path: /blog
   port: 10080
+  tomcat:
+    basedir: /Temp

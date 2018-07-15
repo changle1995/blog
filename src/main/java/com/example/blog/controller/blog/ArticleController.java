@@ -34,7 +34,7 @@ public class ArticleController {
             @ApiImplicitParam(name = "title", value = "文章标题", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "description", value = "文章描述", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "content", value = "文章内容", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "tagNameSet", value = "文章标签", dataType = "Set<String>", paramType = "query"),
+            @ApiImplicitParam(name = "tag", value = "文章标签", dataType = "Set<String>", paramType = "query"),
             @ApiImplicitParam(name = "userId", value = "文章作者ID", required = true, dataType = "Long", paramType = "query"),
             @ApiImplicitParam(name = "plateId", value = "文章对应的板块ID", required = true, dataType = "Long", paramType = "query"),
             @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "Integer", paramType = "query"),
@@ -45,13 +45,13 @@ public class ArticleController {
             @RequestParam(name = "title") String title,
             @RequestParam(name = "description", required = false) String description,
             @RequestParam(name = "content") String content,
-            @RequestParam(name = "tag", required = false) Set<String> tagNameSet,
+            @RequestParam(name = "tag", required = false) Set<String> tag,
             @RequestParam(name = "userId") long userId,
             @RequestParam(name = "plateId") long plateId,
             @RequestParam(name = "weight", required = false) Integer weight,
             @RequestParam(name = "thumbnail", required = false) String thumbnail
     ) {
-        Article article = articleService.addArticle(title, description, content, tagNameSet, userId, plateId, weight, thumbnail);
+        Article article = articleService.addArticle(title, description, content, tag, userId, plateId, weight, thumbnail);
         return RestResponseUtil.success(article, "添加文章成功");
     }
 
@@ -71,7 +71,7 @@ public class ArticleController {
             @ApiImplicitParam(name = "title", value = "文章标题", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "description", value = "文章描述", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "content", value = "文章内容", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "tagNameSet", value = "文章标签", dataType = "Set<String>", paramType = "query"),
+            @ApiImplicitParam(name = "tag", value = "文章标签", dataType = "Set<String>", paramType = "query"),
             @ApiImplicitParam(name = "plateId", value = "文章对应的板块ID", dataType = "Long", paramType = "query"),
             @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "thumbnail", value = "预览图", dataType = "String", paramType = "query")
@@ -82,12 +82,12 @@ public class ArticleController {
             @RequestParam(name = "title", required = false) String title,
             @RequestParam(name = "description", required = false) String description,
             @RequestParam(name = "content", required = false) String content,
-            @RequestParam(name = "tag", required = false) Set<String> tagNameSet,
+            @RequestParam(name = "tag", required = false) Set<String> tag,
             @RequestParam(name = "plateId", required = false) long plateId,
             @RequestParam(name = "weight", required = false) Integer weight,
             @RequestParam(name = "thumbnail", required = false) String thumbnail
     ) {
-        Article article = articleService.editArticle(id, title, description, content, tagNameSet, plateId, weight, thumbnail);
+        Article article = articleService.editArticle(id, title, description, content, tag, plateId, weight, thumbnail);
         return RestResponseUtil.success(article, "修改文章成功");
     }
 
