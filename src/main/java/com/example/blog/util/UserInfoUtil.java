@@ -21,7 +21,6 @@ public class UserInfoUtil {
         UserInfo userInfo = new UserInfo();
         userInfo.setToken(httpServletRequest.getHeader(HeaderNameEnum.USER_TOKEN.getName()));
         BeanUtils.copyProperties(user, userInfo);
-        userInfo.setRouteCollection(RouteUtil.getRouteCollectionByUser(user));
         return userInfo;
     }
 
