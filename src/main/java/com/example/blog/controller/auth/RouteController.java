@@ -2,13 +2,16 @@ package com.example.blog.controller.auth;
 
 import com.example.blog.domain.RestResponse;
 import com.example.blog.entity.auth.Route;
+import com.example.blog.entity.auth.User;
 import com.example.blog.service.auth.RouteService;
 import com.example.blog.util.RestResponseUtil;
+import com.example.blog.util.RouteUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -97,6 +100,13 @@ public class RouteController {
             routeCollection = routeService.getAllRoutes();
         }
         return RestResponseUtil.success(routeCollection);
+    }
+
+    @ApiOperation(value = "查找已拥有路由", notes = "查找已拥有路由")
+    @GetMapping("${controller.auth.route.getUserRoutes}")
+    public RestResponse<Collection<Route>> getUserRoutes() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return RestResponseUtil.success(RouteUtil.getRouteCollectionByUser(user));
     }
 
 }

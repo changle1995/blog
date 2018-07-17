@@ -32,6 +32,7 @@ controller:
       delete: '/{id}'
       edit: '/'
       get: '/'
+      getUserRoutes: '/getUserRoutes'
     user:
       root: '/user'
       add: '/'
