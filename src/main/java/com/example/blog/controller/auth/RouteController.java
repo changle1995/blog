@@ -105,8 +105,11 @@ public class RouteController {
     @ApiOperation(value = "查找已拥有路由", notes = "查找已拥有路由")
     @GetMapping("${controller.auth.route.getUserRoutes}")
     public RestResponse<Collection<Route>> getUserRoutes() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return RestResponseUtil.success(RouteUtil.getRouteCollectionByUser(user));
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof User) {
+            return RestResponseUtil.success(RouteUtil.getRouteCollectionByUser((User) principal));
+        }
+        return RestResponseUtil.success(null);
     }
 
 }
