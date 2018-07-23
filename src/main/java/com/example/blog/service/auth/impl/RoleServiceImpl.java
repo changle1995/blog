@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 
@@ -27,7 +26,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     @Override
     public Role addRole(String name, String description) {
         Assert.isNull(roleRepository.findByName(name), "该角色已存在");
-        return roleRepository.save(generateRole(name, description));
+        return roleRepository.save(modifyRole(new Role(), name, description));
     }
 
     @Override
@@ -55,19 +54,11 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
         return roleRepository.findAll();
     }
 
-    private Role generateRole(String name, String description) {
-        Assert.hasText(name, "角色名不能为空或全空白字符");
-        return modifyRole(new Role(), name, description);
-    }
-
     private Role modifyRole(Role role, String name, String description) {
         Assert.notNull(role, "该角色不存在");
-        if (StringUtils.hasText(name) && !name.equals(role.getName())) {
-            role.setName(name);
-        }
-        if (StringUtils.hasText(description) && !description.equals(role.getDescription())) {
-            role.setDescription(description);
-        }
+        Assert.hasText(name, "角色名不能为空或全空白字符");
+        role.setName(name);
+        role.setDescription(description);
         return role;
     }
 

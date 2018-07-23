@@ -20,9 +20,10 @@ public interface UserService extends BaseService<User> {
      * @param email       用户邮箱
      * @param phoneNumber 用户电话
      * @param description 用户描述
+     * @param avatar      用户头像
      * @return 返回新增的用户
      */
-    User addUser(String username, String password, String email, String phoneNumber, String description);
+    User addUser(String username, String password, String email, String phoneNumber, String description, String avatar);
 
     /**
      * 删除用户方法
@@ -41,9 +42,10 @@ public interface UserService extends BaseService<User> {
      * @param email       用户邮箱
      * @param phoneNumber 用户电话
      * @param description 用户描述
+     * @param avatar      用户头像
      * @return 返回修改后的用户
      */
-    User editUser(long id, String username, String password, String email, String phoneNumber, String description);
+    User editUser(long id, String username, String password, String email, String phoneNumber, String description, String avatar);
 
     /**
      * 根据用户主键查找用户方法

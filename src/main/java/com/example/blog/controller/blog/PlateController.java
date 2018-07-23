@@ -30,15 +30,15 @@ public class PlateController {
 
     @ApiOperation(value = "新增板块", notes = "新增板块")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "板块名称", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "description", value = "板块描述", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "state", value = "板块状态", dataType = "Integer", paramType = "query")
+            @ApiImplicitParam(name = "name", value = "板块名称", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "description", value = "板块描述", paramType = "query"),
+            @ApiImplicitParam(name = "state", value = "板块状态", defaultValue = "1", dataType = "int", paramType = "query")
     })
     @PostMapping("${controller.blog.plate.add}")
     public RestResponse<Plate> add(
             @RequestParam(name = "name") String name,
             @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "state", required = false) Integer state
+            @RequestParam(name = "state", required = false, defaultValue = "1") Integer state
     ) {
         Plate plate = plateService.addPlate(name, description, state);
         return RestResponseUtil.success(plate, "添加板块成功");
@@ -46,7 +46,7 @@ public class PlateController {
 
     @ApiOperation(value = "删除板块", notes = "删除板块")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "板块ID", required = true, dataType = "Long", paramType = "path")
+            @ApiImplicitParam(name = "id", value = "板块ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("${controller.blog.plate.delete}")
     public RestResponse<Plate> delete(@PathVariable(name = "id") long id) {
@@ -56,24 +56,24 @@ public class PlateController {
 
     @ApiOperation(value = "修改板块", notes = "修改板块")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "板块ID", required = true, dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "name", value = "板块名称", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "description", value = "板块描述", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "state", value = "板块状态", dataType = "Integer", paramType = "query")
+            @ApiImplicitParam(name = "id", value = "板块ID", required = true, dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "name", value = "板块名称", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "description", value = "板块描述", paramType = "query"),
+            @ApiImplicitParam(name = "state", value = "板块状态", required = true, dataType = "int", paramType = "query")
     })
     @PutMapping("${controller.blog.plate.edit}")
     public RestResponse<Plate> edit(
             @RequestParam(name = "id") long id,
-            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "name") String name,
             @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "state", required = false) Integer state) {
+            @RequestParam(name = "state") Integer state) {
         Plate plate = plateService.editPlate(id, name, description, state);
         return RestResponseUtil.success(plate, "修改板块成功");
     }
 
     @ApiOperation(value = "查找板块", notes = "通过板块名称查找板块或直接查找所有板块")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "板块名称", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "name", value = "板块名称", paramType = "query")
     })
     @GetMapping("${controller.blog.plate.get}")
     public RestResponse<Collection<Plate>> get(@RequestParam(name = "name", required = false) String name) {

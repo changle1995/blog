@@ -31,10 +31,10 @@ public class PermissionController {
 
     @ApiOperation(value = "新增权限", notes = "新增权限")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "权限名称", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "description", value = "权限描述", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "url", value = "权限对应的url路径", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "method", value = "权限对应url路径的方法", required = true, dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "name", value = "权限名称", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "description", value = "权限描述", paramType = "query"),
+            @ApiImplicitParam(name = "url", value = "权限对应的url路径", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "method", value = "权限对应url路径的方法", required = true, paramType = "query")
     })
     @PostMapping("${controller.auth.permission.add}")
     public RestResponse<Permission> add(
@@ -49,7 +49,7 @@ public class PermissionController {
 
     @ApiOperation(value = "删除权限", notes = "删除权限")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "权限ID", required = true, dataType = "Long", paramType = "path")
+            @ApiImplicitParam(name = "id", value = "权限ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("${controller.auth.permission.delete}")
     public RestResponse<Permission> delete(@PathVariable(name = "id") long id) {
@@ -59,19 +59,19 @@ public class PermissionController {
 
     @ApiOperation(value = "修改权限", notes = "修改权限")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "权限ID", required = true, dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "name", value = "权限名称", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "description", value = "权限描述", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "url", value = "权限对应的url路径", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "method", value = "权限对应url路径的方法", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "id", value = "权限ID", required = true, dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "name", value = "权限名称", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "description", value = "权限描述", paramType = "query"),
+            @ApiImplicitParam(name = "url", value = "权限对应的url路径", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "method", value = "权限对应url路径的方法", required = true, paramType = "query")
     })
     @PutMapping("${controller.auth.permission.edit}")
     public RestResponse<Permission> edit(
             @RequestParam(name = "id") long id,
-            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "name") String name,
             @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "url", required = false) String url,
-            @RequestParam(name = "method", required = false) String method
+            @RequestParam(name = "url") String url,
+            @RequestParam(name = "method") String method
     ) {
         Permission permission = permissionService.editPermission(id, name, description, url, method);
         return RestResponseUtil.success(permission, "修改权限成功");
@@ -79,7 +79,7 @@ public class PermissionController {
 
     @ApiOperation(value = "查找权限", notes = "通过权限名称查找单个权限或直接查找所有权限")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "权限名称", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "name", value = "权限名称", paramType = "query")
     })
     @GetMapping("${controller.auth.permission.get}")
     public RestResponse<Collection<Permission>> get(@RequestParam(name = "name", required = false) String name) {

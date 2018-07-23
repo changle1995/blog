@@ -28,10 +28,10 @@ public class CommentController {
 
     @ApiOperation(value = "新增评论", notes = "新增评论")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "articleId", value = "所属文章ID", required = true, dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "commentId", value = "父评论ID", dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "userId", value = "评论作者ID", required = true, dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "content", value = "评论内容", required = true, dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "articleId", value = "所属文章ID", required = true, dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "commentId", value = "父评论ID", dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "userId", value = "评论作者ID", required = true, dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "content", value = "评论内容", required = true, paramType = "query")
     })
     @PostMapping("${controller.blog.comment.add}")
     public RestResponse<Comment> add(
@@ -46,7 +46,7 @@ public class CommentController {
 
     @ApiOperation(value = "删除评论", notes = "删除评论")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "评论ID", required = true, dataType = "Long", paramType = "path")
+            @ApiImplicitParam(name = "id", value = "评论ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("${controller.blog.comment.delete}")
     public RestResponse<Comment> delete(@PathVariable(name = "id") long id) {
@@ -56,8 +56,8 @@ public class CommentController {
 
     @ApiOperation(value = "修改评论", notes = "修改评论")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "评论ID", required = true, dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "content", value = "评论内容", required = true, dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "id", value = "评论ID", required = true, dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "content", value = "评论内容", required = true, paramType = "query")
     })
     @PutMapping("${controller.blog.comment.edit}")
     public RestResponse<Comment> edit(@RequestParam(name = "id") long id, @RequestParam(name = "content") String content) {
@@ -67,7 +67,7 @@ public class CommentController {
 
     @ApiOperation(value = "查找评论", notes = "通过评论所属文章ID查找评论集合或直接查找所有评论")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "articleId", value = "所属文章ID", dataType = "Long", paramType = "query")
+            @ApiImplicitParam(name = "articleId", value = "所属文章ID", dataType = "long", paramType = "query")
     })
     @GetMapping("${controller.blog.comment.get}")
     public RestResponse<Collection<Comment>> get(@RequestParam(name = "articleId", required = false) Long articleId) {

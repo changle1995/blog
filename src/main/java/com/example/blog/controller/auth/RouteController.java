@@ -33,12 +33,12 @@ public class RouteController {
 
     @ApiOperation(value = "新增路由", notes = "新增路由")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "路由名称", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "description", value = "路由描述", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "propertyName", value = "参数名称", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "propertyValue", value = "参数值", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "level", value = "路由级别", dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "parentName", value = "父路由名称", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "name", value = "路由名称", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "description", value = "路由描述", paramType = "query"),
+            @ApiImplicitParam(name = "propertyName", value = "参数名称", paramType = "query"),
+            @ApiImplicitParam(name = "propertyValue", value = "参数值", paramType = "query"),
+            @ApiImplicitParam(name = "level", value = "路由级别", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "parentName", value = "父路由名称", paramType = "query")
     })
     @PostMapping("${controller.auth.route.add}")
     public RestResponse<Route> add(
@@ -55,7 +55,7 @@ public class RouteController {
 
     @ApiOperation(value = "删除路由", notes = "删除路由")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "路由ID", required = true, dataType = "Long", paramType = "path")
+            @ApiImplicitParam(name = "id", value = "路由ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("${controller.auth.route.delete}")
     public RestResponse<Route> delete(@PathVariable(name = "id") long id) {
@@ -65,18 +65,18 @@ public class RouteController {
 
     @ApiOperation(value = "修改路由", notes = "修改路由")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "路由ID", required = true, dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "name", value = "路由名称", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "description", value = "路由描述", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "propertyName", value = "参数名称", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "propertyValue", value = "参数值", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "level", value = "路由级别", dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "parentName", value = "父路由名称", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "id", value = "路由ID", required = true, dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "name", value = "路由名称", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "description", value = "路由描述", paramType = "query"),
+            @ApiImplicitParam(name = "propertyName", value = "参数名称", paramType = "query"),
+            @ApiImplicitParam(name = "propertyValue", value = "参数值", paramType = "query"),
+            @ApiImplicitParam(name = "level", value = "路由级别", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "parentName", value = "父路由名称", paramType = "query")
     })
     @PutMapping("${controller.auth.route.edit}")
     public RestResponse<Route> edit(
             @RequestParam(name = "id") long id,
-            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "name") String name,
             @RequestParam(name = "description", required = false) String description,
             @RequestParam(name = "propertyName", required = false) String propertyName,
             @RequestParam(name = "propertyValue", required = false) String propertyValue,
@@ -89,7 +89,7 @@ public class RouteController {
 
     @ApiOperation(value = "查找路由", notes = "通过路由名称查找路由集合或直接查找所有路由")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "路由名称", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "name", value = "路由名称", paramType = "query")
     })
     @GetMapping("${controller.auth.route.get}")
     public RestResponse<Collection<Route>> get(@RequestParam(name = "name", required = false) String name) {

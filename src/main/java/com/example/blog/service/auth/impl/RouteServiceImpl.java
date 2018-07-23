@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 
@@ -27,7 +26,7 @@ public class RouteServiceImpl extends BaseServiceImpl<Route> implements RouteSer
     @Override
     public Route addRoute(String name, String description, String propertyName, String propertyValue, Integer level, String parentName) {
         Assert.isNull(routeRepository.findByNameAndPropertyName(name, propertyName), "该路由已存在");
-        return routeRepository.save(generateRoute(name, description, propertyName, propertyValue, level, parentName));
+        return routeRepository.save(modifyRoute(new Route(), name, description, propertyName, propertyValue, level, parentName));
     }
 
     @Override
@@ -55,31 +54,15 @@ public class RouteServiceImpl extends BaseServiceImpl<Route> implements RouteSer
         return routeRepository.findAll();
     }
 
-    private Route generateRoute(String name, String description, String propertyName, String propertyValue, Integer level, String parentName) {
-        Assert.hasText(name, "路由名不能为空或全空白字符");
-        return modifyRoute(new Route(), name, description, propertyName, propertyValue, level, parentName);
-    }
-
     private Route modifyRoute(Route route, String name, String description, String propertyName, String propertyValue, Integer level, String parentName) {
         Assert.notNull(route, "该路由不存在");
-        if (StringUtils.hasText(name) && !name.equals(route.getName())) {
-            route.setName(name);
-        }
-        if (StringUtils.hasText(description) && !description.equals(route.getDescription())) {
-            route.setDescription(description);
-        }
-        if (StringUtils.hasText(propertyName) && !propertyName.equals(route.getPropertyName())) {
-            route.setPropertyName(propertyName);
-        }
-        if (StringUtils.hasText(propertyValue) && !propertyValue.equals(route.getPropertyValue())) {
-            route.setPropertyValue(propertyValue);
-        }
-        if (level != null && !level.equals(route.getLevel())) {
-            route.setLevel(level);
-        }
-        if (StringUtils.hasText(parentName) && !parentName.equals(route.getParentName())) {
-            route.setParentName(parentName);
-        }
+        Assert.hasText(name, "路由名不能为空或全空白字符");
+        route.setName(name);
+        route.setDescription(description);
+        route.setPropertyName(propertyName);
+        route.setPropertyValue(propertyValue);
+        route.setLevel(level);
+        route.setParentName(parentName);
         return route;
     }
 

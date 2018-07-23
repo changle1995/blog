@@ -30,7 +30,7 @@ public class TagController {
 
     @ApiOperation(value = "新增标签", notes = "新增标签")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "标签名称", required = true, dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "name", value = "标签名称", required = true, paramType = "query")
     })
     @PostMapping("${controller.blog.tag.add}")
     public RestResponse<Tag> add(@RequestParam(name = "name") String name) {
@@ -40,7 +40,7 @@ public class TagController {
 
     @ApiOperation(value = "删除标签", notes = "删除标签")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "标签ID", required = true, dataType = "Long", paramType = "path")
+            @ApiImplicitParam(name = "id", value = "标签ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("${controller.blog.tag.delete}")
     public RestResponse<Tag> delete(@PathVariable(name = "id") long id) {
@@ -50,8 +50,8 @@ public class TagController {
 
     @ApiOperation(value = "修改标签", notes = "修改标签")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "标签ID", required = true, dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "name", value = "标签名称", required = true, dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "id", value = "标签ID", required = true, dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "name", value = "标签名称", required = true, paramType = "query")
     })
     @PutMapping("${controller.blog.tag.edit}")
     public RestResponse<Tag> edit(@RequestParam(name = "id") long id, @RequestParam(name = "name") String name) {
@@ -61,7 +61,7 @@ public class TagController {
 
     @ApiOperation(value = "查找标签", notes = "通过标签名称查找标签或直接查找所有标签")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "标签名称", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "name", value = "标签名称", paramType = "query")
     })
     @GetMapping("${controller.blog.tag.get}")
     public RestResponse<Collection<Tag>> get(@RequestParam(name = "name", required = false) String name) {

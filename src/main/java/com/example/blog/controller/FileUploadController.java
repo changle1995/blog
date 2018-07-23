@@ -44,8 +44,8 @@ public class FileUploadController {
 
     @ApiOperation(value = "文件显示", notes = "文件显示接口")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "path", value = "文件路径", required = true, dataType = "String", paramType = "path"),
-            @ApiImplicitParam(name = "filename", value = "文件名", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "path", value = "文件路径", required = true, paramType = "path"),
+            @ApiImplicitParam(name = "filename", value = "文件名", required = true, paramType = "path")
     })
     @GetMapping("${controller.fileUpload.getFile}")
     public ResponseEntity getFile(@PathVariable String path, @PathVariable String filename) {

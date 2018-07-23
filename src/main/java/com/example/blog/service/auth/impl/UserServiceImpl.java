@@ -9,7 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 
@@ -26,9 +25,9 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     private UserRepository userRepository;
 
     @Override
-    public User addUser(String username, String password, String email, String phoneNumber, String description) {
+    public User addUser(String username, String password, String email, String phoneNumber, String description, String avatar) {
         Assert.isNull(userRepository.findByUsername(username), "该用户已存在");
-        return userRepository.save(generateUser(username, password, email, phoneNumber, description));
+        return userRepository.save(modifyUser(new User(), username, password, email, phoneNumber, description, avatar));
     }
 
     @Override
@@ -37,8 +36,8 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     }
 
     @Override
-    public User editUser(long id, String username, String password, String email, String phoneNumber, String description) {
-        return userRepository.save(modifyUser(userRepository.findOne(id), username, password, email, phoneNumber, description));
+    public User editUser(long id, String username, String password, String email, String phoneNumber, String description, String avatar) {
+        return userRepository.save(modifyUser(userRepository.findOne(id), username, password, email, phoneNumber, description, avatar));
     }
 
     @Override
@@ -56,29 +55,17 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         return userRepository.findAll();
     }
 
-    private User generateUser(String username, String password, String email, String phoneNumber, String description) {
+    private User modifyUser(User user, String username, String password, String email, String phoneNumber, String description, String avatar) {
+        Assert.notNull(user, "该用户不存在");
         Assert.hasText(username, "用户名不能为空或全空白字符");
         Assert.hasText(password, "密码不能为空或全空白字符");
-        return modifyUser(new User(), username, password, email, phoneNumber, description);
-    }
-
-    private User modifyUser(User user, String username, String password, String email, String phoneNumber, String description) {
-        Assert.notNull(user, "该用户不存在");
-        if (StringUtils.hasText(username) && !username.equals(user.getUsername())) {
-            user.setUsername(username);
-        }
-        if (StringUtils.hasText(password) && !(new BCryptPasswordEncoder().matches(password, user.getPassword()))) {
+        user.setUsername(username);
+        if (!(new BCryptPasswordEncoder().matches(password, user.getPassword()))) {
             user.setPassword(password);
         }
-        if (StringUtils.hasText(email) && !email.equals(user.getEmail())) {
-            user.setEmail(email);
-        }
-        if (StringUtils.hasText(phoneNumber) && !phoneNumber.equals(user.getPhoneNumber())) {
-            user.setPhoneNumber(phoneNumber);
-        }
-        if (StringUtils.hasText(description) && !description.equals(user.getDescription())) {
-            user.setDescription(description);
-        }
+        user.setEmail(email);
+        user.setPhoneNumber(phoneNumber);
+        user.setDescription(description);
         return user;
     }
 

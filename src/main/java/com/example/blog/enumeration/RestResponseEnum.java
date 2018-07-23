@@ -7,6 +7,7 @@ package com.example.blog.enumeration;
  * Time: 14:57
  */
 public enum RestResponseEnum {
+
     CODE_SUCCESS("200", "成功"),
     CODE_ERROR_UNKNOWN("400", "服务器不理解请求的语法"),
     CODE_ERROR_LOGIN_FAILURE("401.1", "登录失败,账号或密码错误"),

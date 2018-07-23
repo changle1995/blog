@@ -31,14 +31,14 @@ public class ArticleController {
 
     @ApiOperation(value = "新增文章", notes = "新增文章")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "title", value = "文章标题", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "description", value = "文章描述", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "content", value = "文章内容", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "tag", value = "文章标签", dataType = "Set<String>", paramType = "query"),
-            @ApiImplicitParam(name = "userId", value = "文章作者ID", required = true, dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "plateId", value = "文章对应的板块ID", required = true, dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "thumbnail", value = "预览图", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "title", value = "文章标题", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "description", value = "文章描述", paramType = "query"),
+            @ApiImplicitParam(name = "content", value = "文章内容", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "tag", value = "文章标签", dataType = "Set", paramType = "query"),
+            @ApiImplicitParam(name = "userId", value = "文章作者ID", required = true, dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "plateId", value = "文章对应的板块ID", required = true, dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "thumbnail", value = "预览图", paramType = "query")
     })
     @PostMapping("${controller.blog.article.add}")
     public RestResponse<Article> add(
@@ -57,7 +57,7 @@ public class ArticleController {
 
     @ApiOperation(value = "删除文章", notes = "删除文章")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "文章ID", required = true, dataType = "Long", paramType = "path")
+            @ApiImplicitParam(name = "id", value = "文章ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("${controller.blog.article.delete}")
     public RestResponse<Article> delete(@PathVariable(name = "id") long id) {
@@ -67,23 +67,23 @@ public class ArticleController {
 
     @ApiOperation(value = "修改文章", notes = "修改文章")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "文章ID", required = true, dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "title", value = "文章标题", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "description", value = "文章描述", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "content", value = "文章内容", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "tag", value = "文章标签", dataType = "Set<String>", paramType = "query"),
-            @ApiImplicitParam(name = "plateId", value = "文章对应的板块ID", dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "thumbnail", value = "预览图", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "id", value = "文章ID", required = true, dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "title", value = "文章标题", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "description", value = "文章描述", paramType = "query"),
+            @ApiImplicitParam(name = "content", value = "文章内容", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "tag", value = "文章标签", dataType = "Set", paramType = "query"),
+            @ApiImplicitParam(name = "plateId", value = "文章对应的板块ID", required = true, dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "thumbnail", value = "预览图", paramType = "query")
     })
     @PutMapping("${controller.blog.article.edit}")
     public RestResponse<Article> edit(
             @RequestParam(name = "id") long id,
-            @RequestParam(name = "title", required = false) String title,
+            @RequestParam(name = "title") String title,
             @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "content", required = false) String content,
+            @RequestParam(name = "content") String content,
             @RequestParam(name = "tag", required = false) Set<String> tag,
-            @RequestParam(name = "plateId", required = false) long plateId,
+            @RequestParam(name = "plateId") long plateId,
             @RequestParam(name = "weight", required = false) Integer weight,
             @RequestParam(name = "thumbnail", required = false) String thumbnail
     ) {
@@ -93,10 +93,10 @@ public class ArticleController {
 
     @ApiOperation(value = "查找文章", notes = "通过各种参数查找文章集合或直接查找所有文章")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "文章ID", dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "title", value = "文章标题", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "plateId", value = "板块ID", dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "weight", value = "文章最小权重", dataType = "Integer", paramType = "query")
+            @ApiImplicitParam(name = "id", value = "文章ID", dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "title", value = "文章标题", paramType = "query"),
+            @ApiImplicitParam(name = "plateId", value = "板块ID", dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "weight", value = "文章最小权重", dataType = "int", paramType = "query")
     })
     @GetMapping("${controller.blog.article.get}")
     public RestResponse<Collection<Article>> get(

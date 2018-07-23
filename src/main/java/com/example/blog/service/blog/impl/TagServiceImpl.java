@@ -29,7 +29,7 @@ public class TagServiceImpl extends BaseServiceImpl<Tag> implements TagService {
     @Override
     public Tag addTag(String name) {
         Assert.isNull(tagRepository.findByName(name), "该标签已存在");
-        return tagRepository.save(generateTag(name));
+        return tagRepository.save(modifyTag(new Tag(), name));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class TagServiceImpl extends BaseServiceImpl<Tag> implements TagService {
         return Optional.ofNullable(tagNameSet)
                 .map(set -> set
                         .stream()
-                        .map(tagName -> Optional.ofNullable(tagRepository.findByName(tagName)).orElseGet(() -> tagRepository.save(generateTag(tagName))))
+                        .map(tagName -> Optional.ofNullable(tagRepository.findByName(tagName)).orElseGet(() -> tagRepository.save(modifyTag(new Tag(), tagName))))
                         .collect(Collectors.toSet()))
                 .orElse(null);
     }
@@ -65,10 +65,6 @@ public class TagServiceImpl extends BaseServiceImpl<Tag> implements TagService {
     @Override
     public Collection<Tag> getAllTags() {
         return tagRepository.findAll();
-    }
-
-    private Tag generateTag(String name) {
-        return modifyTag(new Tag(), name);
     }
 
     private Tag modifyTag(Tag tag, String name) {

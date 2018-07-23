@@ -31,8 +31,8 @@ public class RoleController {
 
     @ApiOperation(value = "新增角色", notes = "新增角色")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "角色名称", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "description", value = "角色描述", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "name", value = "角色名称", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "description", value = "角色描述", paramType = "query")
     })
     @PostMapping("${controller.auth.role.add}")
     public RestResponse<Role> add(
@@ -45,7 +45,7 @@ public class RoleController {
 
     @ApiOperation(value = "删除角色", notes = "删除角色")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "角色ID", required = true, dataType = "Long", paramType = "path")
+            @ApiImplicitParam(name = "id", value = "角色ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("${controller.auth.role.delete}")
     public RestResponse<Role> delete(@PathVariable(name = "id") long id) {
@@ -55,14 +55,14 @@ public class RoleController {
 
     @ApiOperation(value = "修改角色", notes = "修改角色接口")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "角色ID", required = true, dataType = "Long", paramType = "query"),
-            @ApiImplicitParam(name = "name", value = "角色名称", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "description", value = "角色描述", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "id", value = "角色ID", required = true, dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "name", value = "角色名称", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "description", value = "角色描述", paramType = "query")
     })
     @PutMapping("${controller.auth.role.edit}")
     public RestResponse<Role> edit(
             @RequestParam(name = "id") long id,
-            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "name") String name,
             @RequestParam(name = "description", required = false) String description
     ) {
         Role role = roleService.editRole(id, name, description);
@@ -71,7 +71,7 @@ public class RoleController {
 
     @ApiOperation(value = "查找角色", notes = "通过角色名称查找单个角色或直接查找所有角色")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "角色名称", dataType = "String", paramType = "query")
+            @ApiImplicitParam(name = "name", value = "角色名称", paramType = "query")
     })
     @GetMapping("${controller.auth.role.get}")
     public RestResponse<Collection<Role>> get(@RequestParam(name = "name", required = false) String name) {

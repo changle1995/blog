@@ -27,7 +27,7 @@ public class PlateServiceImpl extends BaseServiceImpl<Plate> implements PlateSer
     @Override
     public Plate addPlate(String name, String description, Integer state) {
         Assert.isNull(plateRepository.findByName(name), "该板块已存在");
-        return plateRepository.save(generatePlate(name, description, state));
+        return plateRepository.save(modifyPlate(new Plate(), name, description, state));
     }
 
     @Override
@@ -53,10 +53,6 @@ public class PlateServiceImpl extends BaseServiceImpl<Plate> implements PlateSer
     @Override
     public Collection<Plate> getAllPlates() {
         return plateRepository.findAll(new Sort("id"));
-    }
-
-    private Plate generatePlate(String name, String description, Integer state) {
-        return modifyPlate(new Plate(), name, description, state);
     }
 
     private Plate modifyPlate(Plate plate, String name, String description, Integer state) {

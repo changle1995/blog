@@ -42,7 +42,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
 
     @Override
     public Article addArticle(String title, String description, String content, Set<String> tagNameSet, long userId, long plateId, Integer weight, String thumbnail) {
-        return articleRepository.save(generateArticle(title, description, content, tagNameSet, userId, plateId, weight, thumbnail));
+        return articleRepository.save(modifyArticle(new Article(), title, description, content, tagNameSet, userId, plateId, weight, thumbnail));
     }
 
     @Override
@@ -58,7 +58,9 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
 
     @Override
     public Article getArticle(long id) {
-        return articleRepository.findOne(id);
+        Article article = articleRepository.findOne(id);
+        article.setViewNumber(article.getViewNumber() == null ? 1 : article.getViewNumber() + 1);
+        return articleRepository.save(article);
     }
 
     @Override
@@ -78,10 +80,6 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
         return articleRepository.findAll(new Sort(Sort.Direction.DESC, "id"));
     }
 
-    private Article generateArticle(String title, String description, String content, Set<String> tagNameSet, long userId, long plateId, Integer weight, String thumbnail) {
-        return modifyArticle(new Article(), title, description, content, tagNameSet, userId, plateId, weight, thumbnail);
-    }
-
     private Article modifyArticle(Article article, String title, String description, String content, Set<String> tagNameSet, long userId, Long plateId, Integer weight, String thumbnail) {
         Assert.notNull(article, "该文章不存在");
         Assert.hasText(title, "文章标题不能为空或全空白字符");
@@ -93,11 +91,10 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
         User user = userService.getUser(userId);
         Assert.notNull(user, "作者不存在");
         article.setUser(user);
-        if (plateId != null) {
-            Plate plate = plateService.getPlate(plateId);
-            Assert.notNull(plate, "板块不存在");
-            article.setPlate(plate);
-        }
+        Assert.notNull(plateId, "板块ID不能为空");
+        Plate plate = plateService.getPlate(plateId);
+        Assert.notNull(plate, "板块不存在");
+        article.setPlate(plate);
         article.setWeight(weight);
         article.setThumbnail(thumbnail);
         return article;
