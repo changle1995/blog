@@ -6,8 +6,8 @@ import com.example.blog.entity.auth.User;
 import com.example.blog.enumeration.HeaderNameEnum;
 import com.example.blog.enumeration.RestResponseEnum;
 import com.example.blog.service.auth.UserService;
+import com.example.blog.util.AuthUtil;
 import com.example.blog.util.RestResponseUtil;
-import com.example.blog.util.UserInfoUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class LoginController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         user.setLastLogin(new Date());
         userService.update(user);
-        UserInfo userInfo = UserInfoUtil.getUserInfoByRequest(SecurityContextHolder.getContext().getAuthentication().getPrincipal(), httpServletRequest.getHeader(HeaderNameEnum.USER_TOKEN.getName()));
+        UserInfo userInfo = AuthUtil.getUserInfoByRequest(SecurityContextHolder.getContext().getAuthentication().getPrincipal(), httpServletRequest.getHeader(HeaderNameEnum.USER_TOKEN.getName()));
         return RestResponseUtil.success(userInfo, "登录成功");
     }
 

@@ -4,13 +4,20 @@ import com.example.blog.domain.auth.UserInfo;
 import org.springframework.beans.BeanUtils;
 
 /**
- * UserInfo相关工具类
+ * 权限相关工具类
  * Author: changle
- * Date: 2018/5/17
- * Time: 9:32
+ * Date: 2018/7/25
+ * Time: 14:25
  */
-public class UserInfoUtil {
+public class AuthUtil {
 
+    /**
+     * 提取用户信息包装为UserInfo
+     *
+     * @param user  用户
+     * @param token user-token
+     * @return 返回用户对应的UserInfo
+     */
     public static UserInfo getUserInfoByRequest(Object user, String token) {
         UserInfo userInfo = new UserInfo();
         userInfo.setToken(token);

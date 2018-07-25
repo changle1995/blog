@@ -4,8 +4,8 @@ import com.example.blog.domain.RestResponse;
 import com.example.blog.entity.auth.Route;
 import com.example.blog.entity.auth.User;
 import com.example.blog.service.auth.RouteService;
+import com.example.blog.util.BlogUtil;
 import com.example.blog.util.RestResponseUtil;
-import com.example.blog.util.RouteUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -107,7 +107,7 @@ public class RouteController {
     public RestResponse<Collection<Route>> getUserRoutes() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof User) {
-            return RestResponseUtil.success(RouteUtil.getRouteCollectionByUser((User) principal));
+            return RestResponseUtil.success(BlogUtil.getRouteCollectionByUser((User) principal));
         }
         return RestResponseUtil.success(null);
     }

@@ -8,13 +8,19 @@ import java.util.HashSet;
 import java.util.Optional;
 
 /**
- * User中的Route信息相关工具类
+ * 博客相关工具类
  * Author: changle
- * Date: 2018/5/16
- * Time: 17:05
+ * Date: 2018/7/25
+ * Time: 14:23
  */
-public class RouteUtil {
+public class BlogUtil {
 
+    /**
+     * 获取用户下所有的路由
+     *
+     * @param user 用户
+     * @return 返回用户下所有的路由
+     */
     public static Collection<Route> getRouteCollectionByUser(User user) {
         Collection<Route> routeCollection = new HashSet<>();
         Optional.ofNullable(user.getRoleSet())
