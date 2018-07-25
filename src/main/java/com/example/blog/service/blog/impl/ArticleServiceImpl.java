@@ -10,8 +10,7 @@ import com.example.blog.service.blog.ArticleService;
 import com.example.blog.service.blog.PlateService;
 import com.example.blog.service.blog.TagService;
 import com.example.blog.service.impl.BaseServiceImpl;
-import com.example.blog.util.AuthUtil;
-import org.springframework.beans.BeanUtils;
+import com.example.blog.util.BlogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -85,12 +84,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
     public Page<ArticleDomain> getArticlesByPlateId(Long plateId, Integer pageNumber, Integer pageSize) {
         Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
         Page<Article> articlePage = articleRepository.findAllByPlateId(plateId, pageable);
-        return articlePage.map(article -> {
-            ArticleDomain articleDomain = new ArticleDomain();
-            articleDomain.setUserInfo(AuthUtil.getUserInfoByRequest(article.getUser(), null));
-            BeanUtils.copyProperties(article, articleDomain);
-            return articleDomain;
-        });
+        return articlePage.map(BlogUtil::getArticleDomainByArticle);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.blog.util;
 
 import com.example.blog.domain.auth.UserInfo;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.Assert;
 
 /**
  * 权限相关工具类
@@ -18,7 +19,8 @@ public class AuthUtil {
      * @param token user-token
      * @return 返回用户对应的UserInfo
      */
-    public static UserInfo getUserInfoByRequest(Object user, String token) {
+    public static UserInfo getUserInfoByUserAndToken(Object user, String token) {
+        Assert.notNull(user, "用户不能为空");
         UserInfo userInfo = new UserInfo();
         userInfo.setToken(token);
         BeanUtils.copyProperties(user, userInfo);

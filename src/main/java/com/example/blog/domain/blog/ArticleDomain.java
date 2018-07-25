@@ -4,6 +4,7 @@ import com.example.blog.domain.BaseDomain;
 import com.example.blog.domain.auth.UserInfo;
 import com.example.blog.entity.blog.Plate;
 import com.example.blog.entity.blog.Tag;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Set;
@@ -13,6 +14,7 @@ import java.util.Set;
  * Date: 2018/7/25
  * Time: 10:21
  */
+@ApiModel(value = "文章映射类")
 public class ArticleDomain extends BaseDomain {
 
     @ApiModelProperty(value = "文章标题")
