@@ -1,6 +1,7 @@
 package com.example.blog.controller.blog;
 
 import com.example.blog.domain.RestResponse;
+import com.example.blog.domain.blog.ArticleDomain;
 import com.example.blog.entity.blog.Article;
 import com.example.blog.service.blog.ArticleService;
 import com.example.blog.util.RestResponseUtil;
@@ -9,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +25,7 @@ import java.util.Set;
  */
 @Api(tags = "文章控制器", description = "文章增删改查接口")
 @RestController
-@RequestMapping("${controller.blog.article.root}")
+@RequestMapping("/article")
 public class ArticleController {
 
     @Autowired
@@ -40,7 +42,7 @@ public class ArticleController {
             @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "thumbnail", value = "预览图", paramType = "query")
     })
-    @PostMapping("${controller.blog.article.add}")
+    @PostMapping("/")
     public RestResponse<Article> add(
             @RequestParam(name = "title") String title,
             @RequestParam(name = "description", required = false) String description,
@@ -59,7 +61,7 @@ public class ArticleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "文章ID", required = true, dataType = "long", paramType = "path")
     })
-    @DeleteMapping("${controller.blog.article.delete}")
+    @DeleteMapping("/{id}")
     public RestResponse<Article> delete(@PathVariable(name = "id") long id) {
         articleService.deleteArticle(id);
         return RestResponseUtil.success(null, "删除文章成功");
@@ -76,7 +78,7 @@ public class ArticleController {
             @ApiImplicitParam(name = "weight", value = "文章权重", dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "thumbnail", value = "预览图", paramType = "query")
     })
-    @PutMapping("${controller.blog.article.edit}")
+    @PutMapping("/")
     public RestResponse<Article> edit(
             @RequestParam(name = "id") long id,
             @RequestParam(name = "title") String title,
@@ -98,7 +100,7 @@ public class ArticleController {
             @ApiImplicitParam(name = "plateId", value = "板块ID", dataType = "long", paramType = "query"),
             @ApiImplicitParam(name = "weight", value = "文章最小权重", dataType = "int", paramType = "query")
     })
-    @GetMapping("${controller.blog.article.get}")
+    @GetMapping("/")
     public RestResponse<Collection<Article>> get(
             @RequestParam(name = "id", required = false) Long id,
             @RequestParam(name = "title", required = false) String title,
@@ -115,6 +117,21 @@ public class ArticleController {
             articleCollection = articleService.getAllArticles();
         }
         return RestResponseUtil.success(articleCollection);
+    }
+
+    @ApiOperation(value = "查找文章", notes = "通过板块ID查找文章集合")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "plateId", value = "板块ID", required = true, dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "pageNumber", value = "页数", defaultValue = "0", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量", defaultValue = "8", dataType = "int", paramType = "query")
+    })
+    @GetMapping("/getByPlateId")
+    public RestResponse<Page<ArticleDomain>> getByPlateId(
+            @RequestParam(name = "plateId") Long plateId,
+            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+    ) {
+        return RestResponseUtil.success(articleService.getArticlesByPlateId(plateId, pageNumber, pageSize));
     }
 
 }

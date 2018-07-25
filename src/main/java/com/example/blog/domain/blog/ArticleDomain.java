@@ -1,48 +1,36 @@
-package com.example.blog.entity.blog;
+package com.example.blog.domain.blog;
 
-import com.example.blog.entity.BaseEntity;
-import com.example.blog.entity.auth.User;
-import io.swagger.annotations.ApiModel;
+import com.example.blog.domain.BaseDomain;
+import com.example.blog.domain.auth.UserInfo;
+import com.example.blog.entity.blog.Plate;
+import com.example.blog.entity.blog.Tag;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
 import java.util.Set;
 
 /**
  * Author: changle
- * Date: 2018/3/16
- * Time: 16:09
+ * Date: 2018/7/25
+ * Time: 10:21
  */
-@ApiModel(value = "文章表实体类")
-@Entity
-public class Article extends BaseEntity {
+public class ArticleDomain extends BaseDomain {
 
     @ApiModelProperty(value = "文章标题")
     private String title;
 
     @ApiModelProperty(value = "文章描述")
-    @Column(length = 1000)
     private String description;
 
     @ApiModelProperty(value = "文章内容")
-    @Type(type = "text")
     private String content;
 
     @ApiModelProperty(value = "文章标签")
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "article_tag", joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
     private Set<Tag> tagSet;
 
     @ApiModelProperty(value = "文章作者")
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    private UserInfo userInfo;
 
     @ApiModelProperty(value = "文章对应的板块")
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "plate_id")
     private Plate plate;
 
     @ApiModelProperty(value = "文章阅读数")
@@ -86,12 +74,12 @@ public class Article extends BaseEntity {
         this.tagSet = tagSet;
     }
 
-    public User getUser() {
-        return user;
+    public UserInfo getUserInfo() {
+        return userInfo;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 
     public Plate getPlate() {

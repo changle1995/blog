@@ -2,6 +2,8 @@ package com.example.blog.repository.blog;
 
 import com.example.blog.entity.blog.Article;
 import com.example.blog.repository.BaseRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.Collection;
@@ -16,6 +18,8 @@ public interface ArticleRepository extends BaseRepository<Article, Long> {
     Collection<Article> findAllByTitle(String title, Sort sort);
 
     Collection<Article> findAllByPlateId(Long plateId, Sort sort);
+
+    Page<Article> findAllByPlateId(Long plateId, Pageable pageable);
 
     Collection<Article> findAllByWeightGreaterThanEqual(Integer weight, Sort sort);
 

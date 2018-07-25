@@ -1,5 +1,6 @@
 package com.example.blog.service.blog.impl;
 
+import com.example.blog.domain.blog.ArticleDomain;
 import com.example.blog.entity.auth.User;
 import com.example.blog.entity.blog.Article;
 import com.example.blog.entity.blog.Plate;
@@ -9,7 +10,12 @@ import com.example.blog.service.blog.ArticleService;
 import com.example.blog.service.blog.PlateService;
 import com.example.blog.service.blog.TagService;
 import com.example.blog.service.impl.BaseServiceImpl;
+import com.example.blog.util.UserInfoUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,6 +79,18 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
             return articleRepository.findAllByWeightGreaterThanEqual(weight, new Sort(Sort.Direction.DESC, "id"));
         }
         return null;
+    }
+
+    @Override
+    public Page<ArticleDomain> getArticlesByPlateId(Long plateId, Integer pageNumber, Integer pageSize) {
+        Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
+        Page<Article> articlePage = articleRepository.findAllByPlateId(plateId, pageable);
+        return articlePage.map(article -> {
+            ArticleDomain articleDomain = new ArticleDomain();
+            articleDomain.setUserInfo(UserInfoUtil.getUserInfoByRequest(article.getUser(), null));
+            BeanUtils.copyProperties(article, articleDomain);
+            return articleDomain;
+        });
     }
 
     @Override

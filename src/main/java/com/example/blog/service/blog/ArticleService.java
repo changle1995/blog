@@ -1,7 +1,9 @@
 package com.example.blog.service.blog;
 
+import com.example.blog.domain.blog.ArticleDomain;
 import com.example.blog.entity.blog.Article;
 import com.example.blog.service.BaseService;
+import org.springframework.data.domain.Page;
 
 import java.util.Collection;
 import java.util.Set;
@@ -67,6 +69,16 @@ public interface ArticleService extends BaseService<Article> {
      * @return 返回获取的文章
      */
     Collection<Article> getArticles(String title, Long plateId, Integer weight);
+
+    /**
+     * 根据板块ID查找文章方法
+     *
+     * @param plateId    文章对应的板块ID
+     * @param pageNumber 页数
+     * @param pageSize   每页数量
+     * @return 返回获取的文章
+     */
+    Page<ArticleDomain> getArticlesByPlateId(Long plateId, Integer pageNumber, Integer pageSize);
 
     /**
      * 查找所有文章

@@ -1,12 +1,7 @@
 package com.example.blog.util;
 
 import com.example.blog.domain.auth.UserInfo;
-import com.example.blog.entity.auth.User;
-import com.example.blog.enumeration.HeaderNameEnum;
 import org.springframework.beans.BeanUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * UserInfo相关工具类
@@ -16,10 +11,9 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class UserInfoUtil {
 
-    public static UserInfo getUserInfoByRequest(HttpServletRequest httpServletRequest) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public static UserInfo getUserInfoByRequest(Object user, String token) {
         UserInfo userInfo = new UserInfo();
-        userInfo.setToken(httpServletRequest.getHeader(HeaderNameEnum.USER_TOKEN.getName()));
+        userInfo.setToken(token);
         BeanUtils.copyProperties(user, userInfo);
         return userInfo;
     }

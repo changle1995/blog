@@ -3,6 +3,7 @@ package com.example.blog.controller.auth;
 import com.example.blog.domain.RestResponse;
 import com.example.blog.domain.auth.UserInfo;
 import com.example.blog.entity.auth.User;
+import com.example.blog.enumeration.HeaderNameEnum;
 import com.example.blog.enumeration.RestResponseEnum;
 import com.example.blog.service.auth.UserService;
 import com.example.blog.util.RestResponseUtil;
@@ -40,7 +41,7 @@ public class LoginController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         user.setLastLogin(new Date());
         userService.update(user);
-        UserInfo userInfo = UserInfoUtil.getUserInfoByRequest(httpServletRequest);
+        UserInfo userInfo = UserInfoUtil.getUserInfoByRequest(SecurityContextHolder.getContext().getAuthentication().getPrincipal(), httpServletRequest.getHeader(HeaderNameEnum.USER_TOKEN.getName()));
         return RestResponseUtil.success(userInfo, "登录成功");
     }
 
