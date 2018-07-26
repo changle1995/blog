@@ -1,5 +1,6 @@
 package com.example.blog.domain.auth;
 
+import com.example.blog.domain.BaseDomain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
@@ -14,14 +15,11 @@ import java.util.Date;
  * Time: 20:35
  */
 @ApiModel("用户映射类")
-public class UserInfo {
+public class UserInfo extends BaseDomain {
 
     @JsonProperty(value = "user-token")
     @ApiModelProperty(value = "后续请求必须携带的头部token")
     private String token;
-
-    @ApiModelProperty(value = "用户ID")
-    private Long id;
 
     @ApiModelProperty(value = "用户名称")
     private String username;
@@ -48,14 +46,6 @@ public class UserInfo {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {

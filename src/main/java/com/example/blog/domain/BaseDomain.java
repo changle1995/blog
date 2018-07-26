@@ -11,7 +11,7 @@ import java.util.Date;
  * Date: 2018/7/25
  * Time: 11:44
  */
-@ApiModel(value = "返回数据通用类")
+@ApiModel(value = "数据通用映射类")
 public abstract class BaseDomain {
 
     @ApiModelProperty(value = "主键")
