@@ -23,7 +23,7 @@ import java.util.HashSet;
  */
 @Api(tags = "User用户控制器", description = "User用户增删改查接口")
 @RestController
-@RequestMapping("${controller.auth.user.root}")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class UserController {
             @ApiImplicitParam(name = "description", value = "用户描述", paramType = "query"),
             @ApiImplicitParam(name = "avatar", value = "用户头像", paramType = "query")
     })
-    @PostMapping("${controller.auth.user.add}")
+    @PostMapping("/")
     public RestResponse<User> add(
             @RequestParam(name = "username") String username,
             @RequestParam(name = "password") String password,
@@ -55,7 +55,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "long", paramType = "path")
     })
-    @DeleteMapping("${controller.auth.user.delete}")
+    @DeleteMapping("/{id}")
     public RestResponse<User> delete(@PathVariable(name = "id") long id) {
         userService.deleteUser(id);
         return RestResponseUtil.success(null, "删除用户成功");
@@ -71,7 +71,7 @@ public class UserController {
             @ApiImplicitParam(name = "description", value = "用户描述", paramType = "query"),
             @ApiImplicitParam(name = "avatar", value = "用户头像", paramType = "query")
     })
-    @PutMapping("${controller.auth.user.edit}")
+    @PutMapping("/")
     public RestResponse<User> edit(
             @RequestParam(name = "id") long id,
             @RequestParam(name = "username") String username,
@@ -89,7 +89,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名称", paramType = "query")
     })
-    @GetMapping("${controller.auth.user.get}")
+    @GetMapping("/")
     public RestResponse<Collection<User>> get(@RequestParam(name = "username", required = false) String username) {
         Collection<User> userCollection;
         if (StringUtils.hasText(username)) {

@@ -25,7 +25,7 @@ import java.util.Collection;
  */
 @Api(tags = "Route路由控制器", description = "Route路由增删改查接口")
 @RestController
-@RequestMapping("${controller.auth.route.root}")
+@RequestMapping("/route")
 public class RouteController {
 
     @Autowired
@@ -40,7 +40,7 @@ public class RouteController {
             @ApiImplicitParam(name = "level", value = "路由级别", dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "parentName", value = "父路由名称", paramType = "query")
     })
-    @PostMapping("${controller.auth.route.add}")
+    @PostMapping("/")
     public RestResponse<Route> add(
             @RequestParam(name = "name") String name,
             @RequestParam(name = "description", required = false) String description,
@@ -57,7 +57,7 @@ public class RouteController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "路由ID", required = true, dataType = "long", paramType = "path")
     })
-    @DeleteMapping("${controller.auth.route.delete}")
+    @DeleteMapping("/{id}")
     public RestResponse<Route> delete(@PathVariable(name = "id") long id) {
         routeService.deleteRoute(id);
         return RestResponseUtil.success(null, "删除路由成功");
@@ -73,7 +73,7 @@ public class RouteController {
             @ApiImplicitParam(name = "level", value = "路由级别", dataType = "int", paramType = "query"),
             @ApiImplicitParam(name = "parentName", value = "父路由名称", paramType = "query")
     })
-    @PutMapping("${controller.auth.route.edit}")
+    @PutMapping("/")
     public RestResponse<Route> edit(
             @RequestParam(name = "id") long id,
             @RequestParam(name = "name") String name,
@@ -91,7 +91,7 @@ public class RouteController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "路由名称", paramType = "query")
     })
-    @GetMapping("${controller.auth.route.get}")
+    @GetMapping("/")
     public RestResponse<Collection<Route>> get(@RequestParam(name = "name", required = false) String name) {
         Collection<Route> routeCollection;
         if (StringUtils.hasText(name)) {
@@ -103,7 +103,7 @@ public class RouteController {
     }
 
     @ApiOperation(value = "查找已拥有路由", notes = "查找已拥有路由")
-    @GetMapping("${controller.auth.route.getUserRoutes}")
+    @GetMapping("/getUserRoutes")
     public RestResponse<Collection<Route>> getUserRoutes() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof User) {

@@ -23,7 +23,7 @@ import java.util.HashSet;
  */
 @Api(tags = "Permission权限控制器", description = "Permission权限增删改查接口")
 @RestController
-@RequestMapping("${controller.auth.permission.root}")
+@RequestMapping("/permission")
 public class PermissionController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class PermissionController {
             @ApiImplicitParam(name = "url", value = "权限对应的url路径", required = true, paramType = "query"),
             @ApiImplicitParam(name = "method", value = "权限对应url路径的方法", required = true, paramType = "query")
     })
-    @PostMapping("${controller.auth.permission.add}")
+    @PostMapping("/")
     public RestResponse<Permission> add(
             @RequestParam(name = "name") String name,
             @RequestParam(name = "description", required = false) String description,
@@ -51,7 +51,7 @@ public class PermissionController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "权限ID", required = true, dataType = "long", paramType = "path")
     })
-    @DeleteMapping("${controller.auth.permission.delete}")
+    @DeleteMapping("/{id}")
     public RestResponse<Permission> delete(@PathVariable(name = "id") long id) {
         permissionService.deletePermission(id);
         return RestResponseUtil.success(null, "删除权限成功");
@@ -65,7 +65,7 @@ public class PermissionController {
             @ApiImplicitParam(name = "url", value = "权限对应的url路径", required = true, paramType = "query"),
             @ApiImplicitParam(name = "method", value = "权限对应url路径的方法", required = true, paramType = "query")
     })
-    @PutMapping("${controller.auth.permission.edit}")
+    @PutMapping("/")
     public RestResponse<Permission> edit(
             @RequestParam(name = "id") long id,
             @RequestParam(name = "name") String name,
@@ -81,7 +81,7 @@ public class PermissionController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "权限名称", paramType = "query")
     })
-    @GetMapping("${controller.auth.permission.get}")
+    @GetMapping("/")
     public RestResponse<Collection<Permission>> get(@RequestParam(name = "name", required = false) String name) {
         Collection<Permission> permissionCollection;
         if (StringUtils.hasText(name)) {

@@ -22,7 +22,7 @@ import java.util.HashSet;
  */
 @Api(tags = "标签控制器", description = "标签增删改查接口")
 @RestController
-@RequestMapping("${controller.blog.tag.root}")
+@RequestMapping("/tag")
 public class TagController {
 
     @Autowired
@@ -32,7 +32,7 @@ public class TagController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "标签名称", required = true, paramType = "query")
     })
-    @PostMapping("${controller.blog.tag.add}")
+    @PostMapping("/")
     public RestResponse<Tag> add(@RequestParam(name = "name") String name) {
         Tag tag = tagService.addTag(name);
         return RestResponseUtil.success(tag, "添加标签成功");
@@ -42,7 +42,7 @@ public class TagController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "标签ID", required = true, dataType = "long", paramType = "path")
     })
-    @DeleteMapping("${controller.blog.tag.delete}")
+    @DeleteMapping("/{id}")
     public RestResponse<Tag> delete(@PathVariable(name = "id") long id) {
         tagService.deleteTag(id);
         return RestResponseUtil.success(null, "删除标签成功");
@@ -53,7 +53,7 @@ public class TagController {
             @ApiImplicitParam(name = "id", value = "标签ID", required = true, dataType = "long", paramType = "query"),
             @ApiImplicitParam(name = "name", value = "标签名称", required = true, paramType = "query")
     })
-    @PutMapping("${controller.blog.tag.edit}")
+    @PutMapping("/")
     public RestResponse<Tag> edit(@RequestParam(name = "id") long id, @RequestParam(name = "name") String name) {
         Tag tag = tagService.editTag(id, name);
         return RestResponseUtil.success(tag, "修改标签成功");
@@ -63,7 +63,7 @@ public class TagController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "标签名称", paramType = "query")
     })
-    @GetMapping("${controller.blog.tag.get}")
+    @GetMapping("/")
     public RestResponse<Collection<Tag>> get(@RequestParam(name = "name", required = false) String name) {
         Collection<Tag> tagCollection;
         if (StringUtils.hasText(name)) {

@@ -13,7 +13,7 @@ import java.util.Date;
  * Date: 2018/5/12
  * Time: 20:35
  */
-@ApiModel("登录成功返回对象类")
+@ApiModel("用户映射类")
 public class UserInfo {
 
     @JsonProperty(value = "user-token")

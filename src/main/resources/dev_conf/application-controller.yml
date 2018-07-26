@@ -6,68 +6,6 @@ controller:
       logout: '/logoutSuccess'
       unauthorized: '/unauthorized'
       accessDenied: '/accessDenied'
-    permission:
-      root: '/permission'
-      add: '/'
-      delete: '/{id}'
-      edit: '/'
-      get: '/'
-    role:
-      root: '/role'
-      add: '/'
-      delete: '/{id}'
-      edit: '/'
-      get: '/'
-    rolePermission:
-      root: '/rolePermission'
-      add: '/'
-      delete: '/'
-    roleRoute:
-      root: '/roleRoute'
-      add: '/'
-      delete: '/'
-    route:
-      root: '/route'
-      add: '/'
-      delete: '/{id}'
-      edit: '/'
-      get: '/'
-      getUserRoutes: '/getUserRoutes'
-    user:
-      root: '/user'
-      add: '/'
-      delete: '/{id}'
-      edit: '/'
-      get: '/'
-    userRole:
-      root: '/userRole'
-      add: '/'
-      delete: '/'
-  blog:
-    article:
-      root: '/article'
-      add: '/'
-      delete: '/{id}'
-      edit: '/'
-      get: '/'
-    comment:
-      root: '/comment'
-      add: '/'
-      delete: '/{id}'
-      edit: '/'
-      get: '/'
-    plate:
-      root: '/plate'
-      add: '/'
-      delete: '/{id}'
-      edit: '/'
-      get: '/'
-    tag:
-      root: '/tag'
-      add: '/'
-      delete: '/{id}'
-      edit: '/'
-      get: '/'
   fileUpload:
     root: '/file'
     upload: '/upload'

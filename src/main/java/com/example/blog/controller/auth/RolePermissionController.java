@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "角色与权限关系控制器", description = "角色增删权限接口")
 @RestController
-@RequestMapping("${controller.auth.rolePermission.root}")
+@RequestMapping("/rolePermission")
 public class RolePermissionController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class RolePermissionController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "assignPermissionsRequestBody", value = "角色分配权限参数对象", required = true, dataType = "AssignPermissionsRequestBody", paramType = "body")
     })
-    @PostMapping("${controller.auth.rolePermission.add}")
+    @PostMapping("/")
     public RestResponse<Role> add(@RequestBody AssignPermissionsRequestBody assignPermissionsRequestBody) {
         Role role = rolePermissionService.addPermissionsToRole(assignPermissionsRequestBody.getRoleId(), assignPermissionsRequestBody.getPermissionIdCollection());
         return RestResponseUtil.success(role, "角色添加权限成功");
@@ -40,7 +40,7 @@ public class RolePermissionController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "assignPermissionsRequestBody", value = "角色分配权限参数对象", required = true, dataType = "AssignPermissionsRequestBody", paramType = "body")
     })
-    @PutMapping("${controller.auth.rolePermission.delete}")
+    @PutMapping("/")
     public RestResponse<Role> delete(@RequestBody AssignPermissionsRequestBody assignPermissionsRequestBody) {
         Role role = rolePermissionService.deletePermissionsOfRole(assignPermissionsRequestBody.getRoleId(), assignPermissionsRequestBody.getPermissionIdCollection());
         return RestResponseUtil.success(role, "角色删除权限成功");

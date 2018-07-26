@@ -23,7 +23,7 @@ import java.util.HashSet;
  */
 @Api(tags = "Role角色控制器", description = "Role角色增删改查接口")
 @RestController
-@RequestMapping("${controller.auth.role.root}")
+@RequestMapping("/role")
 public class RoleController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class RoleController {
             @ApiImplicitParam(name = "name", value = "角色名称", required = true, paramType = "query"),
             @ApiImplicitParam(name = "description", value = "角色描述", paramType = "query")
     })
-    @PostMapping("${controller.auth.role.add}")
+    @PostMapping("/")
     public RestResponse<Role> add(
             @RequestParam(name = "name") String name,
             @RequestParam(name = "description", required = false) String description
@@ -47,7 +47,7 @@ public class RoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "角色ID", required = true, dataType = "long", paramType = "path")
     })
-    @DeleteMapping("${controller.auth.role.delete}")
+    @DeleteMapping("/{id}")
     public RestResponse<Role> delete(@PathVariable(name = "id") long id) {
         roleService.deleteRole(id);
         return RestResponseUtil.success(null, "删除角色成功");
@@ -59,7 +59,7 @@ public class RoleController {
             @ApiImplicitParam(name = "name", value = "角色名称", required = true, paramType = "query"),
             @ApiImplicitParam(name = "description", value = "角色描述", paramType = "query")
     })
-    @PutMapping("${controller.auth.role.edit}")
+    @PutMapping("/")
     public RestResponse<Role> edit(
             @RequestParam(name = "id") long id,
             @RequestParam(name = "name") String name,
@@ -73,7 +73,7 @@ public class RoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "角色名称", paramType = "query")
     })
-    @GetMapping("${controller.auth.role.get}")
+    @GetMapping("/")
     public RestResponse<Collection<Role>> get(@RequestParam(name = "name", required = false) String name) {
         Collection<Role> roleCollection;
         if (StringUtils.hasText(name)) {

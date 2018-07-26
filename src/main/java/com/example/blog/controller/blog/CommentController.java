@@ -20,7 +20,7 @@ import java.util.Collection;
  */
 @Api(tags = "评论控制器", description = "评论增删改查接口")
 @RestController
-@RequestMapping("${controller.blog.comment.root}")
+@RequestMapping("/comment")
 public class CommentController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class CommentController {
             @ApiImplicitParam(name = "userId", value = "评论作者ID", required = true, dataType = "long", paramType = "query"),
             @ApiImplicitParam(name = "content", value = "评论内容", required = true, paramType = "query")
     })
-    @PostMapping("${controller.blog.comment.add}")
+    @PostMapping("/")
     public RestResponse<Comment> add(
             @RequestParam(name = "articleId") long articleId,
             @RequestParam(name = "commentId", required = false) Long commentId,
@@ -48,7 +48,7 @@ public class CommentController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "评论ID", required = true, dataType = "long", paramType = "path")
     })
-    @DeleteMapping("${controller.blog.comment.delete}")
+    @DeleteMapping("/{id}")
     public RestResponse<Comment> delete(@PathVariable(name = "id") long id) {
         commentService.deleteComment(id);
         return RestResponseUtil.success(null, "删除评论成功");
@@ -59,7 +59,7 @@ public class CommentController {
             @ApiImplicitParam(name = "id", value = "评论ID", required = true, dataType = "long", paramType = "query"),
             @ApiImplicitParam(name = "content", value = "评论内容", required = true, paramType = "query")
     })
-    @PutMapping("${controller.blog.comment.edit}")
+    @PutMapping("/")
     public RestResponse<Comment> edit(@RequestParam(name = "id") long id, @RequestParam(name = "content") String content) {
         Comment comment = commentService.editComment(id, content);
         return RestResponseUtil.success(comment, "修改评论成功");
@@ -69,7 +69,7 @@ public class CommentController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "articleId", value = "所属文章ID", dataType = "long", paramType = "query")
     })
-    @GetMapping("${controller.blog.comment.get}")
+    @GetMapping("/")
     public RestResponse<Collection<Comment>> get(@RequestParam(name = "articleId", required = false) Long articleId) {
         Collection<Comment> commentCollection;
         if (articleId != null) {
