@@ -28,7 +28,7 @@ import java.util.Date;
  * Date: 2018/3/21
  * Time: 21:09
  */
-@Api(tags = "登录登出等权限相关控制器", description = "包含登录成功,登录失败,登出成功与未登录四个接口")
+@Api(tags = "登录登出等权限相关控制器", description = "包含与权限认证有关的五个接口")
 @RestController
 public class LoginController {
 

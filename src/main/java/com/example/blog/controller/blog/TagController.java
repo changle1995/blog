@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 /**
+ * todo get方法拆分为各个具体方法
  * Author: changle
  * Date: 2018/6/24
  * Time: 18:02

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 /**
+ * todo 返回值全改为CommentDomain
+ * todo get方法拆分为各个具体方法
  * Author: changle
  * Date: 2018/6/24
  * Time: 18:01
