@@ -1,9 +1,9 @@
 package com.example.blog.service.auth;
 
+import com.example.blog.domain.auth.RoleDomain;
 import com.example.blog.entity.auth.Role;
 import com.example.blog.service.BaseService;
-
-import java.util.Collection;
+import org.springframework.data.domain.Page;
 
 /**
  * Author: changle
@@ -40,14 +40,6 @@ public interface RoleService extends BaseService<Role> {
     Role editRole(long id, String name, String description);
 
     /**
-     * 根据角色主键查找角色方法
-     *
-     * @param id 角色主键ID
-     * @return 返回找到的角色
-     */
-    Role getRole(long id);
-
-    /**
      * 根据角色名查找角色方法
      *
      * @param name 角色名
@@ -56,10 +48,10 @@ public interface RoleService extends BaseService<Role> {
     Role getRole(String name);
 
     /**
-     * 查找所有角色方法
+     * 分页查找所有角色方法
      *
      * @return 返回所有的角色
      */
-    Collection<Role> getAllRoles();
+    Page<RoleDomain> getRoleDomains(Integer pageNumber, Integer pageSize);
 
 }
