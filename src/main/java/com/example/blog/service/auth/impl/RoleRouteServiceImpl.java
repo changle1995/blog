@@ -1,6 +1,7 @@
 package com.example.blog.service.auth.impl;
 
 import com.example.blog.entity.auth.Role;
+import com.example.blog.entity.auth.Route;
 import com.example.blog.repository.auth.RoleRepository;
 import com.example.blog.repository.auth.RouteRepository;
 import com.example.blog.service.auth.RoleRouteService;
@@ -19,7 +20,7 @@ import java.util.Collection;
  */
 @Service
 @Transactional
-public class RoleRouteServiceImpl extends BaseServiceImpl<Role> implements RoleRouteService {
+public class RoleRouteServiceImpl extends BaseServiceImpl<Route> implements RoleRouteService {
 
     @Autowired
     private RoleRepository roleRepository;
@@ -28,19 +29,19 @@ public class RoleRouteServiceImpl extends BaseServiceImpl<Role> implements RoleR
     private RouteRepository routeRepository;
 
     @Override
-    public Role addRoutesToRole(long roleId, Collection<Long> routeIdCollection) {
+    public Collection<Route> addRoutesToRole(long roleId, Collection<Long> routeIdCollection) {
         Role role = roleRepository.findOne(roleId);
         Assert.notNull(role, "角色不存在");
         role.getRouteSet().addAll(routeRepository.findAllByIdIn(routeIdCollection));
-        return roleRepository.save(role);
+        return roleRepository.save(role).getRouteSet();
     }
 
     @Override
-    public Role deleteRoutesOfRole(long roleId, Collection<Long> routeIdCollection) {
+    public Collection<Route> deleteRoutesOfRole(long roleId, Collection<Long> routeIdCollection) {
         Role role = roleRepository.findOne(roleId);
         Assert.notNull(role, "角色不存在");
         role.getRouteSet().removeAll(routeRepository.findAllByIdIn(routeIdCollection));
-        return roleRepository.save(role);
+        return roleRepository.save(role).getRouteSet();
     }
 
 }
