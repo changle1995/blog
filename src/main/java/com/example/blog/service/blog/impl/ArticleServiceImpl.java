@@ -94,7 +94,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
         Assert.hasText(content, "文章内容不能为空或全空白字符");
         article.setContent(content);
         article.setTagSet(tagService.addTagSet(tagNameSet));
-        User user = userService.getUser(userId);
+        User user = userService.get(userId);
         Assert.notNull(user, "作者不存在");
         article.setUser(user);
         Assert.notNull(plateId, "板块ID不能为空");

@@ -1,19 +1,18 @@
 package com.example.blog.controller.auth;
 
 import com.example.blog.domain.RestResponse;
+import com.example.blog.domain.auth.UserInfo;
 import com.example.blog.entity.auth.User;
 import com.example.blog.service.auth.UserService;
+import com.example.blog.util.AuthUtil;
 import com.example.blog.util.RestResponseUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
-import java.util.HashSet;
 
 /**
  * User用户相关操作controller
@@ -39,7 +38,7 @@ public class UserController {
             @ApiImplicitParam(name = "avatar", value = "用户头像", paramType = "query")
     })
     @PostMapping("/")
-    public RestResponse<User> add(
+    public RestResponse<UserInfo> add(
             @RequestParam(name = "username") String username,
             @RequestParam(name = "password") String password,
             @RequestParam(name = "email", required = false) String email,
@@ -48,7 +47,7 @@ public class UserController {
             @RequestParam(name = "avatar", required = false) String avatar
     ) {
         User user = userService.addUser(username, password, email, phoneNumber, description, avatar);
-        return RestResponseUtil.success(user, "添加用户成功");
+        return RestResponseUtil.success(AuthUtil.getUserInfoByUserAndToken(user, null), "添加用户成功");
     }
 
     @ApiOperation(value = "删除用户", notes = "删除用户")
@@ -56,7 +55,7 @@ public class UserController {
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("/{id}")
-    public RestResponse<User> delete(@PathVariable(name = "id") long id) {
+    public RestResponse<UserInfo> delete(@PathVariable(name = "id") long id) {
         userService.deleteUser(id);
         return RestResponseUtil.success(null, "删除用户成功");
     }
@@ -72,7 +71,7 @@ public class UserController {
             @ApiImplicitParam(name = "avatar", value = "用户头像", paramType = "query")
     })
     @PutMapping("/")
-    public RestResponse<User> edit(
+    public RestResponse<UserInfo> edit(
             @RequestParam(name = "id") long id,
             @RequestParam(name = "username") String username,
             @RequestParam(name = "password") String password,
@@ -82,23 +81,30 @@ public class UserController {
             @RequestParam(name = "avatar", required = false) String avatar
     ) {
         User user = userService.editUser(id, username, password, email, phoneNumber, description, avatar);
-        return RestResponseUtil.success(user, "修改用户成功");
+        return RestResponseUtil.success(AuthUtil.getUserInfoByUserAndToken(user, null), "修改用户成功");
     }
 
-    @ApiOperation(value = "查找用户", notes = "通过用户名称查找单个用户或直接查找所有用户")
+    @ApiOperation(value = "查找用户", notes = "分页查找所有用户")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名称", paramType = "query")
+            @ApiImplicitParam(name = "pageNumber", value = "页数", defaultValue = "0", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量", defaultValue = "8", dataType = "int", paramType = "query")
     })
     @GetMapping("/")
-    public RestResponse<Collection<User>> get(@RequestParam(name = "username", required = false) String username) {
-        Collection<User> userCollection;
-        if (StringUtils.hasText(username)) {
-            userCollection = new HashSet<>();
-            userCollection.add(userService.getUser(username));
-        } else {
-            userCollection = userService.getAllUsers();
-        }
-        return RestResponseUtil.success(userCollection);
+    public RestResponse<Page<UserInfo>> get(
+            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+    ) {
+        return RestResponseUtil.success(userService.getUserInfos(pageNumber, pageSize));
+    }
+
+    @ApiOperation(value = "查找用户", notes = "通过用户ID查找单个用户")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "long", paramType = "query")
+    })
+    @GetMapping("/getById")
+    public RestResponse<UserInfo> getById(@RequestParam(name = "id") long id) {
+        User user = userService.get(id);
+        return RestResponseUtil.success(user == null ? null : AuthUtil.getUserInfoByUserAndToken(user, null));
     }
 
 }

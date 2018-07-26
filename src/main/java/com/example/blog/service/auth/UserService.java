@@ -1,9 +1,9 @@
 package com.example.blog.service.auth;
 
+import com.example.blog.domain.auth.UserInfo;
 import com.example.blog.entity.auth.User;
 import com.example.blog.service.BaseService;
-
-import java.util.Collection;
+import org.springframework.data.domain.Page;
 
 /**
  * Author: changle
@@ -29,7 +29,6 @@ public interface UserService extends BaseService<User> {
      * 删除用户方法
      *
      * @param id 用户主键ID
-     * @return 无返回值
      */
     void deleteUser(long id);
 
@@ -48,14 +47,6 @@ public interface UserService extends BaseService<User> {
     User editUser(long id, String username, String password, String email, String phoneNumber, String description, String avatar);
 
     /**
-     * 根据用户主键查找用户方法
-     *
-     * @param id 用户主键ID
-     * @return 返回找到的用户
-     */
-    User getUser(long id);
-
-    /**
      * 根据用户名查找用户方法
      *
      * @param username 用户名
@@ -64,10 +55,10 @@ public interface UserService extends BaseService<User> {
     User getUser(String username);
 
     /**
-     * 查找所有用户方法
+     * 分页查找所有用户方法
      *
      * @return 返回所有的用户
      */
-    Collection<User> getAllUsers();
+    Page<UserInfo> getUserInfos(Integer pageNumber, Integer pageSize);
 
 }

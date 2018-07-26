@@ -1,16 +1,20 @@
 package com.example.blog.service.auth.impl;
 
+import com.example.blog.domain.auth.UserInfo;
 import com.example.blog.entity.auth.User;
 import com.example.blog.repository.auth.UserRepository;
 import com.example.blog.service.auth.UserService;
 import com.example.blog.service.impl.BaseServiceImpl;
+import com.example.blog.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
-import java.util.Collection;
 
 /**
  * Author: changle
@@ -26,7 +30,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
     @Override
     public User addUser(String username, String password, String email, String phoneNumber, String description, String avatar) {
-        Assert.isNull(userRepository.findByUsername(username), "该用户已存在");
+        Assert.isNull(userRepository.findByUsername(username), "该用户名已存在");
         return userRepository.save(modifyUser(new User(), username, password, email, phoneNumber, description, avatar));
     }
 
@@ -37,12 +41,8 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
     @Override
     public User editUser(long id, String username, String password, String email, String phoneNumber, String description, String avatar) {
+        Assert.isNull(userRepository.findByUsername(username), "该用户名已存在");
         return userRepository.save(modifyUser(userRepository.findOne(id), username, password, email, phoneNumber, description, avatar));
-    }
-
-    @Override
-    public User getUser(long id) {
-        return userRepository.findOne(id);
     }
 
     @Override
@@ -51,8 +51,10 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     }
 
     @Override
-    public Collection<User> getAllUsers() {
-        return userRepository.findAll();
+    public Page<UserInfo> getUserInfos(Integer pageNumber, Integer pageSize) {
+        Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
+        Page<User> userPage = userRepository.findAll(pageable);
+        return userPage.map(user -> AuthUtil.getUserInfoByUserAndToken(user, null));
     }
 
     private User modifyUser(User user, String username, String password, String email, String phoneNumber, String description, String avatar) {
