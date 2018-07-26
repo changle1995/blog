@@ -83,7 +83,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
     @Override
     public ArticleDomain getArticleDomain(long id) {
         Article article = articleRepository.findOne(id);
-        return BlogUtil.getArticleDomainByArticle(article);
+        return article == null ? null : BlogUtil.getArticleDomainByArticle(article);
     }
 
     private Article modifyArticle(Article article, String title, String description, String content, Set<String> tagNameSet, long userId, Long plateId, Integer weight, String thumbnail) {

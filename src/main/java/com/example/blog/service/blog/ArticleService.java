@@ -64,7 +64,7 @@ public interface ArticleService extends BaseService<Article> {
     /**
      * 分页根据最小文章权重查找文章方法
      *
-     * @param weight    最小文章权重
+     * @param weight     最小文章权重
      * @param pageNumber 页数
      * @param pageSize   每页数量
      * @return 返回获取的文章对应的ArticleDomain

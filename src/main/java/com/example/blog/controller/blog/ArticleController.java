@@ -4,6 +4,7 @@ import com.example.blog.domain.RestResponse;
 import com.example.blog.domain.blog.ArticleDomain;
 import com.example.blog.entity.blog.Article;
 import com.example.blog.service.blog.ArticleService;
+import com.example.blog.util.BlogUtil;
 import com.example.blog.util.RestResponseUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -11,11 +12,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -43,7 +41,7 @@ public class ArticleController {
             @ApiImplicitParam(name = "thumbnail", value = "预览图", paramType = "query")
     })
     @PostMapping("/")
-    public RestResponse<Article> add(
+    public RestResponse<ArticleDomain> add(
             @RequestParam(name = "title") String title,
             @RequestParam(name = "description", required = false) String description,
             @RequestParam(name = "content") String content,
@@ -54,7 +52,7 @@ public class ArticleController {
             @RequestParam(name = "thumbnail", required = false) String thumbnail
     ) {
         Article article = articleService.addArticle(title, description, content, tag, userId, plateId, weight, thumbnail);
-        return RestResponseUtil.success(article, "添加文章成功");
+        return RestResponseUtil.success(BlogUtil.getArticleDomainByArticle(article), "添加文章成功");
     }
 
     @ApiOperation(value = "删除文章", notes = "删除文章")
@@ -62,7 +60,7 @@ public class ArticleController {
             @ApiImplicitParam(name = "id", value = "文章ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("/{id}")
-    public RestResponse<Article> delete(@PathVariable(name = "id") long id) {
+    public RestResponse<ArticleDomain> delete(@PathVariable(name = "id") long id) {
         articleService.deleteArticle(id);
         return RestResponseUtil.success(null, "删除文章成功");
     }
@@ -79,7 +77,7 @@ public class ArticleController {
             @ApiImplicitParam(name = "thumbnail", value = "预览图", paramType = "query")
     })
     @PutMapping("/")
-    public RestResponse<Article> edit(
+    public RestResponse<ArticleDomain> edit(
             @RequestParam(name = "id") long id,
             @RequestParam(name = "title") String title,
             @RequestParam(name = "description", required = false) String description,
@@ -90,7 +88,7 @@ public class ArticleController {
             @RequestParam(name = "thumbnail", required = false) String thumbnail
     ) {
         Article article = articleService.editArticle(id, title, description, content, tag, plateId, weight, thumbnail);
-        return RestResponseUtil.success(article, "修改文章成功");
+        return RestResponseUtil.success(BlogUtil.getArticleDomainByArticle(article), "修改文章成功");
     }
 
     @ApiOperation(value = "查找文章", notes = "分页查找所有文章")
