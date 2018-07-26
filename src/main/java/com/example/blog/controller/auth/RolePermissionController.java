@@ -2,7 +2,7 @@ package com.example.blog.controller.auth;
 
 import com.example.blog.domain.RestResponse;
 import com.example.blog.domain.auth.AssignPermissionsRequestBody;
-import com.example.blog.entity.auth.Role;
+import com.example.blog.entity.auth.Permission;
 import com.example.blog.service.auth.RolePermissionService;
 import com.example.blog.util.RestResponseUtil;
 import io.swagger.annotations.Api;
@@ -11,6 +11,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 /**
  * 角色与权限关系相关操作controller
@@ -31,9 +33,9 @@ public class RolePermissionController {
             @ApiImplicitParam(name = "assignPermissionsRequestBody", value = "角色分配权限参数对象", required = true, dataType = "AssignPermissionsRequestBody", paramType = "body")
     })
     @PostMapping("/")
-    public RestResponse<Role> add(@RequestBody AssignPermissionsRequestBody assignPermissionsRequestBody) {
-        Role role = rolePermissionService.addPermissionsToRole(assignPermissionsRequestBody.getRoleId(), assignPermissionsRequestBody.getPermissionIdCollection());
-        return RestResponseUtil.success(role, "角色添加权限成功");
+    public RestResponse<Collection<Permission>> add(@RequestBody AssignPermissionsRequestBody assignPermissionsRequestBody) {
+        Collection<Permission> permissionCollection = rolePermissionService.addPermissionsToRole(assignPermissionsRequestBody.getRoleId(), assignPermissionsRequestBody.getPermissionIdCollection());
+        return RestResponseUtil.success(permissionCollection, "角色添加权限成功");
     }
 
     @ApiOperation(value = "角色删除权限", notes = "角色删除权限")
@@ -41,9 +43,9 @@ public class RolePermissionController {
             @ApiImplicitParam(name = "assignPermissionsRequestBody", value = "角色分配权限参数对象", required = true, dataType = "AssignPermissionsRequestBody", paramType = "body")
     })
     @PutMapping("/")
-    public RestResponse<Role> delete(@RequestBody AssignPermissionsRequestBody assignPermissionsRequestBody) {
-        Role role = rolePermissionService.deletePermissionsOfRole(assignPermissionsRequestBody.getRoleId(), assignPermissionsRequestBody.getPermissionIdCollection());
-        return RestResponseUtil.success(role, "角色删除权限成功");
+    public RestResponse<Collection<Permission>> delete(@RequestBody AssignPermissionsRequestBody assignPermissionsRequestBody) {
+        Collection<Permission> permissionCollection = rolePermissionService.deletePermissionsOfRole(assignPermissionsRequestBody.getRoleId(), assignPermissionsRequestBody.getPermissionIdCollection());
+        return RestResponseUtil.success(permissionCollection, "角色删除权限成功");
     }
 
 }

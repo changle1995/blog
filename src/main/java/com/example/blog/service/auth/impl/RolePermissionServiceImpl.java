@@ -1,5 +1,6 @@
 package com.example.blog.service.auth.impl;
 
+import com.example.blog.entity.auth.Permission;
 import com.example.blog.entity.auth.Role;
 import com.example.blog.repository.auth.PermissionRepository;
 import com.example.blog.repository.auth.RoleRepository;
@@ -19,7 +20,7 @@ import java.util.Collection;
  */
 @Service
 @Transactional
-public class RolePermissionServiceImpl extends BaseServiceImpl<Role> implements RolePermissionService {
+public class RolePermissionServiceImpl extends BaseServiceImpl<Permission> implements RolePermissionService {
 
     @Autowired
     private RoleRepository roleRepository;
@@ -28,19 +29,19 @@ public class RolePermissionServiceImpl extends BaseServiceImpl<Role> implements 
     private PermissionRepository permissionRepository;
 
     @Override
-    public Role addPermissionsToRole(long roleId, Collection<Long> permissionIdCollection) {
+    public Collection<Permission> addPermissionsToRole(long roleId, Collection<Long> permissionIdCollection) {
         Role role = roleRepository.findOne(roleId);
         Assert.notNull(role, "角色不存在");
         role.getPermissionSet().addAll(permissionRepository.findAllByIdIn(permissionIdCollection));
-        return roleRepository.save(role);
+        return roleRepository.save(role).getPermissionSet();
     }
 
     @Override
-    public Role deletePermissionsOfRole(long roleId, Collection<Long> permissionIdCollection) {
+    public Collection<Permission> deletePermissionsOfRole(long roleId, Collection<Long> permissionIdCollection) {
         Role role = roleRepository.findOne(roleId);
         Assert.notNull(role, "角色不存在");
         role.getPermissionSet().removeAll(permissionRepository.findAllByIdIn(permissionIdCollection));
-        return roleRepository.save(role);
+        return roleRepository.save(role).getPermissionSet();
     }
 
 }
