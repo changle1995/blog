@@ -65,7 +65,7 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment> implements Comm
     }
 
     private Comment generateComment(long articleId, Long commentId, long userId, String content) {
-        Article article = articleService.getArticle(articleId);
+        Article article = articleService.get(articleId);
         Assert.notNull(article, "该文章不存在");
         Comment parentComment = commentRepository.findOne(commentId);
         User user = userService.getUser(userId);

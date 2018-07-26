@@ -19,9 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
-import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -62,34 +60,30 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
     }
 
     @Override
-    public Article getArticle(long id) {
-        Article article = articleRepository.findOne(id);
-        article.setViewNumber(article.getViewNumber() == null ? 1 : article.getViewNumber() + 1);
-        return articleRepository.save(article);
-    }
-
-    @Override
-    public Collection<Article> getArticles(String title, Long plateId, Integer weight) {
-        if (StringUtils.hasText(title)) {
-            return articleRepository.findAllByTitle(title, new Sort(Sort.Direction.DESC, "id"));
-        } else if (plateId != null) {
-            return articleRepository.findAllByPlateId(plateId, new Sort(Sort.Direction.DESC, "id"));
-        } else if (weight != null) {
-            return articleRepository.findAllByWeightGreaterThanEqual(weight, new Sort(Sort.Direction.DESC, "id"));
-        }
-        return null;
-    }
-
-    @Override
-    public Page<ArticleDomain> getArticlesByPlateId(Long plateId, Integer pageNumber, Integer pageSize) {
+    public Page<ArticleDomain> getArticleDomainsByPlateId(Long plateId, Integer pageNumber, Integer pageSize) {
         Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
         Page<Article> articlePage = articleRepository.findAllByPlateId(plateId, pageable);
         return articlePage.map(BlogUtil::getArticleDomainByArticle);
     }
 
     @Override
-    public Collection<Article> getAllArticles() {
-        return articleRepository.findAll(new Sort(Sort.Direction.DESC, "id"));
+    public Page<ArticleDomain> getArticleDomainsByWeight(Integer weight, Integer pageNumber, Integer pageSize) {
+        Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
+        Page<Article> articlePage = articleRepository.findAllByWeightGreaterThanEqual(weight, pageable);
+        return articlePage.map(BlogUtil::getArticleDomainByArticle);
+    }
+
+    @Override
+    public Page<ArticleDomain> getArticleDomains(Integer pageNumber, Integer pageSize) {
+        Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
+        Page<Article> articlePage = articleRepository.findAll(pageable);
+        return articlePage.map(BlogUtil::getArticleDomainByArticle);
+    }
+
+    @Override
+    public ArticleDomain getArticleDomain(long id) {
+        Article article = articleRepository.findOne(id);
+        return BlogUtil.getArticleDomainByArticle(article);
     }
 
     private Article modifyArticle(Article article, String title, String description, String content, Set<String> tagNameSet, long userId, Long plateId, Integer weight, String thumbnail) {

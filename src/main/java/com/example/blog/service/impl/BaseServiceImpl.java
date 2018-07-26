@@ -38,4 +38,9 @@ public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
         return baseRepository.save(entity);
     }
 
+    @Override
+    public T get(long id) {
+        return baseRepository.findOne(id);
+    }
+
 }

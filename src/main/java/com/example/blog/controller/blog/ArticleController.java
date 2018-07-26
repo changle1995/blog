@@ -93,33 +93,29 @@ public class ArticleController {
         return RestResponseUtil.success(article, "修改文章成功");
     }
 
-    @ApiOperation(value = "查找文章", notes = "通过各种参数查找文章集合或直接查找所有文章")
+    @ApiOperation(value = "查找文章", notes = "分页查找所有文章")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "文章ID", dataType = "long", paramType = "query"),
-            @ApiImplicitParam(name = "title", value = "文章标题", paramType = "query"),
-            @ApiImplicitParam(name = "plateId", value = "板块ID", dataType = "long", paramType = "query"),
-            @ApiImplicitParam(name = "weight", value = "文章最小权重", dataType = "int", paramType = "query")
+            @ApiImplicitParam(name = "pageNumber", value = "页数", defaultValue = "0", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量", defaultValue = "8", dataType = "int", paramType = "query")
     })
     @GetMapping("/")
-    public RestResponse<Collection<Article>> get(
-            @RequestParam(name = "id", required = false) Long id,
-            @RequestParam(name = "title", required = false) String title,
-            @RequestParam(name = "plateId", required = false) Long plateId,
-            @RequestParam(name = "weight", required = false) Integer weight
+    public RestResponse<Page<ArticleDomain>> get(
+            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
     ) {
-        Collection<Article> articleCollection;
-        if (id != null) {
-            articleCollection = new HashSet<>();
-            articleCollection.add(articleService.getArticle(id));
-        } else if (StringUtils.hasText(title) || plateId != null || weight != null) {
-            articleCollection = articleService.getArticles(title, plateId, weight);
-        } else {
-            articleCollection = articleService.getAllArticles();
-        }
-        return RestResponseUtil.success(articleCollection);
+        return RestResponseUtil.success(articleService.getArticleDomains(pageNumber, pageSize));
     }
 
-    @ApiOperation(value = "查找文章", notes = "通过板块ID查找文章集合")
+    @ApiOperation(value = "查找文章", notes = "通过文章ID查找文章")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "文章ID", required = true, dataType = "long", paramType = "query")
+    })
+    @GetMapping("/getById")
+    public RestResponse<ArticleDomain> getById(@RequestParam(name = "id") long id) {
+        return RestResponseUtil.success(articleService.getArticleDomain(id));
+    }
+
+    @ApiOperation(value = "查找文章", notes = "分页通过板块ID查找文章集合")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "plateId", value = "板块ID", required = true, dataType = "long", paramType = "query"),
             @ApiImplicitParam(name = "pageNumber", value = "页数", defaultValue = "0", dataType = "int", paramType = "query"),
@@ -131,7 +127,22 @@ public class ArticleController {
             @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
             @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
     ) {
-        return RestResponseUtil.success(articleService.getArticlesByPlateId(plateId, pageNumber, pageSize));
+        return RestResponseUtil.success(articleService.getArticleDomainsByPlateId(plateId, pageNumber, pageSize));
+    }
+
+    @ApiOperation(value = "查找文章", notes = "分页通过最小文章权重查找文章集合")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "weight", value = "最小文章权重", required = true, dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageNumber", value = "页数", defaultValue = "0", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量", defaultValue = "8", dataType = "int", paramType = "query")
+    })
+    @GetMapping("/getByWeight")
+    public RestResponse<Page<ArticleDomain>> getByWeight(
+            @RequestParam(name = "weight") Integer weight,
+            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+    ) {
+        return RestResponseUtil.success(articleService.getArticleDomainsByWeight(weight, pageNumber, pageSize));
     }
 
 }

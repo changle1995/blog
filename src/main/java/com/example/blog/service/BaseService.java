@@ -33,4 +33,12 @@ public interface BaseService<T extends BaseEntity> {
      */
     T update(T entity);
 
+    /**
+     * 获取实体方法
+     *
+     * @param id 要查找的实体ID
+     * @return 返回找到的实体
+     */
+    T get(long id);
+
 }
