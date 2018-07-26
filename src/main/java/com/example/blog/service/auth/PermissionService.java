@@ -2,8 +2,7 @@ package com.example.blog.service.auth;
 
 import com.example.blog.entity.auth.Permission;
 import com.example.blog.service.BaseService;
-
-import java.util.Collection;
+import org.springframework.data.domain.Page;
 
 /**
  * Author: changle
@@ -27,7 +26,6 @@ public interface PermissionService extends BaseService<Permission> {
      * 删除权限方法
      *
      * @param id 权限主键ID
-     * @return 无返回值
      */
     void deletePermission(long id);
 
@@ -44,14 +42,6 @@ public interface PermissionService extends BaseService<Permission> {
     Permission editPermission(long id, String name, String description, String url, String method);
 
     /**
-     * 根据权限主键查找权限方法
-     *
-     * @param id 权限主键ID
-     * @return 返回找到的权限
-     */
-    Permission getPermission(long id);
-
-    /**
      * 根据权限名查找权限方法
      *
      * @param name 权限名
@@ -64,6 +54,6 @@ public interface PermissionService extends BaseService<Permission> {
      *
      * @return 返回所有的权限
      */
-    Collection<Permission> getAllPermissions();
+    Page<Permission> getPermissions(Integer pageNumber, Integer pageSize);
 
 }

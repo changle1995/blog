@@ -11,8 +11,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -87,19 +87,26 @@ public class RouteController {
         return RestResponseUtil.success(route, "修改路由成功");
     }
 
-    @ApiOperation(value = "查找路由", notes = "通过路由名称查找路由集合或直接查找所有路由")
+    @ApiOperation(value = "查找路由", notes = "分页查找所有路由")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "路由名称", paramType = "query")
+            @ApiImplicitParam(name = "pageNumber", value = "页数", defaultValue = "0", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量", defaultValue = "8", dataType = "int", paramType = "query")
     })
     @GetMapping("/")
-    public RestResponse<Collection<Route>> get(@RequestParam(name = "name", required = false) String name) {
-        Collection<Route> routeCollection;
-        if (StringUtils.hasText(name)) {
-            routeCollection = routeService.getRoutes(name);
-        } else {
-            routeCollection = routeService.getAllRoutes();
-        }
-        return RestResponseUtil.success(routeCollection);
+    public RestResponse<Page<Route>> get(
+            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+    ) {
+        return RestResponseUtil.success(routeService.getRoutes(pageNumber, pageSize));
+    }
+
+    @ApiOperation(value = "查找路由", notes = "通过路由名称查找路由集合")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "路由名称", required = true, paramType = "query")
+    })
+    @GetMapping("/getByName")
+    public RestResponse<Collection<Route>> getByName(@RequestParam(name = "name") String name) {
+        return RestResponseUtil.success(routeService.getRoutes(name));
     }
 
     @ApiOperation(value = "查找已拥有路由", notes = "查找已拥有路由")

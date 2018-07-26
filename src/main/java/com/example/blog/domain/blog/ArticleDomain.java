@@ -4,6 +4,7 @@ import com.example.blog.domain.BaseDomain;
 import com.example.blog.domain.auth.UserInfo;
 import com.example.blog.entity.blog.Plate;
 import com.example.blog.entity.blog.Tag;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -29,6 +30,7 @@ public class ArticleDomain extends BaseDomain {
     @ApiModelProperty(value = "文章标签")
     private Set<Tag> tagSet;
 
+    @JsonProperty(value = "user")
     @ApiModelProperty(value = "文章作者")
     private UserInfo userInfo;
 

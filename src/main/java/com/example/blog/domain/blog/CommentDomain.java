@@ -2,6 +2,7 @@ package com.example.blog.domain.blog;
 
 import com.example.blog.domain.BaseDomain;
 import com.example.blog.domain.auth.UserInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -19,6 +20,7 @@ public class CommentDomain extends BaseDomain {
     @ApiModelProperty(value = "父评论ID")
     private Long commentId;
 
+    @JsonProperty(value = "user")
     @ApiModelProperty(value = "评论作者")
     private UserInfo userInfo;
 

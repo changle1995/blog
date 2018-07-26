@@ -83,10 +83,10 @@ public class RoleController {
 
     @ApiOperation(value = "查找角色", notes = "通过角色名称查找单个角色")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "角色名称", paramType = "query")
+            @ApiImplicitParam(name = "name", value = "角色名称", required = true, paramType = "query")
     })
     @GetMapping("/getByName")
-    public RestResponse<RoleDomain> getByName(@RequestParam(name = "name", required = false) String name) {
+    public RestResponse<RoleDomain> getByName(@RequestParam(name = "name") String name) {
         Role role = roleService.getRole(name);
         return RestResponseUtil.success(role == null ? null : AuthUtil.getRoleDomainByRole(role));
     }

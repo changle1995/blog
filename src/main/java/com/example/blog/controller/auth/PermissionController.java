@@ -9,11 +9,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
-import java.util.HashSet;
 
 /**
  * Permission后端权限相关操作controller
@@ -77,20 +74,26 @@ public class PermissionController {
         return RestResponseUtil.success(permission, "修改权限成功");
     }
 
-    @ApiOperation(value = "查找权限", notes = "通过权限名称查找单个权限或直接查找所有权限")
+    @ApiOperation(value = "查找权限", notes = "分页查找所有权限")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "权限名称", paramType = "query")
+            @ApiImplicitParam(name = "pageNumber", value = "页数", defaultValue = "0", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量", defaultValue = "8", dataType = "int", paramType = "query")
     })
     @GetMapping("/")
-    public RestResponse<Collection<Permission>> get(@RequestParam(name = "name", required = false) String name) {
-        Collection<Permission> permissionCollection;
-        if (StringUtils.hasText(name)) {
-            permissionCollection = new HashSet<>();
-            permissionCollection.add(permissionService.getPermission(name));
-        } else {
-            permissionCollection = permissionService.getAllPermissions();
-        }
-        return RestResponseUtil.success(permissionCollection);
+    public RestResponse<Page<Permission>> get(
+            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+    ) {
+        return RestResponseUtil.success(permissionService.getPermissions(pageNumber, pageSize));
+    }
+
+    @ApiOperation(value = "查找权限", notes = "通过权限名称查找单个权限")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "权限名称", required = true, paramType = "query")
+    })
+    @GetMapping("/getByName")
+    public RestResponse<Permission> getByName(@RequestParam(name = "name") String name) {
+        return RestResponseUtil.success(permissionService.getPermission(name));
     }
 
 }

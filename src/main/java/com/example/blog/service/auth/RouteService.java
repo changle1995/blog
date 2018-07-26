@@ -2,6 +2,7 @@ package com.example.blog.service.auth;
 
 import com.example.blog.entity.auth.Route;
 import com.example.blog.service.BaseService;
+import org.springframework.data.domain.Page;
 
 import java.util.Collection;
 
@@ -29,7 +30,6 @@ public interface RouteService extends BaseService<Route> {
      * 删除路由方法
      *
      * @param id 路由主键ID
-     * @return 无返回值
      */
     void deleteRoute(long id);
 
@@ -48,14 +48,6 @@ public interface RouteService extends BaseService<Route> {
     Route editRoute(long id, String name, String description, String propertyName, String propertyValue, Integer level, String parentName);
 
     /**
-     * 根据路由主键查找路由方法
-     *
-     * @param id 路由主键ID
-     * @return 返回找到的路由
-     */
-    Route getRoute(long id);
-
-    /**
      * 根据路由名称查找路由方法
      *
      * @param name 路由名称
@@ -64,10 +56,10 @@ public interface RouteService extends BaseService<Route> {
     Collection<Route> getRoutes(String name);
 
     /**
-     * 查找所有路由方法
+     * 分页查找所有路由方法
      *
      * @return 返回所有的路由
      */
-    Collection<Route> getAllRoutes();
+    Page<Route> getRoutes(Integer pageNumber, Integer pageSize);
 
 }

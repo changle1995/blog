@@ -5,11 +5,13 @@ import com.example.blog.repository.auth.PermissionRepository;
 import com.example.blog.service.auth.PermissionService;
 import com.example.blog.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
-import java.util.Collection;
 
 /**
  * Author: changle
@@ -25,7 +27,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
 
     @Override
     public Permission addPermission(String name, String description, String url, String method) {
-        Assert.isNull(permissionRepository.findByName(name), "该权限已存在");
+        Assert.isNull(permissionRepository.findByName(name), "该权限名已存在");
         return permissionRepository.save(modifyPermission(new Permission(), name, description, url, method));
     }
 
@@ -36,12 +38,8 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
 
     @Override
     public Permission editPermission(long id, String name, String description, String url, String method) {
+        Assert.isNull(permissionRepository.findByName(name), "该权限名已存在");
         return permissionRepository.save(modifyPermission(permissionRepository.findOne(id), name, description, url, method));
-    }
-
-    @Override
-    public Permission getPermission(long id) {
-        return permissionRepository.findOne(id);
     }
 
     @Override
@@ -50,8 +48,9 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
     }
 
     @Override
-    public Collection<Permission> getAllPermissions() {
-        return permissionRepository.findAll();
+    public Page<Permission> getPermissions(Integer pageNumber, Integer pageSize) {
+        Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
+        return permissionRepository.findAll(pageable);
     }
 
     private Permission modifyPermission(Permission permission, String name, String description, String url, String method) {

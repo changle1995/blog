@@ -5,6 +5,10 @@ import com.example.blog.repository.auth.RouteRepository;
 import com.example.blog.service.auth.RouteService;
 import com.example.blog.service.impl.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -36,12 +40,8 @@ public class RouteServiceImpl extends BaseServiceImpl<Route> implements RouteSer
 
     @Override
     public Route editRoute(long id, String name, String description, String propertyName, String propertyValue, Integer level, String parentName) {
+        Assert.isNull(routeRepository.findByNameAndPropertyName(name, propertyName), "该路由已存在");
         return routeRepository.save(modifyRoute(routeRepository.findOne(id), name, description, propertyName, propertyValue, level, parentName));
-    }
-
-    @Override
-    public Route getRoute(long id) {
-        return routeRepository.findOne(id);
     }
 
     @Override
@@ -50,8 +50,9 @@ public class RouteServiceImpl extends BaseServiceImpl<Route> implements RouteSer
     }
 
     @Override
-    public Collection<Route> getAllRoutes() {
-        return routeRepository.findAll();
+    public Page<Route> getRoutes(Integer pageNumber, Integer pageSize) {
+        Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
+        return routeRepository.findAll(pageable);
     }
 
     private Route modifyRoute(Route route, String name, String description, String propertyName, String propertyValue, Integer level, String parentName) {
