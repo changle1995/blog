@@ -49,17 +49,8 @@ public class TagServiceImpl extends BaseServiceImpl<Tag> implements TagService {
 
     @Override
     public Tag editTag(long id, String name) {
+        Assert.isNull(tagRepository.findByName(name), "该标签已存在");
         return tagRepository.save(modifyTag(tagRepository.findOne(id), name));
-    }
-
-    @Override
-    public Tag getTag(long id) {
-        return tagRepository.findOne(id);
-    }
-
-    @Override
-    public Tag getTag(String name) {
-        return tagRepository.findByName(name);
     }
 
     @Override

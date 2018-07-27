@@ -9,14 +9,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.HashSet;
 
 /**
- * todo get方法拆分为各个具体方法
  * Author: changle
  * Date: 2018/6/24
  * Time: 18:02
@@ -65,15 +62,8 @@ public class TagController {
             @ApiImplicitParam(name = "name", value = "标签名称", paramType = "query")
     })
     @GetMapping("/")
-    public RestResponse<Collection<Tag>> get(@RequestParam(name = "name", required = false) String name) {
-        Collection<Tag> tagCollection;
-        if (StringUtils.hasText(name)) {
-            tagCollection = new HashSet<>();
-            tagCollection.add(tagService.getTag(name));
-        } else {
-            tagCollection = tagService.getAllTags();
-        }
-        return RestResponseUtil.success(tagCollection);
+    public RestResponse<Collection<Tag>> get() {
+        return RestResponseUtil.success(tagService.getAllTags());
     }
 
 }

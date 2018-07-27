@@ -9,14 +9,11 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.HashSet;
 
 /**
- * todo get方法拆分为各个具体方法
  * Author: changle
  * Date: 2018/6/24
  * Time: 18:02
@@ -72,20 +69,10 @@ public class PlateController {
         return RestResponseUtil.success(plate, "修改板块成功");
     }
 
-    @ApiOperation(value = "查找板块", notes = "通过板块名称查找板块或直接查找所有板块")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "板块名称", paramType = "query")
-    })
+    @ApiOperation(value = "查找板块", notes = "直接查找所有板块")
     @GetMapping("/")
-    public RestResponse<Collection<Plate>> get(@RequestParam(name = "name", required = false) String name) {
-        Collection<Plate> plateCollection;
-        if (StringUtils.hasText(name)) {
-            plateCollection = new HashSet<>();
-            plateCollection.add(plateService.getPlate(name));
-        } else {
-            plateCollection = plateService.getAllPlates();
-        }
-        return RestResponseUtil.success(plateCollection);
+    public RestResponse<Collection<Plate>> get() {
+        return RestResponseUtil.success(plateService.getAllPlates());
     }
 
 }

@@ -41,22 +41,6 @@ public interface PlateService extends BaseService<Plate> {
     Plate editPlate(long id, String name, String description, Integer state);
 
     /**
-     * 根据板块ID查找板块方法
-     *
-     * @param id 板块ID
-     * @return 返回获取的板块
-     */
-    Plate getPlate(long id);
-
-    /**
-     * 根据板块名称查找板块方法
-     *
-     * @param name 板块名称
-     * @return 返回获取的板块
-     */
-    Plate getPlate(String name);
-
-    /**
      * 查找所有板块
      *
      * @return 返回所有板块
