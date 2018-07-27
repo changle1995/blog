@@ -1,9 +1,9 @@
 package com.example.blog.service.blog;
 
+import com.example.blog.domain.blog.CommentDomain;
 import com.example.blog.entity.blog.Comment;
 import com.example.blog.service.BaseService;
-
-import java.util.Collection;
+import org.springframework.data.domain.Page;
 
 /**
  * Author: changle
@@ -40,26 +40,18 @@ public interface CommentService extends BaseService<Comment> {
     Comment editComment(long id, String content);
 
     /**
-     * 根据评论ID查找评论方法
-     *
-     * @param id 评论ID
-     * @return 返回获取的评论
-     */
-    Comment getComment(long id);
-
-    /**
      * 根据文章ID查找评论方法
      *
      * @param articleId 文章ID
      * @return 返回该文章下所有评论
      */
-    Collection<Comment> getComments(long articleId);
+    Page<CommentDomain> getCommentDomainsByArticleId(long articleId, Integer pageNumber, Integer pageSize);
 
     /**
-     * 查找所有评论方法
+     * 分页查找所有评论方法
      *
      * @return 返回所有评论
      */
-    Collection<Comment> getAllComments();
+    Page<CommentDomain> getCommentDomains(Integer pageNumber, Integer pageSize);
 
 }

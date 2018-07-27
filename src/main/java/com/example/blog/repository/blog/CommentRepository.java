@@ -2,9 +2,8 @@ package com.example.blog.repository.blog;
 
 import com.example.blog.entity.blog.Comment;
 import com.example.blog.repository.BaseRepository;
-import org.springframework.data.domain.Sort;
-
-import java.util.Collection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Author: changle
@@ -13,6 +12,6 @@ import java.util.Collection;
  */
 public interface CommentRepository extends BaseRepository<Comment, Long> {
 
-    Collection<Comment> findAllByArticleId(long articleId, Sort sort);
+    Page<Comment> findAllByArticleId(long articleId, Pageable pageable);
 
 }

@@ -1,21 +1,20 @@
 package com.example.blog.controller.blog;
 
 import com.example.blog.domain.RestResponse;
+import com.example.blog.domain.blog.CommentDomain;
 import com.example.blog.entity.blog.Comment;
 import com.example.blog.service.blog.CommentService;
+import com.example.blog.util.BlogUtil;
 import com.example.blog.util.RestResponseUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-
 /**
- * todo 返回值全改为CommentDomain
- * todo get方法拆分为各个具体方法
  * Author: changle
  * Date: 2018/6/24
  * Time: 18:01
@@ -36,14 +35,14 @@ public class CommentController {
             @ApiImplicitParam(name = "content", value = "评论内容", required = true, paramType = "query")
     })
     @PostMapping("/")
-    public RestResponse<Comment> add(
+    public RestResponse<CommentDomain> add(
             @RequestParam(name = "articleId") long articleId,
             @RequestParam(name = "commentId", required = false) Long commentId,
             @RequestParam(name = "userId") long userId,
             @RequestParam(name = "content") String content
     ) {
         Comment comment = commentService.addComment(articleId, commentId, userId, content);
-        return RestResponseUtil.success(comment, "添加评论成功");
+        return RestResponseUtil.success(BlogUtil.getCommentDomainByComment(comment), "添加评论成功");
     }
 
     @ApiOperation(value = "删除评论", notes = "删除评论")
@@ -51,7 +50,7 @@ public class CommentController {
             @ApiImplicitParam(name = "id", value = "评论ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("/{id}")
-    public RestResponse<Comment> delete(@PathVariable(name = "id") long id) {
+    public RestResponse<CommentDomain> delete(@PathVariable(name = "id") long id) {
         commentService.deleteComment(id);
         return RestResponseUtil.success(null, "删除评论成功");
     }
@@ -62,24 +61,37 @@ public class CommentController {
             @ApiImplicitParam(name = "content", value = "评论内容", required = true, paramType = "query")
     })
     @PutMapping("/")
-    public RestResponse<Comment> edit(@RequestParam(name = "id") long id, @RequestParam(name = "content") String content) {
+    public RestResponse<CommentDomain> edit(@RequestParam(name = "id") long id, @RequestParam(name = "content") String content) {
         Comment comment = commentService.editComment(id, content);
-        return RestResponseUtil.success(comment, "修改评论成功");
+        return RestResponseUtil.success(BlogUtil.getCommentDomainByComment(comment), "修改评论成功");
+    }
+
+    @ApiOperation(value = "查找评论", notes = "分页查找所有评论")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNumber", value = "页数", defaultValue = "0", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量", defaultValue = "8", dataType = "int", paramType = "query")
+    })
+    @GetMapping("/")
+    public RestResponse<Page<CommentDomain>> get(
+            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+    ) {
+        return RestResponseUtil.success(commentService.getCommentDomains(pageNumber, pageSize));
     }
 
     @ApiOperation(value = "查找评论", notes = "通过评论所属文章ID查找评论集合或直接查找所有评论")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "articleId", value = "所属文章ID", dataType = "long", paramType = "query")
+            @ApiImplicitParam(name = "articleId", value = "所属文章ID", required = true, dataType = "long", paramType = "query"),
+            @ApiImplicitParam(name = "pageNumber", value = "页数", defaultValue = "0", dataType = "int", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量", defaultValue = "8", dataType = "int", paramType = "query")
     })
-    @GetMapping("/")
-    public RestResponse<Collection<Comment>> get(@RequestParam(name = "articleId", required = false) Long articleId) {
-        Collection<Comment> commentCollection;
-        if (articleId != null) {
-            commentCollection = commentService.getComments(articleId);
-        } else {
-            commentCollection = commentService.getAllComments();
-        }
-        return RestResponseUtil.success(commentCollection);
+    @GetMapping("/getByArticleId")
+    public RestResponse<Page<CommentDomain>> getByArticleId(
+            @RequestParam(name = "articleId") long articleId,
+            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+    ) {
+        return RestResponseUtil.success(commentService.getCommentDomainsByArticleId(articleId, pageNumber, pageSize));
     }
 
 }
