@@ -25,7 +25,6 @@ public interface RoleService extends BaseService<Role> {
      * 删除角色方法
      *
      * @param id 角色主键ID
-     * @return 无返回值
      */
     void deleteRole(long id);
 

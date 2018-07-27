@@ -41,7 +41,7 @@ public class LoginController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         user.setLastLogin(new Date());
         userService.update(user);
-        UserInfo userInfo = AuthUtil.getUserInfoByUserAndToken(SecurityContextHolder.getContext().getAuthentication().getPrincipal(), httpServletRequest.getHeader(HeaderNameEnum.USER_TOKEN.getName()));
+        UserInfo userInfo = AuthUtil.getUserInfoByUserAndToken(user, httpServletRequest.getHeader(HeaderNameEnum.USER_TOKEN.getName()));
         return RestResponseUtil.success(userInfo, "登录成功");
     }
 

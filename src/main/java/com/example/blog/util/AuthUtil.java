@@ -3,6 +3,7 @@ package com.example.blog.util;
 import com.example.blog.domain.auth.RoleDomain;
 import com.example.blog.domain.auth.UserInfo;
 import com.example.blog.entity.auth.Role;
+import com.example.blog.entity.auth.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.Assert;
 
@@ -21,7 +22,7 @@ public class AuthUtil {
      * @param token user-token
      * @return 返回用户对应的UserInfo
      */
-    public static UserInfo getUserInfoByUserAndToken(Object user, String token) {
+    public static UserInfo getUserInfoByUserAndToken(User user, String token) {
         Assert.notNull(user, "用户不能为空");
         UserInfo userInfo = new UserInfo();
         userInfo.setToken(token);

@@ -98,7 +98,7 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
         Assert.notNull(user, "作者不存在");
         article.setUser(user);
         Assert.notNull(plateId, "板块ID不能为空");
-        Plate plate = plateService.getPlate(plateId);
+        Plate plate = plateService.get(plateId);
         Assert.notNull(plate, "板块不存在");
         article.setPlate(plate);
         article.setWeight(weight);

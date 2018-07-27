@@ -21,7 +21,6 @@ public interface BaseService<T extends BaseEntity> {
      * 删除实体方法
      *
      * @param id 要删除实体的主键ID
-     * @return 无返回值
      */
     void delete(long id);
 
