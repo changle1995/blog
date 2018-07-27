@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
@@ -44,12 +45,13 @@ public class FileUploadController {
 
     @ApiOperation(value = "文件显示", notes = "文件显示接口")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "path", value = "文件路径", required = true, paramType = "path"),
+            @ApiImplicitParam(name = "path", value = "文件时间路径", required = true, paramType = "path"),
+            @ApiImplicitParam(name = "type", value = "文件类型路径", required = true, paramType = "path"),
             @ApiImplicitParam(name = "filename", value = "文件名", required = true, paramType = "path")
     })
     @GetMapping("${controller.fileUpload.getFile}")
-    public ResponseEntity getFile(@PathVariable String path, @PathVariable String filename) {
-        return ResponseEntity.ok(resourceLoader.getResource("file:" + Paths.get(fileUploadProperties.getBasePath() + path, filename).toString()));
+    public ResponseEntity getFile(@PathVariable String path, @PathVariable String type, @PathVariable String filename) {
+        return ResponseEntity.ok(resourceLoader.getResource("file:" + Paths.get(fileUploadProperties.getBasePath() + path + File.separator + type, filename).toString()));
     }
 
 }

@@ -9,4 +9,4 @@ controller:
   fileUpload:
     root: '/file'
     upload: '/upload'
-    getFile: '/{path}/{filename:.+}'
+    getFile: '/{path}/{type}/{filename:.+}'
