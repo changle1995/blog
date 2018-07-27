@@ -51,6 +51,17 @@ public class Swagger2 {
                 .paths(PathSelectors.any()).build();
     }
 
+    @Bean
+    public Docket createResourceRestApi() {
+        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
+                .groupName("资源")
+                .ignoredParameterTypes(HttpServletRequest.class, HttpServletResponse.class)
+                .globalOperationParameters(buildOperationParameters())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.example.blog.controller.resource"))
+                .paths(PathSelectors.any()).build();
+    }
+
     private ApiInfo apiInfo() {
         String title = "博客";
         String description = "我的博客项目";

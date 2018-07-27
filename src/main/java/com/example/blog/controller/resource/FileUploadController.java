@@ -1,4 +1,4 @@
-package com.example.blog.controller;
+package com.example.blog.controller.resource;
 
 import com.example.blog.config.FileUploadProperties;
 import com.example.blog.domain.RestResponse;
