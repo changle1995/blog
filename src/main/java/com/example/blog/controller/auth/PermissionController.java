@@ -35,10 +35,10 @@ public class PermissionController {
     })
     @PostMapping("/")
     public RestResponse<Permission> add(
-            @RequestParam(name = "name") String name,
-            @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "url") String url,
-            @RequestParam(name = "method") String method
+            @RequestParam String name,
+            @RequestParam(required = false) String description,
+            @RequestParam String url,
+            @RequestParam String method
     ) {
         Permission permission = permissionService.addPermission(name, description, url, method);
         return RestResponseUtil.success(permission, "添加权限成功");
@@ -49,7 +49,7 @@ public class PermissionController {
             @ApiImplicitParam(name = "id", value = "权限ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("/{id}")
-    public RestResponse<Permission> delete(@PathVariable(name = "id") long id) {
+    public RestResponse<Permission> delete(@PathVariable long id) {
         permissionService.deletePermission(id);
         return RestResponseUtil.success(null, "删除权限成功");
     }
@@ -64,11 +64,11 @@ public class PermissionController {
     })
     @PutMapping("/")
     public RestResponse<Permission> edit(
-            @RequestParam(name = "id") long id,
-            @RequestParam(name = "name") String name,
-            @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "url") String url,
-            @RequestParam(name = "method") String method
+            @RequestParam long id,
+            @RequestParam String name,
+            @RequestParam(required = false) String description,
+            @RequestParam String url,
+            @RequestParam String method
     ) {
         Permission permission = permissionService.editPermission(id, name, description, url, method);
         return RestResponseUtil.success(permission, "修改权限成功");
@@ -81,8 +81,8 @@ public class PermissionController {
     })
     @GetMapping("/")
     public RestResponse<Page<Permission>> get(
-            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+            @RequestParam(required = false, defaultValue = "0") int pageNumber,
+            @RequestParam(required = false, defaultValue = "8") int pageSize
     ) {
         return RestResponseUtil.success(permissionService.getPermissions(pageNumber, pageSize));
     }
@@ -92,7 +92,7 @@ public class PermissionController {
             @ApiImplicitParam(name = "name", value = "权限名称", required = true, paramType = "query")
     })
     @GetMapping("/getByName")
-    public RestResponse<Permission> getByName(@RequestParam(name = "name") String name) {
+    public RestResponse<Permission> getByName(@RequestParam String name) {
         return RestResponseUtil.success(permissionService.getPermission(name));
     }
 

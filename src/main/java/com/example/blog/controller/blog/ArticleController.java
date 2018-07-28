@@ -42,14 +42,14 @@ public class ArticleController {
     })
     @PostMapping("/")
     public RestResponse<ArticleDomain> add(
-            @RequestParam(name = "title") String title,
-            @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "content") String content,
-            @RequestParam(name = "tag", required = false) Set<String> tag,
-            @RequestParam(name = "userId") long userId,
-            @RequestParam(name = "plateId") long plateId,
-            @RequestParam(name = "weight", required = false) Integer weight,
-            @RequestParam(name = "thumbnail", required = false) String thumbnail
+            @RequestParam String title,
+            @RequestParam(required = false) String description,
+            @RequestParam String content,
+            @RequestParam(required = false) Set<String> tag,
+            @RequestParam long userId,
+            @RequestParam long plateId,
+            @RequestParam(required = false) Integer weight,
+            @RequestParam(required = false) String thumbnail
     ) {
         Article article = articleService.addArticle(title, description, content, tag, userId, plateId, weight, thumbnail);
         return RestResponseUtil.success(BlogUtil.getArticleDomainByArticle(article), "添加文章成功");
@@ -60,7 +60,7 @@ public class ArticleController {
             @ApiImplicitParam(name = "id", value = "文章ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("/{id}")
-    public RestResponse<ArticleDomain> delete(@PathVariable(name = "id") long id) {
+    public RestResponse<ArticleDomain> delete(@PathVariable long id) {
         articleService.deleteArticle(id);
         return RestResponseUtil.success(null, "删除文章成功");
     }
@@ -78,14 +78,14 @@ public class ArticleController {
     })
     @PutMapping("/")
     public RestResponse<ArticleDomain> edit(
-            @RequestParam(name = "id") long id,
-            @RequestParam(name = "title") String title,
-            @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "content") String content,
-            @RequestParam(name = "tag", required = false) Set<String> tag,
-            @RequestParam(name = "plateId") long plateId,
-            @RequestParam(name = "weight", required = false) Integer weight,
-            @RequestParam(name = "thumbnail", required = false) String thumbnail
+            @RequestParam long id,
+            @RequestParam String title,
+            @RequestParam(required = false) String description,
+            @RequestParam String content,
+            @RequestParam(required = false) Set<String> tag,
+            @RequestParam long plateId,
+            @RequestParam(required = false) Integer weight,
+            @RequestParam(required = false) String thumbnail
     ) {
         Article article = articleService.editArticle(id, title, description, content, tag, plateId, weight, thumbnail);
         return RestResponseUtil.success(BlogUtil.getArticleDomainByArticle(article), "修改文章成功");
@@ -98,8 +98,8 @@ public class ArticleController {
     })
     @GetMapping("/")
     public RestResponse<Page<ArticleDomain>> get(
-            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+            @RequestParam(required = false, defaultValue = "0") int pageNumber,
+            @RequestParam(required = false, defaultValue = "8") int pageSize
     ) {
         return RestResponseUtil.success(articleService.getArticleDomains(pageNumber, pageSize));
     }
@@ -109,7 +109,7 @@ public class ArticleController {
             @ApiImplicitParam(name = "id", value = "文章ID", required = true, dataType = "long", paramType = "query")
     })
     @GetMapping("/getById")
-    public RestResponse<ArticleDomain> getById(@RequestParam(name = "id") long id) {
+    public RestResponse<ArticleDomain> getById(@RequestParam long id) {
         return RestResponseUtil.success(articleService.getArticleDomain(id));
     }
 
@@ -121,9 +121,9 @@ public class ArticleController {
     })
     @GetMapping("/getByPlateId")
     public RestResponse<Page<ArticleDomain>> getByPlateId(
-            @RequestParam(name = "plateId") Long plateId,
-            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+            @RequestParam long plateId,
+            @RequestParam(required = false, defaultValue = "0") int pageNumber,
+            @RequestParam(required = false, defaultValue = "8") int pageSize
     ) {
         return RestResponseUtil.success(articleService.getArticleDomainsByPlateId(plateId, pageNumber, pageSize));
     }
@@ -136,9 +136,9 @@ public class ArticleController {
     })
     @GetMapping("/getByWeight")
     public RestResponse<Page<ArticleDomain>> getByWeight(
-            @RequestParam(name = "weight") Integer weight,
-            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+            @RequestParam int weight,
+            @RequestParam(required = false, defaultValue = "0") int pageNumber,
+            @RequestParam(required = false, defaultValue = "8") int pageSize
     ) {
         return RestResponseUtil.success(articleService.getArticleDomainsByWeight(weight, pageNumber, pageSize));
     }

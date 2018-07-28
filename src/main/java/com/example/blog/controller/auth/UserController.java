@@ -39,12 +39,12 @@ public class UserController {
     })
     @PostMapping("/")
     public RestResponse<UserInfo> add(
-            @RequestParam(name = "username") String username,
-            @RequestParam(name = "password") String password,
-            @RequestParam(name = "email", required = false) String email,
-            @RequestParam(name = "phoneNumber", required = false) String phoneNumber,
-            @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "avatar", required = false) String avatar
+            @RequestParam String username,
+            @RequestParam String password,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String phoneNumber,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) String avatar
     ) {
         User user = userService.addUser(username, password, email, phoneNumber, description, avatar);
         return RestResponseUtil.success(AuthUtil.getUserInfoByUserAndToken(user, null), "添加用户成功");
@@ -55,7 +55,7 @@ public class UserController {
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("/{id}")
-    public RestResponse<UserInfo> delete(@PathVariable(name = "id") long id) {
+    public RestResponse<UserInfo> delete(@PathVariable long id) {
         userService.deleteUser(id);
         return RestResponseUtil.success(null, "删除用户成功");
     }
@@ -72,13 +72,13 @@ public class UserController {
     })
     @PutMapping("/")
     public RestResponse<UserInfo> edit(
-            @RequestParam(name = "id") long id,
-            @RequestParam(name = "username") String username,
-            @RequestParam(name = "password") String password,
-            @RequestParam(name = "email", required = false) String email,
-            @RequestParam(name = "phoneNumber", required = false) String phoneNumber,
-            @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "avatar", required = false) String avatar
+            @RequestParam long id,
+            @RequestParam String username,
+            @RequestParam String password,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String phoneNumber,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) String avatar
     ) {
         User user = userService.editUser(id, username, password, email, phoneNumber, description, avatar);
         return RestResponseUtil.success(AuthUtil.getUserInfoByUserAndToken(user, null), "修改用户成功");
@@ -91,8 +91,8 @@ public class UserController {
     })
     @GetMapping("/")
     public RestResponse<Page<UserInfo>> get(
-            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+            @RequestParam(required = false, defaultValue = "0") int pageNumber,
+            @RequestParam(required = false, defaultValue = "8") int pageSize
     ) {
         return RestResponseUtil.success(userService.getUserInfos(pageNumber, pageSize));
     }
@@ -102,7 +102,7 @@ public class UserController {
             @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "long", paramType = "query")
     })
     @GetMapping("/getById")
-    public RestResponse<UserInfo> getById(@RequestParam(name = "id") long id) {
+    public RestResponse<UserInfo> getById(@RequestParam long id) {
         User user = userService.get(id);
         return RestResponseUtil.success(user == null ? null : AuthUtil.getUserInfoByUserAndToken(user, null));
     }

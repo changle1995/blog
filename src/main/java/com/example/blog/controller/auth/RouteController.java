@@ -42,12 +42,12 @@ public class RouteController {
     })
     @PostMapping("/")
     public RestResponse<Route> add(
-            @RequestParam(name = "name") String name,
-            @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "propertyName", required = false) String propertyName,
-            @RequestParam(name = "propertyValue", required = false) String propertyValue,
-            @RequestParam(name = "level", required = false) Integer level,
-            @RequestParam(name = "parentName", required = false) String parentName
+            @RequestParam String name,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) String propertyName,
+            @RequestParam(required = false) String propertyValue,
+            @RequestParam(required = false) Integer level,
+            @RequestParam(required = false) String parentName
     ) {
         Route route = routeService.addRoute(name, description, propertyName, propertyValue, level, parentName);
         return RestResponseUtil.success(route, "添加路由成功");
@@ -58,7 +58,7 @@ public class RouteController {
             @ApiImplicitParam(name = "id", value = "路由ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("/{id}")
-    public RestResponse<Route> delete(@PathVariable(name = "id") long id) {
+    public RestResponse<Route> delete(@PathVariable long id) {
         routeService.deleteRoute(id);
         return RestResponseUtil.success(null, "删除路由成功");
     }
@@ -75,13 +75,13 @@ public class RouteController {
     })
     @PutMapping("/")
     public RestResponse<Route> edit(
-            @RequestParam(name = "id") long id,
-            @RequestParam(name = "name") String name,
-            @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "propertyName", required = false) String propertyName,
-            @RequestParam(name = "propertyValue", required = false) String propertyValue,
-            @RequestParam(name = "level", required = false) Integer level,
-            @RequestParam(name = "parentName", required = false) String parentName
+            @RequestParam long id,
+            @RequestParam String name,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) String propertyName,
+            @RequestParam(required = false) String propertyValue,
+            @RequestParam(required = false) Integer level,
+            @RequestParam(required = false) String parentName
     ) {
         Route route = routeService.editRoute(id, name, description, propertyName, propertyValue, level, parentName);
         return RestResponseUtil.success(route, "修改路由成功");
@@ -94,8 +94,8 @@ public class RouteController {
     })
     @GetMapping("/")
     public RestResponse<Page<Route>> get(
-            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+            @RequestParam(required = false, defaultValue = "0") int pageNumber,
+            @RequestParam(required = false, defaultValue = "8") int pageSize
     ) {
         return RestResponseUtil.success(routeService.getRoutes(pageNumber, pageSize));
     }
@@ -105,7 +105,7 @@ public class RouteController {
             @ApiImplicitParam(name = "name", value = "路由名称", required = true, paramType = "query")
     })
     @GetMapping("/getByName")
-    public RestResponse<Collection<Route>> getByName(@RequestParam(name = "name") String name) {
+    public RestResponse<Collection<Route>> getByName(@RequestParam String name) {
         return RestResponseUtil.success(routeService.getRoutes(name));
     }
 

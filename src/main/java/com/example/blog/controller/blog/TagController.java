@@ -31,7 +31,7 @@ public class TagController {
             @ApiImplicitParam(name = "name", value = "标签名称", required = true, paramType = "query")
     })
     @PostMapping("/")
-    public RestResponse<Tag> add(@RequestParam(name = "name") String name) {
+    public RestResponse<Tag> add(@RequestParam String name) {
         Tag tag = tagService.addTag(name);
         return RestResponseUtil.success(tag, "添加标签成功");
     }
@@ -41,7 +41,7 @@ public class TagController {
             @ApiImplicitParam(name = "id", value = "标签ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("/{id}")
-    public RestResponse<Tag> delete(@PathVariable(name = "id") long id) {
+    public RestResponse<Tag> delete(@PathVariable long id) {
         tagService.deleteTag(id);
         return RestResponseUtil.success(null, "删除标签成功");
     }
@@ -52,15 +52,12 @@ public class TagController {
             @ApiImplicitParam(name = "name", value = "标签名称", required = true, paramType = "query")
     })
     @PutMapping("/")
-    public RestResponse<Tag> edit(@RequestParam(name = "id") long id, @RequestParam(name = "name") String name) {
+    public RestResponse<Tag> edit(@RequestParam long id, @RequestParam String name) {
         Tag tag = tagService.editTag(id, name);
         return RestResponseUtil.success(tag, "修改标签成功");
     }
 
-    @ApiOperation(value = "查找标签", notes = "通过标签名称查找标签或直接查找所有标签")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "标签名称", paramType = "query")
-    })
+    @ApiOperation(value = "查找标签", notes = "直接查找所有标签")
     @GetMapping("/")
     public RestResponse<Collection<Tag>> get() {
         return RestResponseUtil.success(tagService.getAllTags());

@@ -39,7 +39,7 @@ public class FileUploadController {
             @ApiImplicitParam(name = "file", value = "上传的文件", required = true, dataType = "MultipartFile", paramType = "query")
     })
     @PostMapping("${controller.fileUpload.upload}")
-    public RestResponse<String> upload(@RequestParam("file") MultipartFile file) throws IOException {
+    public RestResponse<String> upload(@RequestParam MultipartFile file) throws IOException {
         return RestResponseUtil.success(FileUploadUtil.upload(file, fileUploadProperties.getBasePath()), "文件上传成功");
     }
 

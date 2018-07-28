@@ -36,10 +36,10 @@ public class CommentController {
     })
     @PostMapping("/")
     public RestResponse<CommentDomain> add(
-            @RequestParam(name = "articleId") long articleId,
-            @RequestParam(name = "commentId", required = false) Long commentId,
-            @RequestParam(name = "userId") long userId,
-            @RequestParam(name = "content") String content
+            @RequestParam long articleId,
+            @RequestParam(required = false) Long commentId,
+            @RequestParam long userId,
+            @RequestParam String content
     ) {
         Comment comment = commentService.addComment(articleId, commentId, userId, content);
         return RestResponseUtil.success(BlogUtil.getCommentDomainByComment(comment), "添加评论成功");
@@ -50,7 +50,7 @@ public class CommentController {
             @ApiImplicitParam(name = "id", value = "评论ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("/{id}")
-    public RestResponse<CommentDomain> delete(@PathVariable(name = "id") long id) {
+    public RestResponse<CommentDomain> delete(@PathVariable long id) {
         commentService.deleteComment(id);
         return RestResponseUtil.success(null, "删除评论成功");
     }
@@ -61,7 +61,7 @@ public class CommentController {
             @ApiImplicitParam(name = "content", value = "评论内容", required = true, paramType = "query")
     })
     @PutMapping("/")
-    public RestResponse<CommentDomain> edit(@RequestParam(name = "id") long id, @RequestParam(name = "content") String content) {
+    public RestResponse<CommentDomain> edit(@RequestParam long id, @RequestParam String content) {
         Comment comment = commentService.editComment(id, content);
         return RestResponseUtil.success(BlogUtil.getCommentDomainByComment(comment), "修改评论成功");
     }
@@ -73,8 +73,8 @@ public class CommentController {
     })
     @GetMapping("/")
     public RestResponse<Page<CommentDomain>> get(
-            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+            @RequestParam(required = false, defaultValue = "0") int pageNumber,
+            @RequestParam(required = false, defaultValue = "8") int pageSize
     ) {
         return RestResponseUtil.success(commentService.getCommentDomains(pageNumber, pageSize));
     }
@@ -87,9 +87,9 @@ public class CommentController {
     })
     @GetMapping("/getByArticleId")
     public RestResponse<Page<CommentDomain>> getByArticleId(
-            @RequestParam(name = "articleId") long articleId,
-            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+            @RequestParam long articleId,
+            @RequestParam(required = false, defaultValue = "0") int pageNumber,
+            @RequestParam(required = false, defaultValue = "8") int pageSize
     ) {
         return RestResponseUtil.success(commentService.getCommentDomainsByArticleId(articleId, pageNumber, pageSize));
     }

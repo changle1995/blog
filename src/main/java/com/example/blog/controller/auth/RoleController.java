@@ -35,8 +35,8 @@ public class RoleController {
     })
     @PostMapping("/")
     public RestResponse<RoleDomain> add(
-            @RequestParam(name = "name") String name,
-            @RequestParam(name = "description", required = false) String description
+            @RequestParam String name,
+            @RequestParam(required = false) String description
     ) {
         Role role = roleService.addRole(name, description);
         return RestResponseUtil.success(AuthUtil.getRoleDomainByRole(role), "添加角色成功");
@@ -47,7 +47,7 @@ public class RoleController {
             @ApiImplicitParam(name = "id", value = "角色ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("/{id}")
-    public RestResponse<RoleDomain> delete(@PathVariable(name = "id") long id) {
+    public RestResponse<RoleDomain> delete(@PathVariable long id) {
         roleService.deleteRole(id);
         return RestResponseUtil.success(null, "删除角色成功");
     }
@@ -60,9 +60,9 @@ public class RoleController {
     })
     @PutMapping("/")
     public RestResponse<RoleDomain> edit(
-            @RequestParam(name = "id") long id,
-            @RequestParam(name = "name") String name,
-            @RequestParam(name = "description", required = false) String description
+            @RequestParam long id,
+            @RequestParam String name,
+            @RequestParam(required = false) String description
     ) {
         Role role = roleService.editRole(id, name, description);
         return RestResponseUtil.success(AuthUtil.getRoleDomainByRole(role), "修改角色成功");
@@ -75,8 +75,8 @@ public class RoleController {
     })
     @GetMapping("/")
     public RestResponse<Page<RoleDomain>> get(
-            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer pageNumber,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "8") Integer pageSize
+            @RequestParam(required = false, defaultValue = "0") int pageNumber,
+            @RequestParam(required = false, defaultValue = "8") int pageSize
     ) {
         return RestResponseUtil.success(roleService.getRoleDomains(pageNumber, pageSize));
     }
@@ -86,7 +86,7 @@ public class RoleController {
             @ApiImplicitParam(name = "name", value = "角色名称", required = true, paramType = "query")
     })
     @GetMapping("/getByName")
-    public RestResponse<RoleDomain> getByName(@RequestParam(name = "name") String name) {
+    public RestResponse<RoleDomain> getByName(@RequestParam String name) {
         Role role = roleService.getRole(name);
         return RestResponseUtil.success(role == null ? null : AuthUtil.getRoleDomainByRole(role));
     }

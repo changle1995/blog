@@ -34,9 +34,9 @@ public class PlateController {
     })
     @PostMapping("/")
     public RestResponse<Plate> add(
-            @RequestParam(name = "name") String name,
-            @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "state", required = false, defaultValue = "1") Integer state
+            @RequestParam String name,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false, defaultValue = "1") int state
     ) {
         Plate plate = plateService.addPlate(name, description, state);
         return RestResponseUtil.success(plate, "添加板块成功");
@@ -47,7 +47,7 @@ public class PlateController {
             @ApiImplicitParam(name = "id", value = "板块ID", required = true, dataType = "long", paramType = "path")
     })
     @DeleteMapping("/{id}")
-    public RestResponse<Plate> delete(@PathVariable(name = "id") long id) {
+    public RestResponse<Plate> delete(@PathVariable long id) {
         plateService.deletePlate(id);
         return RestResponseUtil.success(null, "删除板块成功");
     }
@@ -61,10 +61,10 @@ public class PlateController {
     })
     @PutMapping("/")
     public RestResponse<Plate> edit(
-            @RequestParam(name = "id") long id,
-            @RequestParam(name = "name") String name,
-            @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "state") Integer state) {
+            @RequestParam long id,
+            @RequestParam String name,
+            @RequestParam(required = false) String description,
+            @RequestParam int state) {
         Plate plate = plateService.editPlate(id, name, description, state);
         return RestResponseUtil.success(plate, "修改板块成功");
     }
