@@ -60,21 +60,21 @@ public class ArticleServiceImpl extends BaseServiceImpl<Article> implements Arti
     }
 
     @Override
-    public Page<ArticleDomain> getArticleDomainsByPlateId(Long plateId, Integer pageNumber, Integer pageSize) {
+    public Page<ArticleDomain> getArticleDomainsByPlateId(long plateId, int pageNumber, int pageSize) {
         Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
         Page<Article> articlePage = articleRepository.findAllByPlateId(plateId, pageable);
         return articlePage.map(BlogUtil::getArticleDomainByArticle);
     }
 
     @Override
-    public Page<ArticleDomain> getArticleDomainsByWeight(Integer weight, Integer pageNumber, Integer pageSize) {
+    public Page<ArticleDomain> getArticleDomainsByWeight(int weight, int pageNumber, int pageSize) {
         Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
         Page<Article> articlePage = articleRepository.findAllByWeightGreaterThanEqual(weight, pageable);
         return articlePage.map(BlogUtil::getArticleDomainByArticle);
     }
 
     @Override
-    public Page<ArticleDomain> getArticleDomains(Integer pageNumber, Integer pageSize) {
+    public Page<ArticleDomain> getArticleDomains(int pageNumber, int pageSize) {
         Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
         Page<Article> articlePage = articleRepository.findAll(pageable);
         return articlePage.map(BlogUtil::getArticleDomainByArticle);

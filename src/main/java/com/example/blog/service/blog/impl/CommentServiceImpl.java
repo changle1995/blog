@@ -53,14 +53,14 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment> implements Comm
     }
 
     @Override
-    public Page<CommentDomain> getCommentDomainsByArticleId(long articleId, Integer pageNumber, Integer pageSize) {
+    public Page<CommentDomain> getCommentDomainsByArticleId(long articleId, int pageNumber, int pageSize) {
         Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
         Page<Comment> commentPage = commentRepository.findAllByArticleId(articleId, pageable);
         return commentPage.map(BlogUtil::getCommentDomainByComment);
     }
 
     @Override
-    public Page<CommentDomain> getCommentDomains(Integer pageNumber, Integer pageSize) {
+    public Page<CommentDomain> getCommentDomains(int pageNumber, int pageSize) {
         Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
         Page<Comment> commentPage = commentRepository.findAll(pageable);
         return commentPage.map(BlogUtil::getCommentDomainByComment);

@@ -58,8 +58,10 @@ public interface RouteService extends BaseService<Route> {
     /**
      * 分页查找所有路由方法
      *
+     * @param pageNumber 页数
+     * @param pageSize   每页数量
      * @return 返回所有的路由
      */
-    Page<Route> getRoutes(Integer pageNumber, Integer pageSize);
+    Page<Route> getRoutes(int pageNumber, int pageSize);
 
 }

@@ -49,8 +49,10 @@ public interface RoleService extends BaseService<Role> {
     /**
      * 分页查找所有角色方法
      *
+     * @param pageNumber 页数
+     * @param pageSize   每页数量
      * @return 返回所有的角色
      */
-    Page<RoleDomain> getRoleDomains(Integer pageNumber, Integer pageSize);
+    Page<RoleDomain> getRoleDomains(int pageNumber, int pageSize);
 
 }

@@ -42,16 +42,20 @@ public interface CommentService extends BaseService<Comment> {
     /**
      * 根据文章ID查找评论方法
      *
-     * @param articleId 文章ID
+     * @param articleId  文章ID
+     * @param pageNumber 页数
+     * @param pageSize   每页数量
      * @return 返回该文章下所有评论
      */
-    Page<CommentDomain> getCommentDomainsByArticleId(long articleId, Integer pageNumber, Integer pageSize);
+    Page<CommentDomain> getCommentDomainsByArticleId(long articleId, int pageNumber, int pageSize);
 
     /**
      * 分页查找所有评论方法
      *
+     * @param pageNumber 页数
+     * @param pageSize   每页数量
      * @return 返回所有评论
      */
-    Page<CommentDomain> getCommentDomains(Integer pageNumber, Integer pageSize);
+    Page<CommentDomain> getCommentDomains(int pageNumber, int pageSize);
 
 }

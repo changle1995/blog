@@ -50,7 +50,7 @@ public class RouteServiceImpl extends BaseServiceImpl<Route> implements RouteSer
     }
 
     @Override
-    public Page<Route> getRoutes(Integer pageNumber, Integer pageSize) {
+    public Page<Route> getRoutes(int pageNumber, int pageSize) {
         Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
         return routeRepository.findAll(pageable);
     }

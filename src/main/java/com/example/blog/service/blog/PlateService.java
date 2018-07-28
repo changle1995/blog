@@ -20,7 +20,7 @@ public interface PlateService extends BaseService<Plate> {
      * @param state       板块状态
      * @return 返回新增的板块
      */
-    Plate addPlate(String name, String description, Integer state);
+    Plate addPlate(String name, String description, int state);
 
     /**
      * 删除板块方法
@@ -38,7 +38,7 @@ public interface PlateService extends BaseService<Plate> {
      * @param state       板块状态
      * @return 返回修改后的板块
      */
-    Plate editPlate(long id, String name, String description, Integer state);
+    Plate editPlate(long id, String name, String description, int state);
 
     /**
      * 查找所有板块

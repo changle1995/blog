@@ -50,10 +50,12 @@ public interface PermissionService extends BaseService<Permission> {
     Permission getPermission(String name);
 
     /**
-     * 查找所有权限方法
+     * 分页查找所有权限方法
      *
+     * @param pageNumber 页数
+     * @param pageSize   每页数量
      * @return 返回所有的权限
      */
-    Page<Permission> getPermissions(Integer pageNumber, Integer pageSize);
+    Page<Permission> getPermissions(int pageNumber, int pageSize);
 
 }

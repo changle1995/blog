@@ -59,7 +59,7 @@ public interface ArticleService extends BaseService<Article> {
      * @param pageSize   每页数量
      * @return 返回获取的文章对应的ArticleDomain
      */
-    Page<ArticleDomain> getArticleDomainsByPlateId(Long plateId, Integer pageNumber, Integer pageSize);
+    Page<ArticleDomain> getArticleDomainsByPlateId(long plateId, int pageNumber, int pageSize);
 
     /**
      * 分页根据最小文章权重查找文章方法
@@ -69,14 +69,16 @@ public interface ArticleService extends BaseService<Article> {
      * @param pageSize   每页数量
      * @return 返回获取的文章对应的ArticleDomain
      */
-    Page<ArticleDomain> getArticleDomainsByWeight(Integer weight, Integer pageNumber, Integer pageSize);
+    Page<ArticleDomain> getArticleDomainsByWeight(int weight, int pageNumber, int pageSize);
 
     /**
      * 分页查找文章集合
      *
+     * @param pageNumber 页数
+     * @param pageSize   每页数量
      * @return 返回文章集合对应的ArticleDomain
      */
-    Page<ArticleDomain> getArticleDomains(Integer pageNumber, Integer pageSize);
+    Page<ArticleDomain> getArticleDomains(int pageNumber, int pageSize);
 
     /**
      * 根据文章ID查找ArticleDomain方法

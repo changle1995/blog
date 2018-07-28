@@ -51,7 +51,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     }
 
     @Override
-    public Page<UserInfo> getUserInfos(Integer pageNumber, Integer pageSize) {
+    public Page<UserInfo> getUserInfos(int pageNumber, int pageSize) {
         Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
         Page<User> userPage = userRepository.findAll(pageable);
         return userPage.map(user -> AuthUtil.getUserInfoByUserAndToken(user, null));

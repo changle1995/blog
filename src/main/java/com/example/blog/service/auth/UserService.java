@@ -57,8 +57,10 @@ public interface UserService extends BaseService<User> {
     /**
      * 分页查找所有用户方法
      *
+     * @param pageNumber 页数
+     * @param pageSize   每页数量
      * @return 返回所有的用户
      */
-    Page<UserInfo> getUserInfos(Integer pageNumber, Integer pageSize);
+    Page<UserInfo> getUserInfos(int pageNumber, int pageSize);
 
 }

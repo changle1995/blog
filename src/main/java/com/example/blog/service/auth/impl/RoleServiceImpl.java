@@ -50,7 +50,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     }
 
     @Override
-    public Page<RoleDomain> getRoleDomains(Integer pageNumber, Integer pageSize) {
+    public Page<RoleDomain> getRoleDomains(int pageNumber, int pageSize) {
         Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
         Page<Role> rolePage = roleRepository.findAll(pageable);
         return rolePage.map(AuthUtil::getRoleDomainByRole);

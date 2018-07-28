@@ -48,7 +48,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
     }
 
     @Override
-    public Page<Permission> getPermissions(Integer pageNumber, Integer pageSize) {
+    public Page<Permission> getPermissions(int pageNumber, int pageSize) {
         Pageable pageable = new PageRequest(pageNumber, pageSize, new Sort(Sort.Direction.DESC, "id"));
         return permissionRepository.findAll(pageable);
     }
