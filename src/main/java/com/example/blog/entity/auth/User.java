@@ -141,11 +141,7 @@ public class User extends BaseEntity implements UserDetails {
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<Permission> permissionSet = new HashSet<>();
-        Optional.ofNullable(this.roleSet)
-                .orElse(new HashSet<>())
-                .forEach(role -> permissionSet.addAll(role.getPermissionSet()));
-        return permissionSet;
+        return Optional.ofNullable(this.roleSet).orElse(new HashSet<>());
     }
 
 }

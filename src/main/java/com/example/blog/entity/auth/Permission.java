@@ -4,7 +4,6 @@ import com.example.blog.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,7 +18,7 @@ import java.util.Set;
  */
 @ApiModel(value = "后端权限表实体类")
 @Entity
-public class Permission extends BaseEntity implements GrantedAuthority {
+public class Permission extends BaseEntity {
 
     @ApiModelProperty(value = "权限名称")
     private String name;
@@ -29,6 +28,7 @@ public class Permission extends BaseEntity implements GrantedAuthority {
     private String description;
 
     @ApiModelProperty(value = "权限对应url路径")
+    @Column(length = 1000)
     private String url;
 
     @ApiModelProperty(value = "权限对应url路径的方法")
@@ -77,12 +77,6 @@ public class Permission extends BaseEntity implements GrantedAuthority {
 
     public void setRoleSet(Set<Role> roleSet) {
         this.roleSet = roleSet;
-    }
-
-    @JsonIgnore
-    @Override
-    public String getAuthority() {
-        return name;
     }
 
 }

@@ -23,8 +23,8 @@ public class CustomizedAuthAccessDecisionManager implements AccessDecisionManage
     /**
      * 每次权限验证将调用此方法
      * 判断用户是否拥有对应的url权限
-     * configAttributeCollection中包含所有能访问当前url的权限
-     * 从当前Authentication中取所有权限与configAttributeCollection中权限一一对比,若相等则表示通过
+     * configAttributeCollection中包含所有能访问当前url的角色
+     * 从当前Authentication中取所有角色与configAttributeCollection中角色一一对比,若相等则表示通过
      */
     @Override
     public void decide(Authentication authentication, Object o, Collection<ConfigAttribute> configAttributeCollection) throws AccessDeniedException, InsufficientAuthenticationException {

@@ -4,6 +4,7 @@ import com.example.blog.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -15,7 +16,7 @@ import java.util.Set;
  */
 @ApiModel(value = "角色表实体类")
 @Entity(name = "role")
-public class Role extends BaseEntity {
+public class Role extends BaseEntity implements GrantedAuthority {
 
     @ApiModelProperty(value = "角色名称")
     private String name;
@@ -79,6 +80,12 @@ public class Role extends BaseEntity {
 
     public void setRouteSet(Set<Route> routeSet) {
         this.routeSet = routeSet;
+    }
+
+    @JsonIgnore
+    @Override
+    public String getAuthority() {
+        return name;
     }
 
 }

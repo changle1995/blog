@@ -1,7 +1,8 @@
 package com.example.blog.config.security.auth;
 
 import com.example.blog.entity.auth.Permission;
-import com.example.blog.repository.auth.PermissionRepository;
+import com.example.blog.entity.auth.Role;
+import com.example.blog.repository.auth.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 /**
  * 自定义获取url与权限对应关系的类
@@ -24,57 +27,47 @@ import java.util.*;
 public class CustomizedAuthFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     /**
-     * 保存所有权限的Map,使用name作为key,Permission作为值
+     * 保存所有角色
      */
-    private Map<String, Permission> permissionsMap;
+    private Collection<Role> roleCollection;
 
     @Autowired
-    private PermissionRepository permissionRepository;
+    private RoleRepository roleRepository;
 
     /**
-     * 加载所有权限与url的关系
-     * Permission中url值与Authority一一对应
+     * 加载所有角色
      */
     private void loadResourceDefine() {
-        this.permissionsMap = new HashMap<>();
-        Collection<Permission> permissionCollection = permissionRepository.findAll();
-        Optional.ofNullable(permissionCollection)
-                .orElse(new HashSet<>())
-                .forEach(permission -> this.permissionsMap.put(permission.getAuthority(), permission));
+        this.roleCollection = roleRepository.findAll();
     }
 
     /**
      * 该方法若返回为空则不会调用AccessDecisionManager的decide方法,将被视为认证通过
-     * 获取到当前访问的url对应的所有的权限
+     * 获取到当前访问的url对应的所有的角色
      */
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
-        // 保证所有权限与资源是实时刷新的
+        // 保证所有角色与资源是实时刷新的
         loadResourceDefine();
         HttpServletRequest httpServletRequest = ((FilterInvocation) o).getHttpRequest();
         Collection<ConfigAttribute> configAttributeCollection = new HashSet<>();
-        this.permissionsMap.forEach((authority, permission) -> {
+        this.roleCollection.forEach(role -> role.getPermissionSet().forEach(permission -> {
             if (methodMatches(httpServletRequest, permission)) {
-                for (String url : permission.getUrl().split(",")) {
-                    if (new AntPathRequestMatcher(url).matches(httpServletRequest)) {
-                        configAttributeCollection.add(new SecurityConfig(authority));
-                        break;
-                    }
+                if (new AntPathRequestMatcher(permission.getUrl()).matches(httpServletRequest)) {
+                    configAttributeCollection.add(new SecurityConfig(role.getName()));
                 }
             }
-        });
+        }));
         return configAttributeCollection;
     }
 
     /**
-     * 获取所有权限
+     * 获取所有角色
      */
     @Override
     public Collection<ConfigAttribute> getAllConfigAttributes() {
         loadResourceDefine();
-        Collection<ConfigAttribute> configAttributeCollection = new HashSet<>();
-        permissionsMap.forEach((authority, permission) -> configAttributeCollection.add(new SecurityConfig(authority)));
-        return configAttributeCollection;
+        return this.roleCollection.stream().map(role -> new SecurityConfig(role.getName())).collect(Collectors.toSet());
     }
 
     @Override

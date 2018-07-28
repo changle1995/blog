@@ -1,6 +1,8 @@
 package com.example.blog.config.security;
 
-import com.example.blog.service.auth.PermissionService;
+import com.example.blog.entity.auth.Permission;
+import com.example.blog.service.auth.RoleService;
+import com.example.blog.service.auth.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,6 +13,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * spring security配置类
@@ -30,7 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private CorsConfigurationSource corsConfigurationSource;
 
     @Autowired
-    private PermissionService permissionService;
+    private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private SecurityConfigProperties securityConfigProperties;
@@ -49,7 +58,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         //配置默认权限过滤器FilterSecurityInterceptor的安全策略
         //设置匿名权限url不需要拦截其余都需要验证权限
-        http.authorizeRequests().antMatchers(permissionService.getPermission("ROLE_ANONYMOUS").getUrl().split(",")).permitAll().anyRequest().authenticated();
+        Set<String> anonymousAllowUrl = roleService.getRole("ROLE_ANONYMOUS").getPermissionSet().stream().map(Permission::getUrl).collect(Collectors.toSet());
+        http.authorizeRequests().antMatchers(anonymousAllowUrl.toArray(new String[anonymousAllowUrl.size()])).permitAll().anyRequest().authenticated();
+//        http.authorizeRequests().anyRequest().authenticated();
+//        http.anonymous().principal(userService.getUser("anonymous")).authorities(new ArrayList<>(userService.getUser("anonymous").getRoleSet()));
         //使用默认的form表单登录,验证成功则跳转到/loginSuccess,验证失败则跳转到/loginFailure
         http.formLogin().successForwardUrl(this.securityConfigProperties.getSuccessForwardUrl()).failureForwardUrl(this.securityConfigProperties.getFailureForwardUrl());
         //使用默认的退出,退出成功则跳转到/logoutSuccess
