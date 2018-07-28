@@ -57,7 +57,7 @@ public class CustomizedAuthFilterSecurityInterceptor extends AbstractSecurityInt
     }
 
     /**
-     * 注入自定义的FilterInvocationSecurityMetadataSource来获取权限关系
+     * 注入自定义的FilterInvocationSecurityMetadataSource来获取角色关系
      */
     @Override
     public SecurityMetadataSource obtainSecurityMetadataSource() {

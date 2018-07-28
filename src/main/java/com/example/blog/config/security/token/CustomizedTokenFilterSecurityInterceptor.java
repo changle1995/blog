@@ -4,6 +4,7 @@ import com.example.blog.enumeration.HeaderNameEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -56,13 +57,13 @@ public class CustomizedTokenFilterSecurityInterceptor extends AbstractAuthentica
     }
 
     /**
-     * 判断请求头部是否含有合法的token,若没有或与sessionID不同都清除用户信息,把那个返回401错误
+     * 判断请求头部是否含有合法的token,若没有或与sessionID不同都清除用户信息,则返回401错误
      * 若用户未登陆则直接返回匿名的Authentication表示通过,因为此过滤器仅处理token,登录操作为其他过滤器处理
      */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getPrincipal().equals("anonymousUser")) {
+        if (authentication instanceof AnonymousAuthenticationToken) {
             return authentication;
         } else {
             String token = httpServletRequest.getHeader(HeaderNameEnum.USER_TOKEN.getName());

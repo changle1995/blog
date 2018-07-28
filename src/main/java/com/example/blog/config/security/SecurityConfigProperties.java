@@ -26,6 +26,8 @@ public class SecurityConfigProperties {
 
     private boolean maxSessionsPreventsLogin;
 
+    private String anonymousUsername;
+
     public String getSuccessForwardUrl() {
         return successForwardUrl;
     }
@@ -81,4 +83,13 @@ public class SecurityConfigProperties {
     public void setMaxSessionsPreventsLogin(boolean maxSessionsPreventsLogin) {
         this.maxSessionsPreventsLogin = maxSessionsPreventsLogin;
     }
+
+    public String getAnonymousUsername() {
+        return anonymousUsername;
+    }
+
+    public void setAnonymousUsername(String anonymousUsername) {
+        this.anonymousUsername = anonymousUsername;
+    }
+
 }

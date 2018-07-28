@@ -23,6 +23,7 @@ public class CustomizedTokenHttpServletRequestWrapper extends HttpServletRequest
         this.customizedHeaders.put(key, value);
     }
 
+    @Override
     public String getHeader(String key) {
         String value = this.customizedHeaders.get(key);
         if (value != null) {
@@ -31,6 +32,7 @@ public class CustomizedTokenHttpServletRequestWrapper extends HttpServletRequest
         return ((HttpServletRequest) getRequest()).getHeader(key);
     }
 
+    @Override
     public Enumeration<String> getHeaderNames() {
         Set<String> set = new HashSet<>(customizedHeaders.keySet());
         Enumeration<String> enumeration = ((HttpServletRequest) getRequest()).getHeaderNames();

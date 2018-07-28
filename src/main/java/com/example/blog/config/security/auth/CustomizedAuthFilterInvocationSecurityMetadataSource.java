@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.stream.Collectors;
 
 /**
- * 自定义获取url与权限对应关系的类
+ * 自定义获取url与角色对应关系的类
  * Author: changle
  * Date: 2018/3/24
  * Time: 14:38
