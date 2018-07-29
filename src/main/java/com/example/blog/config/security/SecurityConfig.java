@@ -59,9 +59,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //设置匿名用户能够访问的URL
         for (Role role : user.getRoleSet()) {
             for (Permission permission : role.getPermissionSet()) {
-                String method = permission.getMethod();
-                HttpMethod httpMethod = StringUtils.hasText(method) && !method.equals("*") ? HttpMethod.valueOf(method.toUpperCase()) : null;
-                http.authorizeRequests().antMatchers(httpMethod, permission.getUrl()).hasAuthority(role.getAuthority());
+                String[] methods = StringUtils.hasText(permission.getMethod()) && !permission.getMethod().equals("*") ? permission.getMethod().split(",") : new String[]{"*"};
+                for (String method : methods) {
+                    HttpMethod httpMethod = !method.equals("*") ? HttpMethod.valueOf(method.toUpperCase()) : null;
+                    http.authorizeRequests().antMatchers(httpMethod, permission.getUrl()).hasAuthority(role.getAuthority());
+                }
             }
         }
         //使用默认的form表单登录,验证成功则跳转到/loginSuccess,验证失败则跳转到/loginFailure
