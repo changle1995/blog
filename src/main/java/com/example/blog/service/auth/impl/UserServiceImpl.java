@@ -41,7 +41,8 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
     @Override
     public User editUser(long id, String username, String password, String email, String phoneNumber, String description, String avatar) {
-        Assert.isNull(userRepository.findByUsername(username), "该用户名已存在");
+        User user = userRepository.findByUsername(username);
+        Assert.state(user == null || user.getId() == id, "该用户名已存在");
         return userRepository.save(modifyUser(userRepository.findOne(id), username, password, email, phoneNumber, description, avatar));
     }
 
@@ -68,6 +69,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
         user.setDescription(description);
+        user.setAvatar(avatar);
         return user;
     }
 

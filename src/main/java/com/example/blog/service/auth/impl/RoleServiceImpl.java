@@ -40,7 +40,8 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
 
     @Override
     public Role editRole(long id, String name, String description) {
-        Assert.isNull(roleRepository.findByName(name), "该角色名已存在");
+        Role role = roleRepository.findByName(name);
+        Assert.state(role == null || role.getId() == id, "该角色名已存在");
         return roleRepository.save(modifyRole(roleRepository.findOne(id), name, description));
     }
 

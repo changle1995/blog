@@ -38,7 +38,8 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
 
     @Override
     public Permission editPermission(long id, String name, String description, String url, String method) {
-        Assert.isNull(permissionRepository.findByName(name), "该权限名已存在");
+        Permission permission = permissionRepository.findByName(name);
+        Assert.state(permission == null || permission.getId() == id, "该权限名已存在");
         return permissionRepository.save(modifyPermission(permissionRepository.findOne(id), name, description, url, method));
     }
 

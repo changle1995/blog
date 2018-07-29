@@ -40,7 +40,8 @@ public class RouteServiceImpl extends BaseServiceImpl<Route> implements RouteSer
 
     @Override
     public Route editRoute(long id, String name, String description, String propertyName, String propertyValue, Integer level, String parentName) {
-        Assert.isNull(routeRepository.findByNameAndPropertyName(name, propertyName), "该路由已存在");
+        Route route = routeRepository.findByNameAndPropertyName(name, propertyName);
+        Assert.state(route == null || route.getId() == id, "该路由已存在");
         return routeRepository.save(modifyRoute(routeRepository.findOne(id), name, description, propertyName, propertyValue, level, parentName));
     }
 
