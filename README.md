@@ -12,11 +12,24 @@
 ### 启动：
  - main方法运行
  ```
- 配置：src/main/resources/application-datasource.yml (数据库账号密码)、向数据库导入初始数据
- 运行：src/main/java/com/example/blog/BootApplication
+ 配置：src/main/resources/dev(prod)_conf/application-datasource.yml (数据库账号密码)、向数据库导入初始数据
+ 运行：src/main/java/com/example/blog/BootApplication.java
  访问：http://localhost:10080/
- 账号：默认管理员账号为 account/12345
+ 账号：默认管理员账号为 admin/12345
 ```
 
 ### 最新版本(1.0)：
-1. 基础功能上线
+* 权限功能
+    ###### 分为用户、角色、权限、路由
+    ```
+    用户可拥有多个角色
+    角色可拥有多个权限,权限对应一个url路径
+    角色可拥有多个路由,路由为配合前端项目使用,可控制按钮权限
+    ```
+* 博客功能
+    ###### 分为板块、文章、标签、评论
+    ```
+    板块下有多个文章
+    文章可有多个评论
+    文章可有多个标签
+    ```
