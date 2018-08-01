@@ -7,7 +7,7 @@ spring:
     access-denied-url: '${controller.auth.login.accessDenied}'
     maximum-sessions: 1
     max-sessions-prevents-login: false
-    anonymous-username: 'anonymous'
+    anonymous-username: '基础用户'
     cors:
       allowed-origins:
         - '*'
