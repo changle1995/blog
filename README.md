@@ -13,7 +13,7 @@
  - main方法运行
  ```
  配置：src/main/resources/dev(prod)_conf/application-datasource.yml (数据库账号密码)
-      运行sql/blog.sql文件向数据库导入初始数据
+       运行sql/blog.sql文件向数据库导入初始数据
  运行：src/main/java/com/example/blog/BootApplication.java
  访问：http://localhost:10080/
  账号：默认管理员账号为 admin/12345
