@@ -1,5 +1,13 @@
 spring:
   security:
+    success-forward-url: '${controller.auth.login.loginSuccess}'
+    failure-forward-url: '${controller.auth.login.loginFailure}'
+    logout-success-url: '${controller.auth.login.logout}'
+    authentication-entry-point-url: '${controller.auth.login.unauthorized}'
+    access-denied-url: '${controller.auth.login.accessDenied}'
+    maximum-sessions: 1
+    max-sessions-prevents-login: false
+    anonymous-username: '基础用户'
     cors:
       allowed-origins:
         - '*'
@@ -9,6 +17,10 @@ spring:
         - '*'
       allow-credentials: true
       max-age: 1800
+      path: '/**'
     token:
-      ignore-request-url: '/file/**'
+      ignore-authentication-request-urls:
+        - '${controller.fileUpload.root}${controller.fileUpload.getFile}'
+        - '${controller.auth.login.accessDenied}'
       requires-authentication-request-url: '/**'
+      writer-request-url: '${controller.auth.login.loginSuccess}'

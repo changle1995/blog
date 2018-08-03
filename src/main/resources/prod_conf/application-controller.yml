@@ -1,0 +1,12 @@
+controller:
+  auth:
+    login:
+      loginSuccess: '/loginSuccess'
+      loginFailure: '/loginFailure'
+      logout: '/logoutSuccess'
+      unauthorized: '/unauthorized'
+      accessDenied: '/accessDenied'
+  fileUpload:
+    root: '/file'
+    upload: '/upload'
+    getFile: '/{path}/{type}/{filename:.+}'
